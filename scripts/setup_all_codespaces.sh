@@ -1,20 +1,22 @@
 #!/bin/bash
 # ==========================================================
-# setup_all_codespaces.sh - Codespaces 一键初始化脚本（最终版）
-# 策略：用 pg 原生客户端执行 DDL（不依赖 Prisma 空schema验证）
-# 步骤：env → (装依赖) → tsx run_ddl.ts → prisma pull+gen → 种子数据 → 访问码
+# setup_all_codespaces.sh - Codespaces 一键初始化脚本（带兜底方案）
+# 策略：
+#   - 先尝试自动执行 DDL
+#   - 如果网络/DDL执行失败，打印SQL让用户在Supabase网页手动执行
+#   - 交互等待用户确认后，继续 Prisma pull → seed → 访问码
 # ==========================================================
 set -e
 
-# ===== 关键修复：强制所有 Node.js 进程 IPv4 优先 =====
-# 解决 Codespaces 容器 IPv6 DNS 解析到但路由不可达 (ENETUNREACH) 的问题
-# 同时影响 pg / Prisma / seed 脚本等所有数据库连接
+# ===== 强制所有 Node.js 进程 IPv4 优先 =====
 export NODE_OPTIONS="--dns-result-order=ipv4first ${NODE_OPTIONS:-}"
 export PRISMA_DNS_RESULT_ORDER="ipv4first"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_DIR"
+
+DDL_FILE="初始资料/codex诊断应用文档包/Codex_03_数据库DDL.sql"
 
 echo "=============================================="
 echo "🎯 H5 学科诊断应用 - Codespaces 一键初始化"
@@ -40,21 +42,55 @@ node -e "require('pg')" 2>/dev/null || MISSING="$MISSING pg"
 node -e "require('dotenv')" 2>/dev/null || MISSING="$MISSING dotenv"
 if [ -n "$MISSING" ]; then
   echo "  ⚠️  缺失:$MISSING  正在安装..."
-  npm install$MISSING @types/pg --save-dev --no-audit --no-fund --loglevel=error
+  npm install$MISSING @types/pg --save-dev --no-audit --no-fund --loglevel=error 2>&1 | tail -5
   echo "  ✅ 安装完成"
 else
   echo "  ✅ 依赖已就绪（pg/dotenv 均已安装）"
 fi
 echo ""
 
-# ---------- Step 3: 执行 DDL ----------
+# ---------- Step 3: 执行 DDL（带兜底） ----------
 echo "[3/5] 🗄️  执行 DDL 建表（13 张表）"
-npx tsx scripts/run_ddl.ts
-DDL_RC=$?
-if [ $DDL_RC -ne 0 ]; then
+DDL_OK=0
+if command -v npx >/dev/null 2>&1 && [ -f scripts/run_ddl.ts ]; then
+  echo "  🔄 尝试自动执行 DDL..."
+  if npx tsx scripts/run_ddl.ts; then
+    DDL_OK=1
+    echo "  ✅ DDL 自动执行成功！"
+  else
+    echo ""
+    echo "  ⚠️  自动执行 DDL 失败（Codespaces 网络出口限制）"
+  fi
+fi
+
+# 兜底：手动执行 DDL
+if [ $DDL_OK -ne 1 ]; then
   echo ""
-  echo "❌ DDL 执行失败（退出码 $DDL_RC），请检查上方错误"
-  exit 1
+  echo "=============================================="
+  echo "📌 请手动在 Supabase 网页执行 DDL（2 分钟搞定）"
+  echo "=============================================="
+  echo ""
+  echo "  操作步骤："
+  echo "  1️⃣  打开：https://supabase.com/dashboard/project/qoagemxoijruustccapl/sql/new"
+  echo "      (如果跳转登录，先登录 Supabase)"
+  echo ""
+  echo "  2️⃣  在 Codespaces 终端执行以下命令，复制完整 SQL："
+  echo ""
+  echo "      cat \"$DDL_FILE\" | xclip -selection clipboard"
+  echo "      或者： cat \"$DDL_FILE\"   # 手动选中复制"
+  echo ""
+  echo "  3️⃣  把 SQL 粘贴到 Supabase SQL Editor 大输入框"
+  echo "  4️⃣  点击右下角 【Run】按钮执行"
+  echo "  5️⃣  看到 【Success. No rows returned】就表示成功"
+  echo ""
+  echo "  💡 验证建表成功：在 Supabase SQL Editor 执行："
+  echo "     SELECT count(*) FROM pg_tables WHERE schemaname='public';"
+  echo "     期望结果 count >= 13"
+  echo ""
+  read -n 1 -s -p "  ✅ 在 Supabase 执行完 DDL 后，按任意键继续..."
+  echo ""
+  echo ""
+  echo "  🎉 继续执行后续步骤（Prisma + 种子数据 + 访问码）..."
 fi
 echo ""
 
