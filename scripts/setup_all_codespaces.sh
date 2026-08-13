@@ -6,6 +6,12 @@
 # ==========================================================
 set -e
 
+# ===== 关键修复：强制所有 Node.js 进程 IPv4 优先 =====
+# 解决 Codespaces 容器 IPv6 DNS 解析到但路由不可达 (ENETUNREACH) 的问题
+# 同时影响 pg / Prisma / seed 脚本等所有数据库连接
+export NODE_OPTIONS="--dns-result-order=ipv4first ${NODE_OPTIONS:-}"
+export PRISMA_DNS_RESULT_ORDER="ipv4first"
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_DIR"

@@ -7,9 +7,50 @@ import { Client } from 'pg';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
+import * as dns from 'dns';
+
+// 强制 IPv4 优先（解决 Codespaces IPv6 ENETUNREACH 问题）
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (e) { /* Node < 16.4 兼容忽略 */ }
 
 // 加载 .env
 dotenv.config();
+
+/**
+ * 解析 PostgreSQL 连接字符串
+ * 返回 { user, password, host, port, database, options }
+ * 同时把 hostname 强制解析为 IPv4 地址（解决 Codespaces IPv6 ENETUNREACH）
+ */
+async function resolveConnection(connStr: string) {
+  // postgresql://user:pass@host:port/db?opt=val
+  const m = connStr.match(/^postgresql?:\/\/([^:]+):([^@]+)@([^/:?]+)(?::(\d+))?(?:\/([^?]+))?(?:\?(.*))?$/);
+  if (!m) throw new Error('无法解析连接字符串:' + connStr.slice(0, 40) + '...');
+  const [, user, password, host, portStr, database, queryStr] = m;
+  const port = parseInt(portStr || '5432', 10);
+
+  // 强制将 hostname 解析为 IPv4
+  let resolvedHost = host;
+  try {
+    const addresses = await dns.promises.lookup(host, { family: 4 });
+    if (addresses?.address) {
+      resolvedHost = addresses.address;
+      console.log(`[DDL] 🌐 DNS 解析: ${host} → ${resolvedHost} (IPv4)`);
+    }
+  } catch (e: any) {
+    console.log(`[DDL] ⚠️  DNS 解析失败，尝试直接连接 hostname。错误: ${e.message}`);
+  }
+
+  return {
+    user,
+    password: decodeURIComponent(password),
+    host: resolvedHost,
+    port,
+    database: database || 'postgres',
+    ssl: { rejectUnauthorized: false }, // Supabase 需要 SSL 但接受自签
+    connectionTimeoutMillis: 15000,
+  };
+}
 
 const DDL_FILE = path.join(
   __dirname,
@@ -128,7 +169,9 @@ async function main() {
   const stmts = splitStatements(sql);
   console.log(`[DDL] 📋 解析出 ${stmts.length} 条 SQL 语句`);
 
-  const client = new Client({ connectionString: connStr });
+  // 关键：手动解析连接串 + 强制 IPv4 DNS 解析 + SSL 配置
+  const connConfig = await resolveConnection(connStr);
+  const client = new Client(connConfig);
   try {
     await client.connect();
     console.log('[DDL] ✅ 数据库连接成功\n');
