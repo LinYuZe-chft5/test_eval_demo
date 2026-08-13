@@ -54,7 +54,7 @@ async function request<T = any>(
 class PrismaTableClient {
   private table: string;
 
-  // 特殊字段名映射（Prisma camelCase → 数据库 snake_case）
+  // 特殊字段名映射（Prisma camelCase ↔ 数据库 snake_case）
   // 用于不规则命名无法通过规则转换的字段
   private static readonly SPECIAL_FIELD_MAP: Record<string, string> = {
     path4week: 'path_4week',
@@ -171,6 +171,36 @@ class PrismaTableClient {
     return obj;
   }
 
+  // ---------- snake_case → camelCase（读取响应时用）----------
+  private static readonly REVERSE_FIELD_MAP: Record<string, string> = (() => {
+    const reverse: Record<string, string> = {};
+    for (const [camel, snake] of Object.entries(PrismaTableClient.SPECIAL_FIELD_MAP || {})) {
+      reverse[snake] = camel;
+    }
+    return reverse;
+  })();
+
+  private toCamelCase(str: string): string {
+    if (PrismaTableClient.REVERSE_FIELD_MAP && PrismaTableClient.REVERSE_FIELD_MAP[str]) {
+      return PrismaTableClient.REVERSE_FIELD_MAP[str];
+    }
+    // sku_code → skuCode, path_4week → path4week
+    return str.replace(/_([a-zA-Z0-9])/g, (_, c) => String(c).toUpperCase());
+  }
+
+  private keysToCamelCase(obj: any): any {
+    if (obj === null || obj === undefined) return obj;
+    if (Array.isArray(obj)) return obj.map(item => this.keysToCamelCase(item));
+    if (typeof obj === 'object') {
+      const result: Record<string, any> = {};
+      for (const [key, value] of Object.entries(obj)) {
+        result[this.toCamelCase(key)] = this.keysToCamelCase(value);
+      }
+      return result;
+    }
+    return obj;
+  }
+
   /**
    * 构建 PostgREST 查询字符串
    * 关键：filter 格式为 ?column=operator.value
@@ -275,7 +305,8 @@ class PrismaTableClient {
     }
 
     const queryStr = this.buildQuery(params);
-    return request<any[]>(`/${this.table}${queryStr}`, 'GET');
+    const rows = await request<any[]>(`/${this.table}${queryStr}`, 'GET');
+    return this.keysToCamelCase(rows);
   }
 
   async findUnique(options: any): Promise<any | null> {
@@ -292,22 +323,35 @@ class PrismaTableClient {
   async create(options: any): Promise<any> {
     const data = options.data || options;
     const snakeCaseData = this.keysToSnakeCase(data);
-    return request<any>(`/${this.table}`, 'POST', snakeCaseData);
+    const result = await request<any>(`/${this.table}`, 'POST', snakeCaseData);
+    // PostgREST POST 可能返回数组（批量）或单个对象
+    if (Array.isArray(result)) {
+      const camel = this.keysToCamelCase(result);
+      return camel[0] ?? null;
+    }
+    return this.keysToCamelCase(result);
   }
 
   async createMany(options: any): Promise<any[]> {
     const dataList = Array.isArray(options) ? options : (options.data || []);
     if (dataList.length === 0) return [];
     const snakeCaseDataList = dataList.map(item => this.keysToSnakeCase(item));
-    return request<any[]>(`/${this.table}`, 'POST', snakeCaseDataList);
+    const result = await request<any[]>(`/${this.table}`, 'POST', snakeCaseDataList);
+    return this.keysToCamelCase(result) as any[];
   }
 
   async update(options: any): Promise<any> {
     const where = options.where || {};
     const data = options.data || options;
+    const snakeData = this.keysToSnakeCase(data);
     const params = this.buildFilters(where);
     const queryStr = this.buildQuery(params);
-    return request<any>(`/${this.table}${queryStr}`, 'PATCH', data);
+    const result = await request<any>(`/${this.table}${queryStr}`, 'PATCH', snakeData);
+    if (Array.isArray(result)) {
+      const camel = this.keysToCamelCase(result);
+      return camel[0] ?? camel;
+    }
+    return this.keysToCamelCase(result);
   }
 
   async upsert(options: any): Promise<any> {
@@ -338,7 +382,8 @@ class PrismaTableClient {
     const where = options.where || {};
     const params = this.buildFilters(where);
     const queryStr = this.buildQuery(params);
-    return request<any>(`/${this.table}${queryStr}`, 'DELETE');
+    const result = await request<any>(`/${this.table}${queryStr}`, 'DELETE');
+    return this.keysToCamelCase(result);
   }
 
   async deleteMany(options: any = {}): Promise<any> {
