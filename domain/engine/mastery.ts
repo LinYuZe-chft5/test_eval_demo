@@ -17,6 +17,7 @@ export interface MasteryRecord {
   invalid_input?: boolean;
   behavior_tag?: string | null;
   probe_result?: string | null;
+  pairing_id?: string | null;
 }
 
 export interface KpMasteryResult {
@@ -73,22 +74,68 @@ export function calcKpMastery(records: MasteryRecord[]): KpMasteryResult {
 // ===== 配对题置信度 =====
 /**
  * calcConfidence - 配对题（pairing_id 组内 >=2 题）置信度
+ *  - 按 pairing_id 分组，每组独立计算
  *  - 全对 → green/high
  *  - 全错 → red/high
  *  - 错 1 对 1（混合）→ yellow/mid
  *  - 单题：对 → green/mid；错 → yellow/mid
+ *  - 最终取所有组中最差的置信度
  */
 export function calcConfidence(pairingRecords: MasteryRecord[]): ConfidenceResult {
   const recs = Array.isArray(pairingRecords) ? pairingRecords : [];
   if (recs.length === 0) return { level: 'red', confidence: 'low' };
-  if (recs.length >= 2) {
-    const correctCount = recs.filter((r) => r.is_correct).length;
-    if (correctCount === recs.length) return { level: 'green', confidence: 'high' };
+
+  // 按 pairing_id 分组
+  const groups = new Map<string, MasteryRecord[]>();
+  const noGroup: MasteryRecord[] = [];
+  for (const r of recs) {
+    if (r.pairing_id) {
+      if (!groups.has(r.pairing_id)) groups.set(r.pairing_id, []);
+      groups.get(r.pairing_id)!.push(r);
+    } else {
+      noGroup.push(r);
+    }
+  }
+
+  // 计算每组的置信度
+  const allResults: ConfidenceResult[] = [];
+
+  // 处理有 pairing_id 的组
+  for (const [, group] of groups) {
+    allResults.push(calcGroupConfidence(group));
+  }
+
+  // 处理无 pairing_id 的记录（单题模式）
+  for (const r of noGroup) {
+    allResults.push(calcGroupConfidence([r]));
+  }
+
+  if (allResults.length === 0) return { level: 'red', confidence: 'low' };
+
+  // 取所有组中最差的置信度
+  let worstLevel: MasteryLevel = 'green';
+  let worstConfidence: Confidence = 'high';
+  const levelRank: Record<MasteryLevel, number> = { red: 0, yellow: 1, green: 2 };
+  const confRank: Record<Confidence, number> = { low: 0, mid: 1, high: 2 };
+
+  for (const result of allResults) {
+    if (levelRank[result.level] < levelRank[worstLevel]) worstLevel = result.level;
+    if (confRank[result.confidence] < confRank[worstConfidence]) worstConfidence = result.confidence;
+  }
+
+  return { level: worstLevel, confidence: worstConfidence };
+}
+
+/** 内部：计算单组置信度 */
+function calcGroupConfidence(records: MasteryRecord[]): ConfidenceResult {
+  if (records.length >= 2) {
+    const correctCount = records.filter((r) => r.is_correct).length;
+    if (correctCount === records.length) return { level: 'green', confidence: 'high' };
     if (correctCount === 0) return { level: 'red', confidence: 'high' };
     return { level: 'yellow', confidence: 'mid' };
   }
   // 单题
-  if (recs[0].is_correct) return { level: 'green', confidence: 'mid' };
+  if (records[0].is_correct) return { level: 'green', confidence: 'mid' };
   return { level: 'yellow', confidence: 'mid' };
 }
 

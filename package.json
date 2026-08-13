@@ -11,10 +11,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "seed": "tsx scripts/seed_questions.ts",
+    "seed:all": "tsx scripts/seed_questions.ts && tsx scripts/seed_blueprints.ts && tsx scripts/seed_kp_dependencies.ts && tsx scripts/seed_method_cards.ts",
     "gen-codes": "tsx scripts/gen_access_codes.ts",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "prisma:pull": "prisma db pull"
+    "prisma:pull": "prisma db pull",
+    "db:setup": "prisma db pull && prisma generate && tsx scripts/seed_questions.ts && tsx scripts/seed_blueprints.ts && tsx scripts/seed_kp_dependencies.ts && tsx scripts/seed_method_cards.ts && tsx scripts/gen_access_codes.ts -- --sku=S1_XIAOSHENGCHU_MATH --count=5"
   },
   "dependencies": {
     "next": "^14.2.15",
