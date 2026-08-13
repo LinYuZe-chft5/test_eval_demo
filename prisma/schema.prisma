@@ -1,6 +1,6 @@
-﻿// prisma/schema.prisma
-// DDL是数据库唯一事实来源，ORM模型由此通过 prisma db pull 生成，禁止反向修改。
-// 运行 prisma db pull 后，Prisma会自动在此文件下方生成所有model定义。
+// Prisma schema for H5 Diagnostic App
+// DDL is the single source of truth. Run `prisma db pull` to regenerate models.
+// DO NOT edit models manually - they will be overwritten by db pull.
 
 generator client {
   provider = "prisma-client-js"
