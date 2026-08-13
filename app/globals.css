@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* KaTeX 样式导入 */
+@import 'katex/dist/katex.min.css';
+
+/* 移动端H5全局样式 */
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  /* 禁止水平滑动(测量学红线) */
+}
+
+body {
+  font-size: 16px;
+  /* 移动端最小16px */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 禁止文字选择(防止作答时误选) */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 诊断作答区：禁止复制/选中（防作弊） */
+.anti-cheat {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* KaTeX 公式在移动端尺寸适配 */
+.katex {
+  font-size: 1.05em;
+}
+.katex-display {
+  margin: 0.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+}
+
+/* 进度条 */
+.progress-bar {
+  transition: width 0.3s ease;
+}

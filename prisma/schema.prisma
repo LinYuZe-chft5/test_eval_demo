@@ -1,0 +1,13 @@
+﻿// prisma/schema.prisma
+// DDL是数据库唯一事实来源，ORM模型由此通过 prisma db pull 生成，禁止反向修改。
+// 运行 prisma db pull 后，Prisma会自动在此文件下方生成所有model定义。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
