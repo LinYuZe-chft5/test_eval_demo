@@ -227,12 +227,21 @@ class PrismaTableClient {
     }
 
     if (options.select && typeof options.select === 'string') {
-      params['select'] = options.select;
+      params['select'] = options.select.split(',').map(col => this.toSnakeCase(col.trim())).join(',');
     }
 
     if (options.orderBy) {
       if (typeof options.orderBy === 'string') {
         params['order'] = options.orderBy;
+      } else if (Array.isArray(options.orderBy)) {
+        const orderParts: string[] = [];
+        for (const orderObj of options.orderBy) {
+          for (const [key, direction] of Object.entries(orderObj)) {
+            const snakeKey = this.toSnakeCase(key);
+            orderParts.push(`${snakeKey}.${direction === 'asc' ? 'asc' : 'desc'}`);
+          }
+        }
+        params['order'] = orderParts.join(',');
       } else if (typeof options.orderBy === 'object') {
         const orderParts: string[] = [];
         for (const [key, direction] of Object.entries(options.orderBy)) {

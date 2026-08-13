@@ -66,12 +66,12 @@ export async function POST(req: Request) {
     // 取题（按 seq_no 升序）
     const rows: any[] = await (prisma as any).questions.findMany({
       where: { skuCode: ac.skuCode, dayTag, status: 'active' },
-      orderBy: [{ seqNo: 'asc' }],
+      orderBy: { seqNo: 'asc' },
     });
 
     const questions: ClientQuestion[] = rows.map((q) => ({
-      id: String(q.id),
-      q_type: q.qType,
+      id: String(q.id ?? ''),
+      q_type: q.q_type || q.qType,
       stem: q.stem ?? '',
       options: Array.isArray(q.options)
         ? q.options.map((o: any) => ({ key: o.key, text: o.text }))

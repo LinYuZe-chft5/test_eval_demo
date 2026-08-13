@@ -48,7 +48,7 @@ export default async function ReportPage({ searchParams }: PageProps) {
 
   // 查询报告草稿
   const row = await (prisma as any).reportDrafts.findFirst({
-    where: { studentId },
+    where: { studentId: Number(studentId) },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -58,15 +58,24 @@ export default async function ReportPage({ searchParams }: PageProps) {
     );
   }
 
-  const draft = row.draft as ReportDraft;
+  const draft: ReportDraft = row.degradedTexts ? (row.degradedTexts as ReportDraft) : {
+    total_score: row.totalScore ?? 0,
+    adaptive_level: row.adaptiveLevel ?? 'weak',
+    module_mastery: row.moduleMastery ?? {},
+    literacy_radar: row.literacyRadar ?? {},
+    ec_profile: row.ecProfile ?? { primary: null, secondary: null },
+    confidence_flags: row.confidenceFlags ?? [],
+    plan_4week: row.plan4week ?? [],
+    action_checklist: row.actionChecklist ?? [],
+    narrative_text: row.narrativeText ?? '',
+    degraded_texts: [],
+  };
 
   // 查询知识点依赖，用于按模块聚合掌握度
-  const kpRows: Array<{ kpCode: string; module: string }> = await (
-    prisma as any
-  ).kpDependencies.findMany({
-    select: { kpCode: true, module: true },
+  const kpRows: any[] = await (prisma as any).kpDependencies.findMany({
+    select: 'kpCode,module',
   });
-  const kpModule = new Map<string, string>(kpRows.map((r) => [r.kpCode, r.module]));
+  const kpModule = new Map<string, string>(kpRows.map((r) => [r.kp_code ?? r.kpCode, r.module]));
 
   // 按模块聚合掌握度
   const moduleAgg: Record<
@@ -90,9 +99,8 @@ export default async function ReportPage({ searchParams }: PageProps) {
     ([dim, v]) => ({ dimension: dim, value: v.score }),
   );
 
-  const lowCredibility = (draft.degraded_texts ?? []).some(
-    (t) => t.key === 'credibility',
-  );
+  const lowCredibility = Array.isArray(draft.confidence_flags) &&
+    draft.confidence_flags.some((f: any) => /低信度|credibility|low/i.test(f.flag));
 
   return (
     <main className="min-h-screen px-4 py-6 space-y-4">
