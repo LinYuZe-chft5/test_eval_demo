@@ -54,11 +54,80 @@ async function request<T = any>(
 class PrismaTableClient {
   private table: string;
 
+  // 特殊字段名映射（Prisma camelCase → 数据库 snake_case）
+  // 用于不规则命名无法通过规则转换的字段
+  private static readonly SPECIAL_FIELD_MAP: Record<string, string> = {
+    path4week: 'path_4week',
+    ecCategory: 'ec_category',
+    ecDescription: 'ec_description',
+    verificationMetric: 'verification_metric',
+    expectedTimeSec: 'expected_time_sec',
+    kpCode: 'kp_code',
+    kpRelated: 'kp_related',
+    qType: 'q_type',
+    isWarmup: 'is_warmup',
+    isAnchor: 'is_anchor',
+    imageUrl: 'image_url',
+    correctAnswer: 'correct_answer',
+    answerSpec: 'answer_spec',
+    cognitiveLevel: 'cognitive_level',
+    literacyCodes: 'literacy_codes',
+    ecMapping: 'ec_mapping',
+    difficultyEst: 'difficulty_est',
+    discriminationEst: 'discrimination_est',
+    pairingId: 'pairing_id',
+    parallelGroupId: 'parallel_group_id',
+    variantOf: 'variant_of',
+    improvementTip: 'improvement_tip',
+    variantStem: 'variant_stem',
+    variantAnswer: 'variant_answer',
+    stemHash: 'stem_hash',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    expiresAt: 'expires_at',
+    reviewedBy: 'reviewed_by',
+    timeLimitSec: 'time_limit_sec',
+    optionOrders: 'option_orders',
+    credibilityFlag: 'credibility_flag',
+    deviceInfo: 'device_info',
+    skuCode: 'sku_code',
+    dayTag: 'day_tag',
+    seqNo: 'seq_no',
+    dayModules: 'day_modules',
+    methodName: 'method_name',
+    methodContent: 'method_content',
+    methodCard: 'method_card',
+    studentId: 'student_id',
+    accessCodeId: 'access_code_id',
+    sessionId: 'session_id',
+    questionId: 'question_id',
+    answerText: 'answer_text',
+    stepScores: 'step_scores',
+    ecDistribution: 'ec_distribution',
+    answerSpecMatch: 'answer_spec_match',
+    timeTakenSec: 'time_taken_sec',
+    subAnswerText: 'sub_answer_text',
+    subStepScores: 'sub_step_scores',
+    subEcDistribution: 'sub_ec_distribution',
+    subAnswerSpecMatch: 'sub_answer_spec_match',
+    retestReason: 'retest_reason',
+    contactPhone: 'contact_phone',
+    reportId: 'report_id',
+    adminId: 'admin_id',
+    actionType: 'action_type',
+    targetSku: 'target_sku',
+    ecCodes: 'ec_codes',
+  };
+
   constructor(table: string) {
     this.table = table;
   }
 
   private toSnakeCase(str: string): string {
+    // 先查特殊映射表
+    if (PrismaTableClient.SPECIAL_FIELD_MAP[str]) {
+      return PrismaTableClient.SPECIAL_FIELD_MAP[str];
+    }
     return str.replace(/([A-Z])/g, '_$1').toLowerCase();
   }
 
