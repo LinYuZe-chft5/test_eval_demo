@@ -17,18 +17,15 @@ echo ""
 
 # ---------- Step 1: 生成 .env ----------
 echo "[1/5] ⚙️  配置 .env (Supabase 连接)"
-if [ ! -f .env ]; then
-  cat > .env << 'ENVEOF'
+# 强制覆盖，确保使用真实 PROJECT_REF
+cat > .env << 'ENVEOF'
 DATABASE_URL="postgresql://postgres:Lyz654321%40c@db.qoagemxoijruustccapl.supabase.co:5432/postgres?connection_limit=1&pool_timeout=10"
 DIRECT_URL="postgresql://postgres:Lyz654321%40c@db.qoagemxoijruustccapl.supabase.co:5432/postgres"
 ADMIN_USERNAME="admin"
 ADMIN_PASSWORD="change-me-in-production"
 MAX_SESSIONS_PER_IP_PER_HOUR=10
 ENVEOF
-  echo "  ✅ .env 已生成"
-else
-  echo "  ⚠️  .env 已存在，跳过（如需重置请先执行：rm .env）"
-fi
+echo "  ✅ .env 已生成（真实 PROJECT_REF: qoagemxoijruustccapl）"
 echo ""
 
 # ---------- Step 2: Prisma db execute 执行 DDL ----------
