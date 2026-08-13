@@ -1,125 +1,137 @@
 #!/bin/bash
 # ==========================================================
-# setup_all_codespaces.sh - Codespaces 一键初始化脚本（带兜底方案）
-# 策略：
-#   - 先尝试自动执行 DDL
-#   - 如果网络/DDL执行失败，打印SQL让用户在Supabase网页手动执行
-#   - 交互等待用户确认后，继续 Prisma pull → seed → 访问码
+# setup_all_codespaces.sh - Codespaces 一键初始化脚本（Supabase REST API 版）
+# 
+# 策略：使用 Supabase REST API (PostgREST) 通过 HTTPS 443 端口访问数据库
+# 不再需要 Prisma 直连（5432端口），完全绕过 IPv6 网络限制
+# 
+# 前提：用户已在 Supabase 网页手动执行 DDL 建表（13 张表）
 # ==========================================================
 set -e
-
-# ===== 强制所有 Node.js 进程 IPv4 优先 =====
-export NODE_OPTIONS="--dns-result-order=ipv4first ${NODE_OPTIONS:-}"
-export PRISMA_DNS_RESULT_ORDER="ipv4first"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_DIR"
 
-DDL_FILE="初始资料/codex诊断应用文档包/Codex_03_数据库DDL.sql"
-
 echo "=============================================="
 echo "🎯 H5 学科诊断应用 - Codespaces 一键初始化"
+echo "   （Supabase REST API 版 - HTTPS 443 端口）"
 echo "=============================================="
 echo ""
 
 # ---------- Step 1: 生成 .env ----------
-echo "[1/5] ⚙️  配置 .env (Supabase 连接)"
-cat > .env << 'ENVEOF'
-DATABASE_URL="postgresql://postgres:Lyz654321%40c@db.qoagemxoijruustccapl.supabase.co:5432/postgres?connection_limit=1&pool_timeout=10"
-DIRECT_URL="postgresql://postgres:Lyz654321%40c@db.qoagemxoijruustccapl.supabase.co:5432/postgres"
+echo "[1/4] ⚙️  配置 .env (Supabase REST API)"
+
+# 询问用户 Supabase 配置
+if [ -f .env ] && grep -q "YOUR-PROJECT-REF" .env 2>/dev/null; then
+  echo "  📋 检测到 .env 中有占位符，请输入 Supabase 项目信息："
+  read -p "  PROJECT_REF (如 qoagemxoijruustccapl): " PROJECT_REF
+  read -p "  SERVICE_ROLE_KEY: " SERVICE_ROLE_KEY
+else
+  # 如果 .env 已存在且已配置，询问是否覆盖
+  if [ -f .env ]; then
+    read -p "  .env 已存在，是否重新配置？(y/n): " RECONFIGURE
+    if [ "$RECONFIGURE" != "y" ]; then
+      echo "  ✅ 跳过 .env 配置"
+      echo ""
+      goto STEP2
+    fi
+  fi
+  
+  read -p "  PROJECT_REF (如 qoagemxoijruustccapl): " PROJECT_REF
+  read -p "  SERVICE_ROLE_KEY: " SERVICE_ROLE_KEY
+fi
+
+cat > .env << ENVEOF
+NEXT_PUBLIC_SUPABASE_URL="https://${PROJECT_REF}.supabase.co"
+SUPABASE_URL="https://${PROJECT_REF}.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="${SERVICE_ROLE_KEY}"
 ADMIN_USERNAME="admin"
 ADMIN_PASSWORD="change-me-in-production"
 MAX_SESSIONS_PER_IP_PER_HOUR=10
 ENVEOF
-echo "  ✅ .env 已生成（真实 PROJECT_REF: qoagemxoijruustccapl）"
+echo "  ✅ .env 已生成"
+echo "     SUPABASE_URL: https://${PROJECT_REF}.supabase.co"
+echo "     API Key: ${SERVICE_ROLE_KEY:0:20}...（已隐藏）"
 echo ""
 
-# ---------- Step 2: 安装缺失依赖（如有） ----------
-echo "[2/5] 📦  检查并安装运行依赖（pg/dotenv）..."
+STEP2:
+
+# ---------- Step 2: 安装/检查依赖 ----------
+echo "[2/4] 📦  检查并安装依赖（dotenv）..."
 MISSING=""
-node -e "require('pg')" 2>/dev/null || MISSING="$MISSING pg"
 node -e "require('dotenv')" 2>/dev/null || MISSING="$MISSING dotenv"
 if [ -n "$MISSING" ]; then
   echo "  ⚠️  缺失:$MISSING  正在安装..."
-  npm install$MISSING @types/pg --save-dev --no-audit --no-fund --loglevel=error 2>&1 | tail -5
+  npm install$MISSING --save-dev --no-audit --no-fund --loglevel=error 2>&1 | tail -5
   echo "  ✅ 安装完成"
 else
-  echo "  ✅ 依赖已就绪（pg/dotenv 均已安装）"
+  echo "  ✅ 依赖已就绪（dotenv 已安装）"
 fi
 echo ""
 
-# ---------- Step 3: 执行 DDL（带兜底） ----------
-echo "[3/5] 🗄️  执行 DDL 建表（13 张表）"
-DDL_OK=0
-if command -v npx >/dev/null 2>&1 && [ -f scripts/run_ddl.ts ]; then
-  echo "  🔄 尝试自动执行 DDL..."
-  if npx tsx scripts/run_ddl.ts; then
-    DDL_OK=1
-    echo "  ✅ DDL 自动执行成功！"
-  else
-    echo ""
-    echo "  ⚠️  自动执行 DDL 失败（Codespaces 网络出口限制）"
-  fi
-fi
-
-# 兜底：手动执行 DDL
-if [ $DDL_OK -ne 1 ]; then
-  echo ""
-  echo "=============================================="
-  echo "📌 请手动在 Supabase 网页执行 DDL（2 分钟搞定）"
-  echo "=============================================="
-  echo ""
-  echo "  操作步骤："
-  echo "  1️⃣  打开：https://supabase.com/dashboard/project/qoagemxoijruustccapl/sql/new"
-  echo "      (如果跳转登录，先登录 Supabase)"
-  echo ""
-  echo "  2️⃣  在 Codespaces 终端执行以下命令，复制完整 SQL："
-  echo ""
-  echo "      cat \"$DDL_FILE\" | xclip -selection clipboard"
-  echo "      或者： cat \"$DDL_FILE\"   # 手动选中复制"
-  echo ""
-  echo "  3️⃣  把 SQL 粘贴到 Supabase SQL Editor 大输入框"
-  echo "  4️⃣  点击右下角 【Run】按钮执行"
-  echo "  5️⃣  看到 【Success. No rows returned】就表示成功"
-  echo ""
-  echo "  💡 验证建表成功：在 Supabase SQL Editor 执行："
-  echo "     SELECT count(*) FROM pg_tables WHERE schemaname='public';"
-  echo "     期望结果 count >= 13"
-  echo ""
-  read -n 1 -s -p "  ✅ 在 Supabase 执行完 DDL 后，按任意键继续..."
-  echo ""
-  echo ""
-  echo "  🎉 继续执行后续步骤（Prisma + 种子数据 + 访问码）..."
+# ---------- Step 3: 验证 Supabase REST API 连接 ----------
+echo "[3/4] 🔍  验证 Supabase REST API 连接..."
+if node -e "
+const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = require('dotenv').config().parsed;
+const url = SUPABASE_URL + '/rest/v1/questions?select=id&limit=1';
+fetch(url, {
+  headers: {
+    'apikey': SUPABASE_SERVICE_ROLE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY,
+  }
+}).then(r => {
+  if (r.ok) {
+    console.log('  ✅ Supabase REST API 连接成功！');
+    return r.json();
+  } else {
+    console.error('  ❌ 连接失败，状态码:', r.status);
+    process.exit(1);
+  }
+}).then(data => {
+  const count = Array.isArray(data) ? data.length : 0;
+  console.log('  📊 题库现有记录数:', count);
+}).catch(e => {
+  console.error('  ❌ 连接出错:', e.message);
+  console.error('  💡 请检查：');
+  console.error('     1. SUPABASE_URL 是否正确');
+  console.error('     2. SUPABASE_SERVICE_ROLE_KEY 是否正确');
+  console.error('     3. DDL 是否已在 Supabase 执行（questions 表是否存在）');
+  process.exit(1);
+});
+"; then
+  echo "  ✅ Supabase REST API 连接验证通过"
+else
+  echo "  ❌ 连接验证失败，请检查上方错误信息"
+  exit 1
 fi
 echo ""
 
-# ---------- Step 4: Prisma db pull + generate ----------
-echo "[4/5] 🗂️  Prisma db pull + generate"
-echo "  🔄 prisma db pull（从数据库结构生成 Prisma 模型）..."
-npx prisma db pull
-echo "  ✅ db pull 完成"
-echo "  🔄 prisma generate（生成 Prisma Client）..."
-npx prisma generate
-echo "  ✅ generate 完成"
+# ---------- Step 4: 导入种子数据 + 生成访问码 ----------
+echo "[4/4] 📥 导入种子数据 + 生成访问码"
 echo ""
 
-# ---------- Step 5: 导入种子数据 + 访问码 ----------
-echo "[5/5] 📥 导入种子数据 + 生成访问码"
-echo ""
-echo "  5.1 题库（49 题）..."
+echo "  4.1 题库（49 题）..."
 npm run seed
+echo "  ✅ 题库导入完成"
 echo ""
-echo "  5.2 蓝皮书..."
+
+echo "  4.2 蓝皮书..."
 npx tsx scripts/seed_blueprints.ts
+echo "  ✅ 蓝皮书导入完成"
 echo ""
-echo "  5.3 知识点依赖..."
+
+echo "  4.3 知识点依赖..."
 npx tsx scripts/seed_kp_dependencies.ts
+echo "  ✅ 知识点依赖导入完成"
 echo ""
-echo "  5.4 方法卡..."
+
+echo "  4.4 方法卡..."
 npx tsx scripts/seed_method_cards.ts
+echo "  ✅ 方法卡导入完成"
 echo ""
-echo "  5.5 生成 5 个访问码"
+
+echo "  4.5 生成 5 个访问码"
 echo "=============================================="
 echo "🎟️  访问码列表（请保存好，后续测试必须用到）"
 echo "=============================================="
