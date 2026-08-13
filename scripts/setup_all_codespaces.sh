@@ -19,8 +19,8 @@ echo ""
 echo "[1/5] ⚙️  配置 .env (Supabase 连接)"
 if [ ! -f .env ]; then
   cat > .env << 'ENVEOF'
-DATABASE_URL="postgresql://postgres:Lyz654321%40c@db.abcdefghijklmnopqrst.supabase.co:5432/postgres?connection_limit=1&pool_timeout=10"
-DIRECT_URL="postgresql://postgres:Lyz654321%40c@db.abcdefghijklmnopqrst.supabase.co:5432/postgres"
+DATABASE_URL="postgresql://postgres:Lyz654321%40c@db.qoagemxoijruustccapl.supabase.co:5432/postgres?connection_limit=1&pool_timeout=10"
+DIRECT_URL="postgresql://postgres:Lyz654321%40c@db.qoagemxoijruustccapl.supabase.co:5432/postgres"
 ADMIN_USERNAME="admin"
 ADMIN_PASSWORD="change-me-in-production"
 MAX_SESSIONS_PER_IP_PER_HOUR=10
