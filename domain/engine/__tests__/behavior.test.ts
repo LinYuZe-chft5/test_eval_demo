@@ -163,7 +163,8 @@ describe('assignBehaviorTag - 行为标签判定', () => {
   });
 
   it('默认：错→normal_wrong', () => {
-    const r = assignBehaviorTag(baseBehavior, false, 60);
+    // 使用足够长的时长(30000ms > 24000ms快速阈值)，不触发快速/慢速分支
+    const r = assignBehaviorTag({ ...baseBehavior, time_spent_ms: 30000 }, false, 60);
     expect(r.behavior_tag).toBe('normal_wrong');
   });
 });
