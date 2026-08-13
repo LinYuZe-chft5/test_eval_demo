@@ -22,6 +22,8 @@ echo ""
 # ---------- Step 1: 生成 .env ----------
 echo "[1/4] ⚙️  配置 .env (Supabase REST API)"
 
+SKIP_ENV_WRITE=0
+
 # 询问用户 Supabase 配置
 if [ -f .env ] && grep -q "YOUR-PROJECT-REF" .env 2>/dev/null; then
   echo "  📋 检测到 .env 中有占位符，请输入 Supabase 项目信息："
@@ -34,15 +36,18 @@ else
     if [ "$RECONFIGURE" != "y" ]; then
       echo "  ✅ 跳过 .env 配置"
       echo ""
-      goto STEP2
+      SKIP_ENV_WRITE=1
     fi
   fi
   
-  read -p "  PROJECT_REF (如 qoagemxoijruustccapl): " PROJECT_REF
-  read -p "  SERVICE_ROLE_KEY: " SERVICE_ROLE_KEY
+  if [ "$SKIP_ENV_WRITE" -eq 0 ]; then
+    read -p "  PROJECT_REF (如 qoagemxoijruustccapl): " PROJECT_REF
+    read -p "  SERVICE_ROLE_KEY: " SERVICE_ROLE_KEY
+  fi
 fi
 
-cat > .env << ENVEOF
+if [ "$SKIP_ENV_WRITE" -eq 0 ]; then
+  cat > .env << ENVEOF
 NEXT_PUBLIC_SUPABASE_URL="https://${PROJECT_REF}.supabase.co"
 SUPABASE_URL="https://${PROJECT_REF}.supabase.co"
 SUPABASE_SERVICE_ROLE_KEY="${SERVICE_ROLE_KEY}"
@@ -53,9 +58,8 @@ ENVEOF
 echo "  ✅ .env 已生成"
 echo "     SUPABASE_URL: https://${PROJECT_REF}.supabase.co"
 echo "     API Key: ${SERVICE_ROLE_KEY:0:20}...（已隐藏）"
+fi
 echo ""
-
-STEP2:
 
 # ---------- Step 2: 安装/检查依赖 ----------
 echo "[2/4] 📦  检查并安装依赖（dotenv）..."
@@ -73,12 +77,12 @@ echo ""
 # ---------- Step 3: 验证 Supabase REST API 连接 ----------
 echo "[3/4] 🔍  验证 Supabase REST API 连接..."
 if node -e "
-const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = require('dotenv').config().parsed;
-const url = SUPABASE_URL + '/rest/v1/questions?select=id&limit=1';
+require('dotenv').config();
+const url = process.env.SUPABASE_URL + '/rest/v1/questions?select=id&limit=1';
 fetch(url, {
   headers: {
-    'apikey': SUPABASE_SERVICE_ROLE_KEY,
-    'Authorization': 'Bearer ' + SUPABASE_SERVICE_ROLE_KEY,
+    'apikey': process.env.SUPABASE_SERVICE_ROLE_KEY,
+    'Authorization': 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY,
   }
 }).then(r => {
   if (r.ok) {
@@ -86,7 +90,7 @@ fetch(url, {
     return r.json();
   } else {
     console.error('  ❌ 连接失败，状态码:', r.status);
-    process.exit(1);
+    return r.text().then(t => { console.error('  错误详情:', t.slice(0, 300)); process.exit(1); });
   }
 }).then(data => {
   const count = Array.isArray(data) ? data.length : 0;
