@@ -8,9 +8,7 @@
  * 运行前必须先执行 prisma db pull && prisma generate 生成 Prisma Client。
  * 用法：npx tsx scripts/seed_blueprints.ts
  */
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../lib/supabase';
 
 // ---------- 蓝皮书类型定义 ----------
 
@@ -178,5 +176,4 @@ main()
   .catch((err) => {
     console.error('💥 脚本执行出错:', err);
     process.exitCode = 1;
-  })
-  .finally(() => prisma.$disconnect());
+  });

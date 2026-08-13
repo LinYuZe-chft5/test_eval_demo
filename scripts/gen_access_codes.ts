@@ -8,10 +8,8 @@
  * 运行前必须先执行 prisma db pull && prisma generate 生成 Prisma Client。
  * 用法：npm run gen-codes -- --sku=S1_XIAOSHENGCHU_MATH --count=10
  */
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../lib/supabase';
 import { customAlphabet } from 'nanoid';
-
-const prisma = new PrismaClient();
 
 // 排除易混淆字符: 0/O, 1/I/L
 const generateCode = customAlphabet('23456789ABCDEFGHJKMNPQRSTUVWXYZ', 8);
@@ -103,5 +101,4 @@ main()
   .catch((err) => {
     console.error('执行出错:', err);
     process.exitCode = 1;
-  })
-  .finally(() => prisma.$disconnect());
+  });

@@ -8,12 +8,10 @@
  * 运行前必须先执行 prisma db pull && prisma generate 生成 Prisma Client。
  * 用法：npm run seed  或  npx tsx scripts/seed_questions.ts
  */
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../lib/supabase';
 import { readFileSync } from 'fs';
 import { createHash } from 'crypto';
 import { join } from 'path';
-
-const prisma = new PrismaClient();
 
 // ---------- 种子数据类型定义（与 questions_seed.json 结构一致） ----------
 
@@ -235,5 +233,4 @@ main()
   .catch((err) => {
     console.error('💥 脚本执行出错:', err);
     process.exitCode = 1;
-  })
-  .finally(() => prisma.$disconnect());
+  });
