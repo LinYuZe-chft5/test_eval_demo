@@ -318,6 +318,29 @@ async function generateReport(
 ) {
   const sessionIds = completedSessions.map((s) => s.id);
 
+  const accessCodeRecord = await (prisma as any).accessCodes.findUnique({
+    where: { code: accessCode.trim().toUpperCase() },
+  });
+  if (!accessCodeRecord) {
+    throw new Error(`Access code not found: ${accessCode}`);
+  }
+  const accessCodeId = accessCodeRecord.id;
+
+  let student = await (prisma as any).students.findUnique({
+    where: { accessCodeId: accessCodeId },
+  });
+  if (!student) {
+    student = await (prisma as any).students.create({
+      data: {
+        accessCodeId: accessCodeId,
+        skuCode: skuCode,
+        nickname: '学生',
+        grade: '七年级',
+      },
+    });
+  }
+  const bigintId = typeof student.id === 'string' ? BigInt(student.id) : Number(student.id);
+
   // 全部作答记录
   const recordRows: any[] = await (prisma as any).records.findMany({
     where: { sessionId: { in: sessionIds } },
@@ -391,11 +414,10 @@ async function generateReport(
     title: m.methodName ?? m.ecCode,
   }));
 
-  const studentId = completedSessions[0]?.studentId ?? accessCode;
   const sessions = completedSessions.map((s) => ({ id: s.id }));
 
   const draft = buildReport(
-    studentId,
+    String(bigintId),
     sessions,
     records,
     questions,
@@ -403,18 +425,65 @@ async function generateReport(
     methodCards,
   );
 
-  // 存储报告草稿（upsert by studentId）
-  const existing = await (prisma as any).reportDrafts.findFirst({
-    where: { studentId },
-  });
-  if (existing) {
-    await (prisma as any).reportDrafts.update({
-      where: { id: existing.id },
-      data: { draft, skuCode, updatedAt: new Date() },
-    });
-  } else {
-    await (prisma as any).reportDrafts.create({
-      data: { studentId, skuCode, draft },
-    });
+  function generateViewToken(): string {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const bytes = new Uint8Array(21);
+    if (typeof globalThis !== 'undefined' && globalThis.crypto && globalThis.crypto.getRandomValues) {
+      globalThis.crypto.getRandomValues(bytes);
+    } else {
+      for (let i = 0; i < 21; i++) bytes[i] = Math.floor(Math.random() * 256);
+    }
+    let result = '';
+    for (let i = 0; i < bytes.length; i++) {
+      result += chars[bytes[i] % chars.length];
+    }
+    return result;
   }
+  const viewToken = generateViewToken();
+
+  const totalScore = draft?.total_score ?? undefined;
+  const adaptiveLevel = draft?.adaptive_level ?? undefined;
+  const moduleMastery = draft?.module_mastery ?? undefined;
+  const literacyRadar = draft?.literacy_radar ?? undefined;
+  const ecProfile = draft?.ec_profile ?? undefined;
+  const confidenceFlags = draft?.confidence_flags ?? undefined;
+  const plan4week = draft?.plan_4week ?? undefined;
+  const actionChecklist = draft?.action_checklist ?? undefined;
+
+  const hasStructuredFields = 
+    totalScore !== undefined ||
+    adaptiveLevel !== undefined ||
+    moduleMastery !== undefined ||
+    literacyRadar !== undefined ||
+    ecProfile !== undefined ||
+    confidenceFlags !== undefined ||
+    plan4week !== undefined ||
+    actionChecklist !== undefined;
+
+  const degradedTexts = hasStructuredFields ? undefined : draft;
+
+  const baseCreateData: any = {
+    studentId: bigintId,
+    skuCode: skuCode,
+    status: 'draft',
+    viewToken: viewToken,
+  };
+  if (totalScore !== undefined) baseCreateData.totalScore = totalScore;
+  if (adaptiveLevel !== undefined) baseCreateData.adaptiveLevel = adaptiveLevel;
+  if (moduleMastery !== undefined) baseCreateData.moduleMastery = moduleMastery;
+  if (literacyRadar !== undefined) baseCreateData.literacyRadar = literacyRadar;
+  if (ecProfile !== undefined) baseCreateData.ecProfile = ecProfile;
+  if (confidenceFlags !== undefined) baseCreateData.confidenceFlags = confidenceFlags;
+  if (plan4week !== undefined) baseCreateData.plan4week = plan4week;
+  if (actionChecklist !== undefined) baseCreateData.actionChecklist = actionChecklist;
+  if (degradedTexts !== undefined) baseCreateData.degradedTexts = degradedTexts;
+
+  const baseUpdateData: any = { ...baseCreateData, updatedAt: new Date() };
+  delete baseUpdateData.viewToken;
+
+  await (prisma as any).reportDrafts.upsert({
+    where: { studentId: bigintId, skuCode: skuCode },
+    create: baseCreateData,
+    update: baseUpdateData,
+  });
 }

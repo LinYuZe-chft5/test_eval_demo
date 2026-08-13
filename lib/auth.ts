@@ -9,6 +9,35 @@ import { customAlphabet } from 'nanoid';
 
 const sessionIdGen = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16);
 
+/** 根据访问码获取或创建学生记录，返回含 BIGINT id 的 student 对象。 */
+export async function getOrCreateStudentByAccessCode(accessCode: string) {
+  if (!accessCode) return null;
+  const accessCodeRecord = await (prisma as any).accessCodes.findUnique({
+    where: { code: accessCode.trim().toUpperCase() },
+  });
+  if (!accessCodeRecord) return null;
+
+  const accessCodeId = accessCodeRecord.id;
+  const skuCode = accessCodeRecord.skuCode;
+
+  let student = await (prisma as any).students.findUnique({
+    where: { accessCodeId: accessCodeId },
+  });
+
+  if (!student) {
+    student = await (prisma as any).students.create({
+      data: {
+        accessCodeId: accessCodeId,
+        skuCode: skuCode,
+        nickname: '学生',
+        grade: '七年级',
+      },
+    });
+  }
+
+  return student;
+}
+
 /** 校验访问码：状态为 active 且未过期，返回访问码记录（含 studentId / skuCode）。 */
 export async function verifyAccessCode(code: string) {
   if (!code) return null;
@@ -19,27 +48,46 @@ export async function verifyAccessCode(code: string) {
   if (record.status !== 'active') return null;
   const now = new Date();
   if (record.expiresAt && new Date(record.expiresAt) <= now) return null;
-  return record;
+
+  const student = await getOrCreateStudentByAccessCode(code);
+  const result: any = { ...record };
+  if (student) {
+    result.studentId = typeof student.id === 'string' ? BigInt(student.id) : Number(student.id);
+  }
+  return result;
 }
 
 /** 创建诊断会话记录，返回 session。 */
 export async function createSession(params: {
   accessCode: string;
   skuCode: string;
-  studentId?: string | null;
+  studentId?: string | number | bigint | null;
   dayTag: 1 | 2 | 3;
   timeLimitMin: number;
 }) {
   const id = sessionIdGen();
+
+  let realStudentId: number | bigint | null = null;
+  if (params.studentId != null && typeof params.studentId !== 'string') {
+    realStudentId = params.studentId;
+  } else {
+    const student = await getOrCreateStudentByAccessCode(params.accessCode);
+    if (student) {
+      realStudentId = typeof student.id === 'string' ? BigInt(student.id) : Number(student.id);
+    }
+  }
+
+  const timeLimitSec = Math.floor(params.timeLimitMin * 60);
+
   const session = await (prisma as any).sessions.create({
     data: {
       id,
       accessCode: params.accessCode,
       skuCode: params.skuCode,
-      studentId: params.studentId ?? null,
+      studentId: realStudentId,
       dayTag: params.dayTag,
       status: 'in_progress',
-      timeLimitMin: params.timeLimitMin,
+      timeLimitSec: timeLimitSec,
       startedAt: new Date(),
     },
   });
