@@ -149,6 +149,17 @@ export default function Home() {
           <p className="text-xs text-gray-400">
             每日独立计时，完成后次日可继续。已完成为 ✓。
           </p>
+          {completedDays.length >= 3 && verify.student_id && (
+            <div className="mt-3 pt-3 border-t border-gray-100">
+              <button
+                type="button"
+                onClick={() => router.push(`/report?student_id=${verify.student_id}`)}
+                className="w-full rounded-lg bg-green-600 py-2.5 text-white font-medium active:scale-[0.99]"
+              >
+                📄 查看诊断报告
+              </button>
+            </div>
+          )}
         </div>
       )}
 
