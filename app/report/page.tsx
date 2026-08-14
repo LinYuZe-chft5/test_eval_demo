@@ -63,7 +63,7 @@ export default async function ReportPage({ searchParams }: PageProps) {
     adaptive_level: row.adaptiveLevel ?? 'weak',
     module_mastery: row.moduleMastery ?? {},
     literacy_radar: row.literacyRadar ?? {},
-    ec_profile: row.ecProfile ?? { primary: null, secondary: null },
+    ec_profile: row.ecProfile ?? { primary: undefined, secondary: undefined, distribution: {}, low_confidence_notes: [] },
     confidence_flags: row.confidenceFlags ?? [],
     plan_4week: row.plan4week ?? [],
     action_checklist: row.actionChecklist ?? [],
@@ -85,8 +85,9 @@ export default async function ReportPage({ searchParams }: PageProps) {
   for (const [kp, entry] of Object.entries(draft.module_mastery ?? {})) {
     const mod = kpModule.get(kp) ?? '其他';
     if (!moduleAgg[mod]) moduleAgg[mod] = { sum: 0, count: 0, level: 'red' };
-    if (Number.isFinite(entry.mastery_score)) {
-      moduleAgg[mod].sum += entry.mastery_score;
+    const masteryValue = Number(entry.mastery_score);
+    if (!isNaN(masteryValue) && isFinite(masteryValue)) {
+      moduleAgg[mod].sum += masteryValue;
       moduleAgg[mod].count += 1;
     }
   }
@@ -151,22 +152,26 @@ export default async function ReportPage({ searchParams }: PageProps) {
           <p className="text-xs text-gray-400">暂无模块数据</p>
         ) : (
           <ul className="space-y-2">
-            {moduleList.map((m) => (
+            {moduleList.map((m) => {
+              const displayPercent = !isNaN(m.score) && isFinite(m.score)
+                ? Math.round(m.score * 100)
+                : 0;
+              return (
               <li key={m.module} className="space-y-1">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-700">{m.module}</span>
                   <span className={`font-medium ${LEVEL_COLOR[m.level]}`}>
-                    {LEVEL_TEXT[m.level]}（{Number.isFinite(m.score) ? Math.round(m.score * 100) : 0}%）
+                    {LEVEL_TEXT[m.level]}（{displayPercent}%）
                   </span>
                 </div>
                 <div className="h-1.5 w-full rounded-full bg-gray-200">
                   <div
                     className="h-full rounded-full bg-blue-500"
-                    style={{ width: `${Number.isFinite(m.score) ? Math.round(m.score * 100) : 0}%` }}
+                    style={{ width: `${displayPercent}%` }}
                   />
                 </div>
               </li>
-            ))}
+            )})
           </ul>
         )}
       </Section>
@@ -202,7 +207,21 @@ export default async function ReportPage({ searchParams }: PageProps) {
             )}
           </div>
         ) : (
-          <p className="text-xs text-gray-400">无显著错因</p>
+          <div className="space-y-1 text-sm">
+            <p className="text-amber-600 font-medium">
+              暂无显著归因错因
+            </p>
+            <p className="text-xs text-gray-500">
+              可能原因：错题样本不足、多选题分散错因、或学生整体发挥较为稳定。
+              建议关注错题涉及的知识点进行综合复习。
+            </p>
+            {draft.action_checklist?.length > 0 && (
+              <p className="text-xs text-gray-500">
+                已为您生成 {draft.action_checklist.length} 项改进行动清单，
+                详见下方行动清单部分。
+              </p>
+            )}
+          </div>
         )}
       </Section>
 
@@ -210,7 +229,11 @@ export default async function ReportPage({ searchParams }: PageProps) {
       <Section title="4周干预计划">
         {draft.plan_4week?.length ? (
           <ol className="space-y-2">
-            {draft.plan_4week.map((w) => (
+            {draft.plan_4week.map((w) => {
+              const focusKp = w.focus_kps?.length
+                ? w.focus_kps.join('、')
+                : '综合复习（重点补强薄弱考点）';
+              return (
               <li
                 key={w.week}
                 className="rounded-lg bg-gray-50 border border-gray-100 px-3 py-2"
@@ -219,16 +242,20 @@ export default async function ReportPage({ searchParams }: PageProps) {
                   第 {w.week} 周
                 </div>
                 <div className="text-xs text-gray-500 mt-0.5">
-                  焦点考点：
-                  {w.focus_kps?.length ? w.focus_kps.join('、') : '—'}
+                  焦点考点：{focusKp}
                 </div>
                 {w.method_cards?.length > 0 && (
                   <div className="text-xs text-gray-500 mt-0.5">
                     方法卡：{w.method_cards.map((c) => c.title ?? c.id).join('、')}
                   </div>
                 )}
+                {w.questions?.length > 0 && (
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    练习题：{w.questions.length} 道
+                  </div>
+                )}
               </li>
-            ))}
+            )})
           </ol>
         ) : (
           <p className="text-xs text-gray-400">暂无干预计划</p>
@@ -267,7 +294,7 @@ export default async function ReportPage({ searchParams }: PageProps) {
         <p
           className="text-sm text-gray-700 leading-relaxed"
           dangerouslySetInnerHTML={{
-            __html: renderInlineMath(draft.narrative_text ?? ''),
+            __html: renderInlineMath(draft.narrative_text || buildFallbackNarrative(draft)),
           }}
         />
       </Section>
@@ -312,4 +339,36 @@ function EmptyReport({ message }: { message: string }) {
       </a>
     </main>
   );
+}
+
+function buildFallbackNarrative(draft: ReportDraft): string {
+  if (draft.narrative_text && draft.narrative_text.trim()) {
+    return draft.narrative_text;
+  }
+
+  const totalScore = draft.total_score ?? 0;
+  const adaptiveText = ADAPT_TEXT[draft.adaptive_level] ?? draft.adaptive_level;
+  const greenCount = Object.values(draft.module_mastery ?? {}).filter(
+    (v: any) => v.level === 'green',
+  ).length;
+  const redCount = Object.values(draft.module_mastery ?? {}).filter(
+    (v: any) => v.level === 'red',
+  ).length;
+
+  let text = `本次诊断总分为 ${totalScore} 分，综合评定为${adaptiveText}。`;
+  text += `掌握良好考点 ${greenCount} 个，薄弱考点 ${redCount} 个。`;
+
+  if (draft.ec_profile?.primary) {
+    text += `主要错因为 ${draft.ec_profile.primary}。`;
+  }
+
+  if ((draft.plan_4week?.length ?? 0) > 0) {
+    text += `已为您生成 ${draft.plan_4week.length} 周干预计划，建议按计划进行针对性训练。`;
+  }
+
+  if ((draft.action_checklist?.length ?? 0) > 0) {
+    text += `重点关注基础概念回归和变式训练。`;
+  }
+
+  return text;
 }
