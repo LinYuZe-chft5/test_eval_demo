@@ -73,15 +73,6 @@ function fixLatexBackslashes(text: string): string {
   if (!text) return text;
   let result = text;
 
-  result = result.replace(/\^rac(\[[^\]]+\])?\|([^\)]+)\)/g, (match, bracket, content) => {
-    if (bracket) {
-      return `\\sqrt${bracket}{${content}}`;
-    }
-    return `\\sqrt{${content}}`;
-  });
-  result = result.replace(/\^rac\{([^}]+)\}\{([^}]+)\}/g, '\\sqrt{$1/$2}');
-  result = result.replace(/\^rac\{([^}]+)\}/g, '\\sqrt{$1}');
-
   result = result.replace(/×/g, '\\times');
   result = result.replace(/÷/g, '\\div');
   result = result.replace(/±/g, '\\pm');
@@ -116,12 +107,6 @@ function fixLatexBackslashes(text: string): string {
     const re = new RegExp(`\\^${cmd}(?=[\\{\\[\\s]|$)`, 'g');
     result = result.replace(re, `\\${cmd}`);
   }
-
-  result = result.replace(/√([\d]+)/g, '\\sqrt{$1}');
-  result = result.replace(/√([a-zA-Z])/g, '\\sqrt{$1}');
-  result = result.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
-
-  result = result.replace(/\|/g, '{');
 
   const LATEX_COMMANDS = [
     'frac', 'sqrt', 'times', 'div', 'pm', 'mp', 'circ', 'leq', 'geq', 'neq', 'sim',

@@ -1,51 +1,2880 @@
 [
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":1,"q_type":"choice","is_warmup":true,"is_anchor":false,"stem":"计算：$25\\times4+36\\div6=$（ ）","image_url":null,"options":[{"key":"A","text":"$106$","ec_code":null},{"key":"B","text":"$16$","ec_code":"EC-M1"},{"key":"C","text":"$102$","ec_code":"EC-M1"},{"key":"D","text":"$116$","ec_code":"EC-C2"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":0,"solution":"25×4=100，36÷6=6，100+6=106。先乘除后加减。","kp_code":"KP-P.4","kp_related":null,"cognitive_level":"L1","literacy_codes":["YS-02"],"ec_mapping":["EC-M1","EC-C2"],"difficulty_est":0.90,"discrimination_est":0.30,"expected_time_sec":30,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"口算两步混合运算时先口述运算顺序再动笔，固化先乘除后加减的程序","variant_stem":"计算：$125\\times8+49\\div7=$（ ）","variant_answer":"1007","status":"active","stem_hash":"PLACEHOLDER_D1_01"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":2,"q_type":"choice","is_warmup":true,"is_anchor":false,"stem":"钟表上3时整，时针与分针所成的角是（ ）","image_url":null,"options":[{"key":"A","text":"$60^{\\circ}$","ec_code":"EC-M1"},{"key":"B","text":"$90^{\\circ}$","ec_code":null},{"key":"C","text":"$120^{\\circ}$","ec_code":"EC-K1"},{"key":"D","text":"$180^{\\circ}$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":0,"solution":"3时整，时针指向3、分针指向12，相隔3个大格，每个大格30°，共90°。","kp_code":"KP-P.3","kp_related":null,"cognitive_level":"L1","literacy_codes":["YS-03"],"ec_mapping":["EC-K1","EC-M1"],"difficulty_est":0.90,"discrimination_est":0.30,"expected_time_sec":25,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"用钟表实物演示整点时刻时针分针夹角，建立每个大格30°的直觉","variant_stem":"钟表上6时整，时针与分针所成的角是（ ）","variant_answer":"180°","status":"active","stem_hash":"PLACEHOLDER_D1_02"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":3,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"雄安新区某建设工地上，塔吊将货物“上升3米”记作$+3$米，那么“下降5米”应记作（ ）","image_url":null,"options":[{"key":"A","text":"$+5$米","ec_code":"EC-K1"},{"key":"B","text":"$-5$米","ec_code":null},{"key":"C","text":"$-2$米","ec_code":"EC-C2"},{"key":"D","text":"$+2$米","ec_code":"EC-C2"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"“上升”与“下降”是一对具有相反意义的量。规定上升记为正，则下降记为负，下降5米记作-5米。故选B。","kp_code":"KP-01.1","kp_related":null,"cognitive_level":"L1","literacy_codes":["YS-08"],"ec_mapping":["EC-K1","EC-C2"],"difficulty_est":0.88,"discrimination_est":0.30,"expected_time_sec":30,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"用温度计模型重讲正负数：让学生自己记录一周“零上/零下”温度并互相批改，每次记录必须口头说出“谁和谁是相反意义的量”","variant_stem":"白洋淀某水文站将水位“高于警戒水位0.8米”记作$+0.8$米，则“低于警戒水位1.2米”记作（ ）A. $+1.2$米 B. $-1.2$米 C. $-0.4$米 D. $+0.4$米","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_03"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":4,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"一条数轴上从左到右依次标注了$-4,-3,-2,-1,0,1$，相邻两数间距相等。一滴墨迹恰好盖住$-3$与$-2$正中间的一个点，则被盖住的点表示的数是（ ）","image_url":null,"options":[{"key":"A","text":"$-3.5$","ec_code":"EC-C1"},{"key":"B","text":"$-2.5$","ec_code":null},{"key":"C","text":"$-1.5$","ec_code":"EC-K1"},{"key":"D","text":"$2.5$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"数轴上-3与-2正中间的点表示两数的平均位置，即-2.5。也可从-3向右走半个单位到-2.5。故选B。","kp_code":"KP-01.2","kp_related":null,"cognitive_level":"L1","literacy_codes":["YS-03"],"ec_mapping":["EC-K1","EC-C1"],"difficulty_est":0.85,"discrimination_est":0.30,"expected_time_sec":40,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"画一根数轴，家长口述10个含负小数、负分数的数，学生逐一标点并自检，重点练“-3与-2之间”这类负区间定位，每天3分钟","variant_stem":"数轴上$-1$与$0$正中间的点表示的数是（ ）A. $-1.5$ B. $-0.5$ C. $0.5$ D. $-2$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_04"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":5,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"$-|-5|$ 的值是（ ）","image_url":null,"options":[{"key":"A","text":"$5$","ec_code":"EC-C1"},{"key":"B","text":"$-5$","ec_code":null},{"key":"C","text":"$5$或$-5$","ec_code":"EC-K1"},{"key":"D","text":"$\\frac{1}{5}$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"先算绝对值：|-5|=5；再取外面的相反数：-|-5|=-5。故选B。易错点是绝对值符号外还有一个负号，运算顺序不能颠倒。","kp_code":"KP-01.3","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-01"],"ec_mapping":["EC-C1","EC-K1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":"PAIR-JDZ-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"建立“符号分级读题”习惯：遇多重符号先圈最外层符号、再算绝对值，动笔前默读运算顺序；用-|-3|、-(-3)、|-3|三式对比练习各做3道","variant_stem":"$-|+3|$ 的值是（ ）A. $3$ B. $-3$ C. $3$或$-3$ D. $\\frac{1}{3}$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_05"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":6,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"若$|a|=7$，且$a$是负数，则$a$的相反数是____。","image_url":null,"options":null,"steps":null,"correct_answer":"7","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"|a|=7说明a=7或a=-7；由“a是负数”得a=-7；-7的相反数是7。","kp_code":"KP-01.3","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-01"],"ec_mapping":["EC-K1","EC-C3"],"difficulty_est":0.75,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":"PAIR-JDZ-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"教“三步写题法”：①由绝对值写出两种可能；②用条件划掉一个；③再回答题目最终所问。按此做5道同类题，每步都写在草稿区","variant_stem":"若$|b|=4$，且$b$是正数，则$b$的相反数是____。","variant_answer":"-4","status":"active","stem_hash":"PLACEHOLDER_D1_06"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":7,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"比较$-\frac{2}{3}$与$-\frac{3}{4}$的大小，正确的是（ ）","image_url":null,"options":[{"key":"A","text":"$-\frac{2}{3}>-\frac{3}{4}$","ec_code":null},{"key":"B","text":"$-\frac{2}{3}<-\frac{3}{4}$","ec_code":"EC-C2"},{"key":"C","text":"$-\frac{2}{3}=-\frac{3}{4}$","ec_code":"EC-M1"},{"key":"D","text":"无法比较","ec_code":"EC-K1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"通分：-2/3=-8/12，-3/4=-9/12。两个负数比较，绝对值大的反而小：8/12<9/12，所以-8/12>-9/12，即-2/3>-3/4。故选A。","kp_code":"KP-01.4","kp_related":"KP-P.1","cognitive_level":"L2","literacy_codes":["YS-05"],"ec_mapping":["EC-C2","EC-M1","EC-K1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"数轴可视化训练：把-2/3、-3/4描在同一数轴上看谁在右边，再用3组负分数重复“描点—读序—写不等式”流程","variant_stem":"比较大小：$-\frac{3}{5}$____$-\frac{5}{8}$（填“>”“<”或“=”）","variant_answer":">","status":"active","stem_hash":"PLACEHOLDER_D1_07"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":8,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"计算：$\frac{3}{4}-\frac{1}{2}+\frac{1}{8}=$（ ）","image_url":null,"options":[{"key":"A","text":"$\frac{1}{8}$","ec_code":"EC-M1"},{"key":"B","text":"$\frac{3}{8}$","ec_code":null},{"key":"C","text":"$\frac{5}{8}$","ec_code":"EC-M1"},{"key":"D","text":"$\frac{1}{4}$","ec_code":"EC-C1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"通分（公分母8）：3/4=6/8，1/2=4/8，则6/8-4/8+1/8=3/8。故选B。","kp_code":"KP-P.1","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-M1","EC-C1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":75,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"每天4道“三步走”分数混合运算：①先写公分母再动笔；②每算完一步划掉已处理的项；③结果约到最简。坚持一周治漏项和通分跳步","variant_stem":"计算：$\frac{5}{6}-\frac{1}{3}+\frac{1}{4}=$（ ）A. $\frac{3}{4}$ B. $\frac{5}{12}$ C. $\frac{7}{12}$ D. $\frac{1}{2}$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D1_08"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":9,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"计算：$(-3)+5$的结果是（ ）","image_url":null,"options":[{"key":"A","text":"$-8$","ec_code":"EC-K2"},{"key":"B","text":"$-2$","ec_code":"EC-K2"},{"key":"C","text":"$2$","ec_code":null},{"key":"D","text":"$8$","ec_code":"EC-C2"}],"steps":null,"correct_answer":"C","answer_spec":null,"score":2,"solution":"异号两数相加，取绝对值较大的加数的符号（+5取正号），并用较大的绝对值减去较小的绝对值：5-3=2。所以(-3)+5=2。故选C。","kp_code":"KP-01.5","kp_related":"KP-P.4","cognitive_level":"L1","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-C2"],"difficulty_est":0.85,"discrimination_est":0.30,"expected_time_sec":40,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"用“抵消法”讲异号加法：-3理解为欠3元，+5为有5元，还清后剩2元。用“欠/有”口述10道异号加法题再动笔，先建直觉再记法则","variant_stem":"计算：$(-7)+4$的结果是（ ）A. $-11$ B. $-3$ C. $3$ D. $11$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_09"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":10,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"计算：$-7-(-4)=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"-3","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"减去一个数等于加上这个数的相反数：-7-(-4)=-7+4=-3。","kp_code":"KP-01.6","kp_related":"KP-01.5","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1"],"difficulty_est":0.80,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"口诀+对比练习：“减去负数，变加正数”。做6道对比题：-7-(-4)、-7-4、7-(-4)各2道，每题先把减法改写成加法再算，改写步骤必须写出来","variant_stem":"计算：$-5-(-8)=$____。","variant_answer":"3","status":"active","stem_hash":"PLACEHOLDER_D1_10"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":11,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"计算：$(-3)\times(-4)$的结果是（ ）","image_url":null,"options":[{"key":"A","text":"$-12$","ec_code":"EC-K2"},{"key":"B","text":"$12$","ec_code":null},{"key":"C","text":"$-7$","ec_code":"EC-C2"},{"key":"D","text":"$7$","ec_code":"EC-C2"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"两数相乘，同号得正：(-3)×(-4)=+(3×4)=12。故选B。","kp_code":"KP-01.8","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-C2"],"difficulty_est":0.80,"discrimination_est":0.30,"expected_time_sec":40,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"做“符号法则对照卡”贴在草稿本首页：同号得正、异号得负。每道乘除题第一步只写结果正负号，第二步才写数值，连续练20题固化程序","variant_stem":"计算：$(-5)\times(-6)$的结果是（ ）A. $-30$ B. $30$ C. $-11$ D. $11$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_11"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":12,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"计算：$(-12)\\div(-3)=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"4","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"两数相除，同号得正：(-12)÷(-3)=+(12÷3)=4。","kp_code":"KP-01.9","kp_related":"KP-01.8","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"乘除符号法则合并成一条记：“乘除一家，同号得正、异号得负”。做8道乘除混合判断题（只判断正负、不计算），30秒内完成，训练符号直觉","variant_stem":"计算：$(-24)\\div(-6)=$____。","variant_answer":"4","status":"active","stem_hash":"PLACEHOLDER_D1_12"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":13,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"$(-2)^3$ 的值是（ ）","image_url":null,"options":[{"key":"A","text":"$-8$","ec_code":null},{"key":"B","text":"$8$","ec_code":"EC-K2"},{"key":"C","text":"$-6$","ec_code":"EC-K1"},{"key":"D","text":"$6$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"(-2)³=(-2)×(-2)×(-2)=4×(-2)=-8。三个负因数相乘，负因数个数为奇数，结果为负。故选A。","kp_code":"KP-01.10","kp_related":"KP-01.8","cognitive_level":"L1","literacy_codes":["YS-02"],"ec_mapping":["EC-K1","EC-K2"],"difficulty_est":0.82,"discrimination_est":0.30,"expected_time_sec":40,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"回到定义写展开式：做6道乘方题，每题先把aⁿ写成n个a连乘再计算，展开步骤不许省略；特别对比(-2)²与(-2)³、-2²与(-2)²两组","variant_stem":"$(-3)^2$ 的值是（ ）A. $-9$ B. $9$ C. $-6$ D. $6$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_13"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":14,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"计算：$-3+\frac{5}{2}-(-\frac{1}{2})=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"0","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"原式=-3+5/2+1/2（减去负数变加正数）=-3+3=0。也可先算5/2+1/2=3，再与-3相加。","kp_code":"KP-01.11","kp_related":"KP-P.1","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1","EC-M2"],"difficulty_est":0.72,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":"PAIR-HHYS-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"强制“一行一步”书写：混合运算每题第一步只做一件事（统一转加法，或先合并同分母），用竖线隔开每一步，练10题","variant_stem":"计算：$-5+\frac{7}{2}-(-\frac{3}{2})=$____。","variant_answer":"0","status":"active","stem_hash":"PLACEHOLDER_D1_14"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":15,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"小明玩数字卡片游戏，规则是：把抽到的数先平方，再乘$(-2)$，最后加上$10$。若抽到的数是$-3$，则最后得到的结果是（ ）","image_url":null,"options":[{"key":"A","text":"$-8$","ec_code":null},{"key":"B","text":"$28$","ec_code":"EC-K1"},{"key":"C","text":"$22$","ec_code":"EC-K1"},{"key":"D","text":"$-28$","ec_code":"EC-M1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"按规则逐步计算：(-3)²=9；9×(-2)=-18；-18+10=-8。故选A。","kp_code":"KP-01.11","kp_related":"KP-01.10","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K1","EC-C1","EC-M1"],"difficulty_est":0.70,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":"PAIR-HHYS-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"程序类题目用“翻译—执行”两栏草稿法：左栏把文字规则写成算式链条（x→x²→×(-2)→+10），右栏逐步代入计算，先翻译后计算","variant_stem":"规则改为：把抽到的数先平方，再乘$(-1)$，最后加上$6$。抽到$-4$时结果是（ ）A. $-10$ B. $22$ C. $-2$ D. $10$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D1_15"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":16,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"小明今年$a$岁，爸爸比他大28岁，5年后爸爸的年龄是（ ）","image_url":null,"options":[{"key":"A","text":"$(a+33)$岁","ec_code":null},{"key":"B","text":"$(a+23)$岁","ec_code":"EC-C1"},{"key":"C","text":"$(a+28)$岁","ec_code":"EC-C1"},{"key":"D","text":"$5a$岁","ec_code":"EC-K1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"爸爸今年(a+28)岁，5年后是(a+28+5)=(a+33)岁。故选A。","kp_code":"KP-03.1","kp_related":"KP-P.5","cognitive_level":"L1","literacy_codes":["YS-01"],"ec_mapping":["EC-C1","EC-K1"],"difficulty_est":0.85,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"做“具体数→字母”阶梯练习：先算“小明8岁、爸爸大28岁、5年后爸爸几岁”（41岁），再把8岁换成a，对照两种写法，让学生说出“a+33和41是同一回事的两种写法”","variant_stem":"一支铅笔$b$元，一个笔记本比铅笔贵4元，买3个笔记本共需（ ）A. $3(b+4)$元 B. $(3b+4)$元 C. $3b$元 D. $(b+12)$元","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D1_16"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":17,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"“比$x$的2倍小3的数”用代数式表示是（ ）","image_url":null,"options":[{"key":"A","text":"$2x-3$","ec_code":null},{"key":"B","text":"$2(x-3)$","ec_code":"EC-M4"},{"key":"C","text":"$3-2x$","ec_code":"EC-C2"},{"key":"D","text":"$2x+3$","ec_code":"EC-C1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"“x的2倍”是2x，“比它小3”即减去3，得2x-3。故选A。注意与“比x小3的数的2倍”（即2(x-3)）区分：语言的运算顺序决定代数式结构。","kp_code":"KP-03.2","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-01"],"ec_mapping":["EC-M4","EC-C2","EC-C1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"用“划关键词断句法”：在“比”“的”“倍”“小/大”下划线，按“先算的部分先写”规则翻译；做8道对比题，其中4道故意只调换语序","variant_stem":"“比$a$的4倍大1的数”用代数式表示是（ ）A. $4a+1$ B. $4(a+1)$ C. $1-4a$ D. $4a-1$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D1_17"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":18,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"写出单项式$-3x^2y$的系数与次数。","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第1问：单项式$-3x^2y$的系数是？","answer":"-3","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":1,"ec_mapping":["EC-C1","EC-N2"]},{"seq":2,"prompt":"第2问：单项式$-3x^2y$的次数是？","answer":"3","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":1,"ec_mapping":["EC-K1"]}],"correct_answer":null,"answer_spec":null,"score":2,"solution":"系数是单项式前面的数字因数（含符号）：-3；次数是所有字母指数的和：x的指数2加y的指数1，共3。","kp_code":"KP-04.1","kp_related":null,"cognitive_level":"L1","literacy_codes":["YS-01"],"ec_mapping":["EC-C1","EC-K1","EC-N2"],"difficulty_est":0.80,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"做“拆家式”标注练习：给5个单项式，用红笔圈数字因数、蓝笔圈每个字母的指数（指数1也要标出来），再写系数和次数","variant_stem":"单项式$5ab^2$的系数是____，次数是____。","variant_answer":"系数5，次数3","status":"active","stem_hash":"PLACEHOLDER_D1_18"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":19,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"下列各组单项式中，是同类项的是（ ）","image_url":null,"options":[{"key":"A","text":"$3x^2y$与$-2xy^2$","ec_code":"EC-K1"},{"key":"B","text":"$5ab$与$3a$","ec_code":"EC-K1"},{"key":"C","text":"$-4mn$与$2nm$","ec_code":null},{"key":"D","text":"$2x$与$2y$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"C","answer_spec":null,"score":2,"solution":"同类项要求“所含字母相同，并且相同字母的指数也相同”，与系数、字母顺序无关。C中mn与nm只是顺序不同，字母及指数完全一致。A中x、y指数分别不同，B字母不全同，D字母不同。故选C。","kp_code":"KP-04.2","kp_related":"KP-04.1","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K1","EC-C1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":"PAIR-TLX-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"做“同类项找朋友”卡片游戏：10张卡片（含指数陷阱3张、顺序陷阱2张），分组配对并说出每张卡片“字母是什么、指数是几”，说出口头禅“字母相同、指数也相同”","variant_stem":"下列是同类项的是（ ）A. $2a^2b$与$-3ba^2$ B. $x^2$与$2x$ C. $4ab$与$4bc$ D. $3m^2n$与$3mn^2$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D1_19"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":20,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"计算：$3m-2m-5m=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"-4m","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"合并同类项，系数相加：3-2-5=-4，字母部分m不变，结果为-4m。","kp_code":"KP-04.2","kp_related":"KP-01.7","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-M1","EC-K1","EC-M2"],"difficulty_est":0.75,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":"PAIR-TLX-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"合并同类项“两问自查”：①系数算对了吗（重算3-2-5）②字母还在吗。练6道含负系数合并题，每题做两问自查","variant_stem":"计算：$4n-6n+3n=$____。","variant_answer":"n","status":"active","stem_hash":"PLACEHOLDER_D1_20"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":21,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"下列运用等式的性质进行变形，正确的是（ ）","image_url":null,"options":[{"key":"A","text":"若$a=b$，则$a+2=b+3$","ec_code":"EC-K1"},{"key":"B","text":"若$a=b$，则$a-c=b-c$","ec_code":null},{"key":"C","text":"若$a=b$，则$2a=3b$","ec_code":"EC-K1"},{"key":"D","text":"若$a=b$，则$\frac{a}{c}=\frac{b}{c}$","ec_code":"EC-K2"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"等式两边同时减去同一个数c，等式仍成立，B正确。A两边加的不是同一个数；C两边乘的不是同一个数；D两边同除以c必须c≠0才成立，选项未说明此条件，不严密。故选B。","kp_code":"KP-05.1","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-05"],"ec_mapping":["EC-K1","EC-K2"],"difficulty_est":0.80,"discrimination_est":0.30,"expected_time_sec":50,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"用天平模型讲等式性质：左右两盘“同时、同样”地加减乘除才平衡；特别强调“除以的东西不能是0”，让学生自己举一个反例讲给家长听","variant_stem":"下列变形正确的是（ ）A. 若$x=y$，则$x+5=y-5$ B. 若$x=y$，则$3x=3y$ C. 若$x=y$，则$\frac{x}{m}=\frac{y}{m}$ D. 若$x=y$，则$x^2=y+m$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D1_21"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":1,"seq_no":22,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"方程$2x+3=11$的解是（ ）","image_url":null,"options":[{"key":"A","text":"$x=7$","ec_code":"EC-K2"},{"key":"B","text":"$x=4$","ec_code":null},{"key":"C","text":"$x=5$","ec_code":"EC-C2"},{"key":"D","text":"$x=14$","ec_code":"EC-M2"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"两边同时减3：2x=8；两边同时除以2：x=4。检验：2×4+3=11 ✓。故选B。","kp_code":"KP-P.2","kp_related":"KP-05.1","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-C2","EC-M2"],"difficulty_est":0.82,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"解方程每题必须“写依据”：每步变形后括号注明（两边同时减3）（两边同时除以2），写满10题再提速；做完回代检验","variant_stem":"方程$3x-2=13$的解是（ ）A. $x=5$ B. $x=\frac{11}{3}$ C. $x=4$ D. $x=15$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D1_22"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":1,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"计算：$-\frac{1}{2}+\frac{3}{4}-(-\frac{1}{4})=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"1/2","answer_spec":{"accept_forms":["fraction","decimal"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"原式=-1/2+3/4+1/4（减去负数变加正数）=-2/4+3/4+1/4=2/4=1/2。","kp_code":"KP-P.1","kp_related":"KP-01.7","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1","EC-C1"],"difficulty_est":0.72,"discrimination_est":0.30,"expected_time_sec":100,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"分数加减混合统一用“先通分、再合并、最后约分”三步流程，每步一行；特别练含“-(-分数)”结构的题5道","variant_stem":"计算：$-\frac{1}{3}+\frac{5}{6}-(-\frac{1}{6})=$____。","variant_answer":"2/3","status":"active","stem_hash":"PLACEHOLDER_D2_01"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":2,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"数轴上点A表示的数是$-3$，点B表示的数是$2$，则A、B两点间的距离是（ ）","image_url":null,"options":[{"key":"A","text":"$1$","ec_code":"EC-C2"},{"key":"B","text":"$5$","ec_code":null},{"key":"C","text":"$-5$","ec_code":"EC-K1"},{"key":"D","text":"$6$","ec_code":"EC-M1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"数轴上两点间的距离等于两数之差的绝对值：|2-(-3)|=|2+3|=5。也可以数格子：从-3到0是3个单位，从0到2是2个单位，共5个单位。故选B。","kp_code":"KP-01.2","kp_related":"KP-01.3","cognitive_level":"L3","literacy_codes":["YS-03"],"ec_mapping":["EC-C2","EC-K1","EC-M1"],"difficulty_est":0.65,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"画数轴数格子：做5道异号两点距离题，先画图标出两点、数出格子数，再用|a-b|公式核对，两种方法结果必须一致才算完成","variant_stem":"数轴上点M表示$-1$，点N表示$4$，M、N两点间的距离是（ ）A. $3$ B. $5$ C. $-5$ D. $4$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D2_02"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":3,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"计算：$\frac{5}{6}\times(-\frac{3}{10})+\frac{1}{4}=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"0","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"先算乘法：5/6×(-3/10)=-15/60=-1/4（异号得负）；再算加法：-1/4+1/4=0。","kp_code":"KP-P.1","kp_related":"KP-01.8","cognitive_level":"L3","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1","EC-M2"],"difficulty_est":0.70,"discrimination_est":0.30,"expected_time_sec":120,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"混合运算“先圈乘除、再算加减”：动笔前用铅笔把乘法部分圈出来先算；做6道“分数乘法+加减”混合题，每题第一步必须是乘法","variant_stem":"计算：$\frac{3}{4}\times(-\frac{2}{9})+\frac{1}{6}=$____。","variant_answer":"0","status":"active","stem_hash":"PLACEHOLDER_D2_03"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":4,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"如图，直线上依次有A、B、C三个点，以其中任意两点为端点的线段共有（ ）","image_url":null,"options":[{"key":"A","text":"$2$条","ec_code":"EC-C3"},{"key":"B","text":"$3$条","ec_code":null},{"key":"C","text":"$4$条","ec_code":"EC-M1"},{"key":"D","text":"$6$条","ec_code":"EC-K1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"按左端点分类数：以A为左端点的有AB、AC两条，以B为左端点的有BC一条，共2+1=3条。故选B。","kp_code":"KP-02.2","kp_related":null,"cognitive_level":"L2","literacy_codes":["YS-03"],"ec_mapping":["EC-C3","EC-K1","EC-M1"],"difficulty_est":0.75,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"教“固定左端点”数线段法：从左到右，每个点当一次左端点，数完划掉；用4个点的图再练2道（答案6条），形成程序","variant_stem":"直线上依次有A、B、C、D四个点，线段共有（ ）A. $4$条 B. $5$条 C. $6$条 D. $8$条","variant_answer":"C","status":"active","stem_hash":"PLACEHOLDER_D2_04"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":5,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"已知$1^{\\circ}=60'$，把$18^{\\circ}30'$换算成以度为单位：$18^{\\circ}30'=$____$^{\\circ}$（用小数表示）。","image_url":null,"options":null,"steps":null,"correct_answer":"18.5","answer_spec":{"accept_forms":["decimal"],"decimal_tolerance":0.01,"allow_pi":false,"unit":"°"},"score":2,"solution":"30′=30/60°=0.5°，所以18°30′=18.5°。","kp_code":"KP-P.3","kp_related":"KP-02.5","cognitive_level":"L2","literacy_codes":["YS-03"],"ec_mapping":["EC-C2","EC-K1"],"difficulty_est":0.72,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"和时间换算对照记：1°=60′就像1小时=60分钟。做4道互化题（2道度→度分、2道度分→度），每题先写“÷60”或“×60”再算","variant_stem":"把$25^{\\circ}36'$换算成以度为单位：____$^{\\circ}$。","variant_answer":"25.6","status":"active","stem_hash":"PLACEHOLDER_D2_05"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":6,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"一辆货车从石家庄运送货物到白洋淀，下表记录了行驶时间$x$（小时）与油箱剩余油量$y$（升）的部分数据：$x=0$时$y=45$；$x=1$时$y=39$；$x=2$时$y=33$；$x=3$时$y=27$。则$y$与$x$之间的关系式是（ ）","image_url":null,"options":[{"key":"A","text":"$y=45-6x$","ec_code":null},{"key":"B","text":"$y=45+6x$","ec_code":"EC-C1"},{"key":"C","text":"$y=6x$","ec_code":"EC-M3"},{"key":"D","text":"$y=45-4x$","ec_code":"EC-M1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"每过1小时油量减少45-39=6升，初始油量为45升，所以y=45-6x。检验：x=3时y=45-18=27 ✓。故选A。","kp_code":"KP-03.3","kp_related":"KP-03.2","cognitive_level":"L3","literacy_codes":["YS-01"],"ec_mapping":["EC-C1","EC-M3","EC-M1"],"difficulty_est":0.68,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"读表建模“两句口诀”：先问“开头是多少”（初始量），再问“每次变多少”（变化率），两句话合成一个式子；用3组表格数据练写关系式并回代一组数据检验","variant_stem":"某停车场收费标准如下表：停车$x$小时收费$y$元：$x=1$时$y=5$；$x=2$时$y=8$；$x=3$时$y=11$。则关系式是（ ）A. $y=3x$ B. $y=3x+2$ C. $y=5x$ D. $y=2x+3$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D2_06"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":7,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"当$x=-2$时，代数式$3x+1$的值是____。","image_url":null,"options":null,"steps":null,"correct_answer":"-5","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"把x=-2代入：3×(-2)+1=-6+1=-5。","kp_code":"KP-03.4","kp_related":"KP-01.8","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1"],"difficulty_est":0.75,"discrimination_est":0.30,"expected_time_sec":45,"pairing_id":"PAIR-QIUZHI-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"负数代入“带括号”规则：把x=-2代入时，所有x的位置都写成(-2)再计算，练5道含负代入的求值题，括号不许省","variant_stem":"当$a=-3$时，代数式$2a+5$的值是____。","variant_answer":"-1","status":"active","stem_hash":"PLACEHOLDER_D2_07"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":8,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"化简$a-(2a-3)$的结果是（ ）","image_url":null,"options":[{"key":"A","text":"$-a-3$","ec_code":"EC-K2"},{"key":"B","text":"$-a+3$","ec_code":null},{"key":"C","text":"$-3a+3$","ec_code":"EC-M1"},{"key":"D","text":"$3a-3$","ec_code":"EC-C1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"括号前是负号，去括号后括号内各项都变号：a-(2a-3)=a-2a+3=-a+3。故选B。","kp_code":"KP-04.3","kp_related":"KP-04.2","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-C1","EC-M1"],"difficulty_est":0.72,"discrimination_est":0.30,"expected_time_sec":50,"pairing_id":"PAIR-QUOKUOH-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"去括号“两项都检查”口诀：括号前是负号，心里默念“全都变”，去完括号回头检查每一项的符号；做8道题，其中4道专门练“-(…+…)”与“-(…-…)”","variant_stem":"化简$b-(3b-2)$的结果是（ ）A. $-2b+2$ B. $-2b-2$ C. $4b-2$ D. $-2b$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D2_08"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":9,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"化简：$3x-(x-2y)+(2x-y)=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"4x+y","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"去括号：3x-x+2y+2x-y；合并同类项：(3-1+2)x+(2-1)y=4x+y。","kp_code":"KP-04.4","kp_related":"KP-04.3","cognitive_level":"L3","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1"],"difficulty_est":0.68,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"多括号化简“一去二合三查”：先去完全部括号并逐项标符号，再圈同类项合并，最后把y代1、x代1回验原式与结果是否相等，练5题","variant_stem":"化简：$2a-(a-3b)+(a-2b)=$____。","variant_answer":"2a+b","status":"active","stem_hash":"PLACEHOLDER_D2_09"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":10,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"下列方程中，是一元一次方程的是（ ）","image_url":null,"options":[{"key":"A","text":"$x^2-3x=0$","ec_code":"EC-K1"},{"key":"B","text":"$2x+1=7$","ec_code":null},{"key":"C","text":"$x+y=5$","ec_code":"EC-K1"},{"key":"D","text":"$\frac{1}{x}=2$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"一元一次方程须同时满足三个条件：只含一个未知数、未知数的次数是1、是整式方程。只有B三个条件都满足。A次数为2，C有两个未知数，D未知数在分母。故选B。","kp_code":"KP-05.2","kp_related":"KP-05.1","cognitive_level":"L2","literacy_codes":["YS-01"],"ec_mapping":["EC-K1"],"difficulty_est":0.78,"discrimination_est":0.30,"expected_time_sec":40,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"把三要素做成口诀“一个字母、一次方、整式里”，用10个方程做“是不是”快速判断，每个判断必须说出缺了哪条","variant_stem":"下列是一元一次方程的是（ ）A. $3x=9$ B. $x^2=4$ C. $2x-y=1$ D. $\frac{2}{x}=1$","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D2_10"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":11,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"解方程$3x-5=7$，得$x=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"4","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"两边同时加5：3x=12；两边同时除以3：x=4。检验：3×4-5=7 ✓。","kp_code":"KP-05.3","kp_related":"KP-P.2","cognitive_level":"L2","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M2"],"difficulty_est":0.75,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":"PAIR-JIEFANGCH-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"解方程“变形写依据”：每步括号注明（两边同时加5）（两边同时除以3），做完回代检验；连续5题全对后才允许提速","variant_stem":"解方程$4x+3=19$，得$x=$____。","variant_answer":"4","status":"active","stem_hash":"PLACEHOLDER_D2_11"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":12,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"由方程$2x-4=10$进行第一步变形，正确的是（ ）","image_url":null,"options":[{"key":"A","text":"$2x=10-4$","ec_code":"EC-K2"},{"key":"B","text":"$2x=10+4$","ec_code":null},{"key":"C","text":"$x-4=5$","ec_code":"EC-M2"},{"key":"D","text":"$2x-4+4=10-4$","ec_code":"EC-K1"}],"steps":null,"correct_answer":"B","answer_spec":null,"score":2,"solution":"方程两边同时加上4：2x-4+4=10+4，即2x=10+4。故选B。","kp_code":"KP-P.2","kp_related":"KP-05.1","cognitive_level":"L3","literacy_codes":["YS-05"],"ec_mapping":["EC-K2","EC-M2","EC-K1"],"difficulty_est":0.70,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"把方程变形统一成“两边同时”句式：每步先说一句“两边同时___”，再动笔写；用5道题专练“两边同加/同减”与“两边同除”的第一步变形，只写第一步","variant_stem":"由方程$3x+6=15$进行第一步变形，正确的是（ ）A. $3x=15+6$ B. $3x=15-6$ C. $x+6=5$ D. $3x+6-3=15-6$","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D2_12"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":13,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"如图，O是直线AB上的一点，射线OC在直线AB的上方，已知$\\angle AOC=50^{\\circ}$，则$\\angle BOC=$____$^{\\circ}$。","image_url":null,"options":null,"steps":null,"correct_answer":"130","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":"°"},"score":2,"solution":"O在直线AB上，∠AOB=180°（平角）；∠AOC与∠BOC合成平角：∠BOC=180°-50°=130°。","kp_code":"KP-02.7","kp_related":"KP-P.3","cognitive_level":"L3","literacy_codes":["YS-03"],"ec_mapping":["EC-K2","EC-K1","EC-M1"],"difficulty_est":0.68,"discrimination_est":0.30,"expected_time_sec":60,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"互余与互补对比卡：和为90°叫互余、和为180°叫互补（合成平角），配“一条直线上的射线”图3张，每张图都写出两个角和为180°的等式","variant_stem":"O是直线AB上一点，射线OC在AB上方，$\\angle AOC=35^{\\circ}$，则$\\angle BOC=$____$^{\\circ}$。","variant_answer":"145","status":"active","stem_hash":"PLACEHOLDER_D2_13"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":14,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"有理数$a$、$b$在数轴上的位置如图所示：$a$在$-3$与$-2$之间，$b$在$1$与$2$之间。下列结论一定正确的是（ ）","image_url":null,"options":[{"key":"A","text":"$a>b$","ec_code":"EC-K1"},{"key":"B","text":"$|a|<|b|$","ec_code":"EC-K1"},{"key":"C","text":"$a+b>0$","ec_code":"EC-K2"},{"key":"D","text":"$-a>b$","ec_code":null}],"steps":null,"correct_answer":"D","answer_spec":null,"score":2,"solution":"a在-3与-2之间，则-a在2与3之间；b在1与2之间。所以-a>2>b，即-a>b一定成立。A：负数不可能大于正数；B：|a|在2与3之间，|b|在1与2之间，应|a|>|b|；C：a+b的和在-2与0之间，小于0。故选D。","kp_code":"KP-01.4","kp_related":"KP-01.2","cognitive_level":"L3","literacy_codes":["YS-05"],"ec_mapping":["EC-K1","EC-K2"],"difficulty_est":0.62,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"字母大小比较“先定位再比较”：在数轴上把a、-a、b、-b四个点的区间都标出来，再读不等式；练4道题，每题都画数轴不许空想","variant_stem":"$m$在$-4$与$-3$之间，$n$在$0$与$1$之间，下列一定正确的是（ ）A. $m>n$ B. $|m|<|n|$ C. $-m>n$ D. $m+n>0$","variant_answer":"C","status":"active","stem_hash":"PLACEHOLDER_D2_14"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":15,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"化简：$2(3a-b)-3(a-2b)$。","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一步：去括号（写出展开结果）","answer":"6a-2b-3a+6b","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":1,"ec_mapping":["EC-K2"]},{"seq":2,"prompt":"第二步：合并同类项（写出最简结果）","answer":"3a+4b","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-M1"]}],"correct_answer":null,"answer_spec":null,"score":3,"solution":"去括号：2(3a-b)=6a-2b，-3(a-2b)=-3a+6b；合并：(6-3)a+(-2+6)b=3a+4b。","kp_code":"KP-04.4","kp_related":"KP-04.3","cognitive_level":"L3","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1"],"difficulty_est":0.68,"discrimination_est":0.30,"expected_time_sec":150,"pairing_id":"PAIR-QUOKUOH-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"含系数括号“分配两遍”检查：-3(a-2b)心里算两遍：-3×a=-3a，-3×(-2b)=+6b，每一项都过一遍“符号×符号”；练6道含负系数分配的题","variant_stem":"化简：$3(2m-n)-2(m-3n)$。","variant_answer":"4m+3n","status":"active","stem_hash":"PLACEHOLDER_D2_15"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":16,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"先化简，再求值：$(2x-3y)-(x-2y)$，其中$x=2$，$y=-1$。","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一步：化简（写出最简结果）","answer":"x-y","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-K2"]},{"seq":2,"prompt":"第二步：代入求值（写出数值结果）","answer":"3","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":1,"ec_mapping":["EC-K2","EC-M1"]}],"correct_answer":null,"answer_spec":null,"score":3,"solution":"化简：2x-3y-x+2y=x-y；代入：x-y=2-(-1)=2+1=3。","kp_code":"KP-03.4","kp_related":"KP-04.4","cognitive_level":"L3","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1","EC-M2"],"difficulty_est":0.65,"discrimination_est":0.30,"expected_time_sec":180,"pairing_id":"PAIR-QIUZHI-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"“化简→代入”两道工序分开写：第一行写化简结果，第二行写“当x=2,y=-1时”，第三行才代入；代入负数必须带括号，练4题","variant_stem":"先化简再求值：$(3a-b)-(a-3b)$，其中$a=1$，$b=-2$。","variant_answer":"化简2a+2b，求值-2","status":"active","stem_hash":"PLACEHOLDER_D2_16"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":17,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"解方程：$\frac{2x-1}{3}=\frac{x+2}{2}$。","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一步：去分母并去括号（写出变形后的方程）","answer":"4x-2=3x+6","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-K2"]},{"seq":2,"prompt":"第二步：移项求解（写出x的值）","answer":"8","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":1,"ec_mapping":["EC-K2","EC-M2"]}],"correct_answer":null,"answer_spec":null,"score":3,"solution":"两边同乘6：2(2x-1)=3(x+2)；去括号：4x-2=3x+6；移项：4x-3x=6+2，x=8。检验：左边=(16-1)/3=5，右边=(8+2)/2=5 ✓。","kp_code":"KP-05.3","kp_related":"KP-P.1","cognitive_level":"L3","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M2"],"difficulty_est":0.70,"discrimination_est":0.30,"expected_time_sec":180,"pairing_id":"PAIR-JIEFANGCH-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"去分母“三查”：①两边都乘了吗②每个分子都加括号了吗③每项都乘到吗；练4道含分母方程，每题把三查写在题旁","variant_stem":"解方程：$\frac{x-1}{2}=\frac{x+1}{3}$。","variant_answer":"x=5（3(x-1)=2(x+1)→3x-3=2x+2→x=5）","status":"active","stem_hash":"PLACEHOLDER_D2_17"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":2,"seq_no":18,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"唐山港某物流仓库开展“双日清点”：第一天运进货物的吨数比第二天多20吨，两天共运进180吨。两天各运进货物多少吨？（要求：用一元一次方程解答）","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一步：设未知数并列出一元一次方程","answer":"设第二天运进x吨，x+(x+20)=180","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-M4"]},{"seq":2,"prompt":"第二步：解方程并写出两天各多少吨","answer":"第二天80吨，第一天100吨","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":"吨"},"score":1,"ec_mapping":["EC-C4"]}],"correct_answer":null,"answer_spec":null,"score":3,"solution":"设第二天运进x吨，则第一天运进(x+20)吨。x+(x+20)=180，2x=160，x=80。第二天80吨，第一天80+20=100吨。检验：100+80=180 ✓，100-80=20 ✓。","kp_code":"KP-05.4","kp_related":"KP-05.3","cognitive_level":"L3","literacy_codes":["YS-07"],"ec_mapping":["EC-M4","EC-J1","EC-C4"],"difficulty_est":0.62,"discrimination_est":0.30,"expected_time_sec":240,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"应用题“翻译三步”：①把“谁比谁多”改写成“大数=小数+差”②设小数为x③用x表示大数再相加等于总数；用3道和差倍分题走完整流程，不许口算跳步","variant_stem":"雄安新区某绿化队两天共植树240棵，第一天比第二天少植30棵，两天各植多少棵？（用方程解答）","variant_answer":"设第二天x棵：x+(x-30)=240，x=135；第二天135棵，第一天105棵","status":"active","stem_hash":"PLACEHOLDER_D2_18"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":1,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"规定：数轴上点P表示的数为$x$，若$|x+1|=3$，则称点P为\"基准点\"。满足条件的\"基准点\"表示的数是（ ）","image_url":null,"options":[{"key":"A","text":"$2$","ec_code":"EC-C3"},{"key":"B","text":"$-4$","ec_code":"EC-C3"},{"key":"C","text":"$2$或$-4$","ec_code":null},{"key":"D","text":"$4$或$-2$","ec_code":"EC-M1"}],"steps":null,"correct_answer":"C","answer_spec":null,"score":2,"solution":"|x+1|=3，则x+1=3或x+1=-3，解得x=2或x=-4。两种情况都要考虑。故选C。","kp_code":"KP-01.2","kp_related":"KP-01.3","cognitive_level":"L3","literacy_codes":["YS-03"],"ec_mapping":["EC-C3","EC-M1"],"difficulty_est":0.65,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"绝对值方程\"一拆二\"口诀：看见|式子|=正数，立刻写成\"式子=正\"和\"式子=负\"两行再分别解；练5道，每题必须写出两行","variant_stem":"若$|y-2|=5$，则$y=$（ ）A. $7$ B. $-3$ C. $7$或$-3$ D. $3$或$-7$","variant_answer":"C","status":"active","stem_hash":"PLACEHOLDER_D3_01"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":2,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"用火柴棒按下图规律摆正方形：摆1个正方形用4根，摆2个相连的正方形用7根，摆3个相连的正方形用10根……按此规律，摆$n$个相连的正方形需要火柴棒____根（用含$n$的式子表示）。","image_url":null,"options":null,"steps":null,"correct_answer":"3n+1","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"每增加1个正方形增加3根火柴棒（共享一条边）。首项4根，公差3：4+3(n-1)=3n+1。检验：n=3时3×3+1=10 ✓。","kp_code":"KP-03.3","kp_related":"KP-03.2","cognitive_level":"L4","literacy_codes":["YS-05","YS-09"],"ec_mapping":["EC-C3","EC-M3","EC-M1"],"difficulty_est":0.50,"discrimination_est":0.30,"expected_time_sec":150,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"规律题\"三步归纳\"：①写出前3项的具体数②算相邻差确定\"每次变多少\"③用第1项反推修正项（4=3×1+1），再用第2、3项检验；练4组图形规律","variant_stem":"按规律搭三角形：1个三角形用3根，2个相连的用5根，3个相连的用7根……搭$n$个需要____根。","variant_answer":"2n+1","status":"active","stem_hash":"PLACEHOLDER_D3_02"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":3,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"如图，点C是线段AB的中点，点D是线段AC的中点，若$AB=12$cm，则$DB=$（ ）","image_url":null,"options":[{"key":"A","text":"$3$cm","ec_code":"EC-C1"},{"key":"B","text":"$6$cm","ec_code":"EC-C1"},{"key":"C","text":"$9$cm","ec_code":null},{"key":"D","text":"$8$cm","ec_code":"EC-M1"}],"steps":null,"correct_answer":"C","answer_spec":null,"score":2,"solution":"C是AB中点：AC=CB=6cm；D是AC中点：AD=DC=3cm。DB=DC+CB=3+6=9cm。故选C。","kp_code":"KP-02.4","kp_related":"KP-02.2","cognitive_level":"L3","literacy_codes":["YS-03"],"ec_mapping":["EC-C1","EC-M4"],"difficulty_est":0.65,"discrimination_est":0.30,"expected_time_sec":90,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"几何题\"目标圈注法\"：动笔前先用红笔圈出题目要求的量（DB），再拆解：DB=DC+CB，缺谁求谁；每题做完回头看一眼\"我算的是不是圈里的量\"","variant_stem":"点C是线段AB的中点，D是CB的中点，$AB=16$cm，则$AD=$（ ）A. $8$cm B. $12$cm C. $4$cm D. $10$cm","variant_answer":"B","status":"active","stem_hash":"PLACEHOLDER_D3_03"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":4,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"一个长方形的长是宽的2倍，周长是36cm，它的面积是____cm²。","image_url":null,"options":null,"steps":null,"correct_answer":"72","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":"cm²"},"score":2,"solution":"设宽为x cm，则长为2x cm。周长：2(x+2x)=36，6x=36，x=6；长12cm；面积12×6=72cm²。","kp_code":"KP-P.3","kp_related":"KP-05.3","cognitive_level":"L3","literacy_codes":["YS-03"],"ec_mapping":["EC-C4","EC-K1","EC-M1"],"difficulty_est":0.68,"discrimination_est":0.30,"expected_time_sec":120,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"多步应用题在草稿纸顶端先写\"最终求什么\"（面积=长×宽=?），每求出一个中间量就打勾确认\"这是中间量，还不是答案\"","variant_stem":"一个长方形的长比宽多4cm，周长是28cm，面积是____cm²。","variant_answer":"45","status":"active","stem_hash":"PLACEHOLDER_D3_04"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":5,"q_type":"choice","is_warmup":false,"is_anchor":false,"stem":"一个长方形的长为$(2a+3)$cm，宽比长少$a$ cm，则这个长方形的周长用含$a$的式子表示为（ ）","image_url":null,"options":[{"key":"A","text":"$(6a+12)$cm","ec_code":null},{"key":"B","text":"$(6a+6)$cm","ec_code":"EC-C1"},{"key":"C","text":"$(3a+6)$cm","ec_code":"EC-K1"},{"key":"D","text":"$(4a+6)$cm","ec_code":"EC-M1"}],"steps":null,"correct_answer":"A","answer_spec":null,"score":2,"solution":"宽=2a+3-a=a+3；周长=2[(2a+3)+(a+3)]=2(3a+6)=6a+12。故选A。","kp_code":"KP-04.4","kp_related":"KP-03.2","cognitive_level":"L3","literacy_codes":["YS-07"],"ec_mapping":["EC-C1","EC-K1","EC-M1"],"difficulty_est":0.62,"discrimination_est":0.30,"expected_time_sec":120,"pairing_id":"PAIR-ZHENGSHI-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"几何+代数综合题\"先翻译后计算\"：把\"宽比长少a\"先写成 宽=长-a=(2a+3)-a，化简出宽再套周长公式；练3道同类题","variant_stem":"长方形的长为$(3b+1)$cm，宽比长少$b$ cm，周长用含$b$的式子表示为（ ）A. $(10b+4)$cm B. $(10b+2)$cm C. $(5b+2)$cm D. $(8b+4)$cm","variant_answer":"A","status":"active","stem_hash":"PLACEHOLDER_D3_05"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":6,"q_type":"fill","is_warmup":false,"is_anchor":false,"stem":"规定一种新运算\"⊗\"：$a\\otimes b=a^2-ab$。例如$3\\otimes2=3^2-3\\times2=3$。按此规定，$(-2)\\otimes3=$____。","image_url":null,"options":null,"steps":null,"correct_answer":"10","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"solution":"(-2)⊗3=(-2)²-(-2)×3=4-(-6)=4+6=10。注意：(-2)²=4（不是-4）；-(-2)×3=+6。","kp_code":"KP-01.11","kp_related":"KP-01.10","cognitive_level":"L4","literacy_codes":["YS-01","YS-09"],"ec_mapping":["EC-K1","EC-K2","EC-M4"],"difficulty_est":0.45,"discrimination_est":0.30,"expected_time_sec":120,"pairing_id":null,"parallel_group_id":null,"variant_of":null,"improvement_tip":"新定义运算\"照猫画虎\"三步：①把例题的代入过程抄一遍②对照着把新数换进去③逐符号检查后再算；练3道自定义运算题","variant_stem":"规定$m\\otimes n=m^2+2n$，则$(-3)\\otimes4=$____。","variant_answer":"17","status":"active","stem_hash":"PLACEHOLDER_D3_06"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":7,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"假期里，小明一家从石家庄自驾到太行山某景区游玩。去时平均速度为60千米/时，用了3小时；沿原路返回时车速提高，用了2.5小时。返回时的平均速度是多少千米/时？（要求：用一元一次方程解答）","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一问：设未知数，并根据\"往返路程相等\"列出一元一次方程","answer":"设返回时平均速度为x千米/时，2.5x=60×3","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-M4"]},{"seq":2,"prompt":"第二问：解这个方程，求出x的值","answer":"72","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-M1"]},{"seq":3,"prompt":"第三问：检验结果的合理性（对照题中\"车速提高\"的条件），并完整作答","answer":"返回时平均速度是72千米/时；72×2.5=180=60×3，且72>60符合\"车速提高\"","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-C4"]}],"correct_answer":null,"answer_spec":null,"score":6,"solution":"设返回时平均速度为x千米/时。往返路程相等：2.5x=60×3，2.5x=180，x=72。检验：72×2.5=180=60×3 ✓；72>60，与\"车速提高\"一致 ✓。答：返回时平均速度是72千米/时。","kp_code":"KP-05.4","kp_related":"KP-05.3","cognitive_level":"L3","literacy_codes":["YS-07","YS-08"],"ec_mapping":["EC-M4","EC-J1","EC-M1","EC-C4"],"difficulty_est":0.60,"discrimination_est":0.30,"expected_time_sec":300,"pairing_id":"PAIR-FANGCHENG-APP-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"应用题收尾\"两问自查\"：①把答案代回题目所有数字条件算一遍②问自己\"答案和题目里哪个描述能对上\"（如本题\"车速提高\"→返回速度应更大）；每题强制写\"答：\"完整句","variant_stem":"某旅行团从保定到白洋淀景区，去时大巴平均速度50千米/时，用了2小时；原路返回时用了2.5小时。返回时平均速度是多少？（用方程解答）","variant_answer":"设返回速度x：2.5x=50×2，x=40；检验40×2.5=100 ✓，答：40千米/时","status":"active","stem_hash":"PLACEHOLDER_D3_07"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":8,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"白洋淀某特产店中，咸鸭蛋每盒30元，松花蛋每盒25元。李老师买了两种蛋共10盒，共花了270元。（1）两种蛋各买了几盒？（用一元一次方程解答）（2）若预算追加到300元，松花蛋盒数不变，最多能再多买几盒咸鸭蛋？说明理由。","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一问①：设未知数并列出一元一次方程","answer":"设咸鸭蛋买了x盒，30x+25(10-x)=270","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-M4"]},{"seq":2,"prompt":"第一问②：解方程并写出两种蛋各几盒","answer":"咸鸭蛋4盒，松花蛋6盒","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-C4"]},{"seq":3,"prompt":"第二问：预算300元、松花蛋盒数不变，最多再多买几盒咸鸭蛋？写出理由","answer":"最多再买1盒；再买1盒共300元≤300元，再买2盒需330元>300元","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-C3"]}],"correct_answer":null,"answer_spec":null,"score":6,"solution":"设咸鸭蛋x盒，则松花蛋(10-x)盒。30x+25(10-x)=270，30x+250-25x=270，5x=20，x=4；松花蛋6盒。检验：30×4+25×6=120+150=270 ✓。第二问：再买1盒总花费270+30=300元，正好；再买2盒需330元，超预算。最多再买1盒。","kp_code":"KP-05.4","kp_related":"KP-05.3","cognitive_level":"L4","literacy_codes":["YS-07","YS-08"],"ec_mapping":["EC-M4","EC-J1","EC-C3"],"difficulty_est":0.50,"discrimination_est":0.30,"expected_time_sec":360,"pairing_id":"PAIR-FANGCHENG-APP-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"双约束模型\"两个条件分工\"口诀：一个条件设关系（共10盒→(10-x)），一个条件列方程（共270元→等式）；方案比较题必须\"两头试\"：试\"可以\"还要试\"不行\"","variant_stem":"某文具店笔记本每本8元，笔袋每个15元。小明买两种文具共9件，花了100元。各买了多少？（用方程解答）","variant_answer":"设笔记本x本：8x+15(9-x)=100→-7x=-35→x=5；笔记本5本、笔袋4个","status":"active","stem_hash":"PLACEHOLDER_D3_08"},
-  {"sku_code":"S1_XIAOSHENGCHU_MATH","subject":"math","day_tag":3,"seq_no":9,"q_type":"step","is_warmup":false,"is_anchor":false,"stem":"先化简，再求值：$\\frac{3}{2}(4x-2y)-2(3x-y)$，其中$x=-1$，$y=2$。","image_url":null,"options":null,"steps":[{"seq":1,"prompt":"第一步：去括号（写出展开结果）","answer":"6x-3y-6x+2y","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-K2","EC-M1"]},{"seq":2,"prompt":"第二步：合并同类项（写出最简结果）","answer":"-y","answer_spec":{"accept_forms":["expression"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-K1"]},{"seq":3,"prompt":"第三步：代入求值（写出数值结果）","answer":"-2","answer_spec":{"accept_forms":["integer"],"decimal_tolerance":0.01,"allow_pi":false,"unit":null},"score":2,"ec_mapping":["EC-C4"]}],"correct_answer":null,"answer_spec":null,"score":6,"solution":"去括号：(3/2)(4x-2y)=6x-3y；-2(3x-y)=-6x+2y；合并：6x-3y-6x+2y=-y；代入y=2：原式=-2。（注意：化简结果不含x，x=-1用不上，这是正常现象，可作检验线索。）","kp_code":"KP-04.4","kp_related":"KP-P.1","cognitive_level":"L3","literacy_codes":["YS-02"],"ec_mapping":["EC-K2","EC-M1","EC-K1","EC-C4"],"difficulty_est":0.65,"discrimination_est":0.30,"expected_time_sec":300,"pairing_id":"PAIR-ZHENGSHI-01","parallel_group_id":null,"variant_of":null,"improvement_tip":"化简求值题\"结果预判\"习惯：化简完先看结果含哪些字母，代入前就知道哪些条件用得上；遇到\"条件用不上\"先相信自己的化简，回检一遍再定稿","variant_stem":"先化简，再求值：$\\frac{2}{3}(6a-3b)-3(2a-b)$，其中$a=5$，$b=-1$。","variant_answer":"化简：4a-2b-6a+3b=-2a+b；代入：-10+(-1)=-11","status":"active","stem_hash":"PLACEHOLDER_D3_09"}
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 1,
+    "q_type": "choice",
+    "is_warmup": true,
+    "is_anchor": false,
+    "stem": "计算：$25\\times4+36\\div6=$（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$106$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$16$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "C",
+        "text": "$102$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "$116$",
+        "ec_code": "EC-C2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 0,
+    "solution": "25\\times4=100，36\\div6=6，100+6=106。先乘除后加减。",
+    "kp_code": "KP-P.4",
+    "kp_related": null,
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-M1",
+      "EC-C2"
+    ],
+    "difficulty_est": 0.9,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 30,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "口算两步混合运算时先口述运算顺序再动笔，固化先乘除后加减的程序",
+    "variant_stem": "计算：$125\\times8+49\\div7=$（ ）",
+    "variant_answer": "1007",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_01"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 2,
+    "q_type": "choice",
+    "is_warmup": true,
+    "is_anchor": false,
+    "stem": "钟表上3时整，时针与分针所成的角是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$60^{\\circ}$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "B",
+        "text": "$90^{\\circ}$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$120^{\\circ}$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$180^{\\circ}$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 0,
+    "solution": "3时整，时针指向3、分针指向12，相隔3个大格，每个大格30\\circ，共90\\circ。",
+    "kp_code": "KP-P.3",
+    "kp_related": null,
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.9,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 25,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "用钟表实物演示整点时刻时针分针夹角，建立每个大格30°的直觉",
+    "variant_stem": "钟表上6时整，时针与分针所成的角是（ ）",
+    "variant_answer": "180\\circ",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_02"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 3,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "雄安新区某建设工地上，塔吊将货物“上升3米”记作$+3$米，那么“下降5米”应记作（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$+5$米",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "B",
+        "text": "$-5$米",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$-2$米",
+        "ec_code": "EC-C2"
+      },
+      {
+        "key": "D",
+        "text": "$+2$米",
+        "ec_code": "EC-C2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "“上升”与“下降”是一对具有相反意义的量。规定上升记为正，则下降记为负，下降5米记作-5米。故选B。",
+    "kp_code": "KP-01.1",
+    "kp_related": null,
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-08"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C2"
+    ],
+    "difficulty_est": 0.88,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 30,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "用温度计模型重讲正负数：让学生自己记录一周“零上/零下”温度并互相批改，每次记录必须口头说出“谁和谁是相反意义的量”",
+    "variant_stem": "白洋淀某水文站将水位“高于警戒水位0.8米”记作$+0.8$米，则“低于警戒水位1.2米”记作（ ）A. $+1.2$米 B. $-1.2$米 C. $-0.4$米 D. $+0.4$米",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_03"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 4,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "一条数轴上从左到右依次标注了$-4,-3,-2,-1,0,1$，相邻两数间距相等。一滴墨迹恰好盖住$-3$与$-2$正中间的一个点，则被盖住的点表示的数是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-3.5$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "B",
+        "text": "$-2.5$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$-1.5$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$2.5$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "数轴上-3与-2正中间的点表示两数的平均位置，即-2.5。也可从-3向右走半个单位到-2.5。故选B。",
+    "kp_code": "KP-01.2",
+    "kp_related": null,
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "画一根数轴，家长口述10个含负小数、负分数的数，学生逐一标点并自检，重点练“-3与-2之间”这类负区间定位，每天3分钟",
+    "variant_stem": "数轴上$-1$与$0$正中间的点表示的数是（ ）A. $-1.5$ B. $-0.5$ C. $0.5$ D. $-2$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_04"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 5,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$-|-5|$ 的值是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$5$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "B",
+        "text": "$-5$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$5$或$-5$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$\\frac{1}{5}$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "先算绝对值：|-5|=5；再取外面的相反数：-|-5|=-5。故选B。易错点是绝对值符号外还有一个负号，运算顺序不能颠倒。",
+    "kp_code": "KP-01.3",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": "PAIR-JDZ-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "建立“符号分级读题”习惯：遇多重符号先圈最外层符号、再算绝对值，动笔前默读运算顺序；用-|-3|、-(-3)、|-3|三式对比练习各做3道",
+    "variant_stem": "$-|+3|$ 的值是（ ）A. $3$ B. $-3$ C. $3$或$-3$ D. $\\frac{1}{3}$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_05"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 6,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "若$|a|=7$，且$a$是负数，则$a$的相反数是____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "7",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "|a|=7说明a=7或a=-7；由“a是负数”得a=-7；-7的相反数是7。",
+    "kp_code": "KP-01.3",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C3"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": "PAIR-JDZ-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "教“三步写题法”：①由绝对值写出两种可能；②用条件划掉一个；③再回答题目最终所问。按此做5道同类题，每步都写在草稿区",
+    "variant_stem": "若$|b|=4$，且$b$是正数，则$b$的相反数是____。",
+    "variant_answer": "-4",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_06"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 7,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "比较$-\\frac{2}{3}$与$-\\frac{3}{4}$的大小，正确的是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-\\frac{2}{3}>-\\frac{3}{4}$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$-\\frac{2}{3}<-\\frac{3}{4}$",
+        "ec_code": "EC-C2"
+      },
+      {
+        "key": "C",
+        "text": "$-\\frac{2}{3}=-\\frac{3}{4}$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "无法比较",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "通分：-2/3=-8/12，-3/4=-9/12。两个负数比较，绝对值大的反而小：8/12<9/12，所以-8/12>-9/12，即-2/3>-3/4。故选A。",
+    "kp_code": "KP-01.4",
+    "kp_related": "KP-P.1",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-C2",
+      "EC-M1",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "数轴可视化训练：把-2/3、-3/4描在同一数轴上看谁在右边，再用3组负分数重复“描点—读序—写不等式”流程",
+    "variant_stem": "比较大小：$-\\frac{3}{5}$____$-\\frac{5}{8}$（填“>”“<”或“=”）",
+    "variant_answer": ">",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_07"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 8,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$\\frac{3}{4}-\\frac{1}{2}+\\frac{1}{8}=$（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$\\frac{1}{8}$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "B",
+        "text": "$\\frac{3}{8}$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$\\frac{5}{8}$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "$\\frac{1}{4}$",
+        "ec_code": "EC-C1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "通分（公分母8）：3/4=6/8，1/2=4/8，则6/8-4/8+1/8=3/8。故选B。",
+    "kp_code": "KP-P.1",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 75,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "每天4道“三步走”分数混合运算：①先写公分母再动笔；②每算完一步划掉已处理的项；③结果约到最简。坚持一周治漏项和通分跳步",
+    "variant_stem": "计算：$\\frac{5}{6}-\\frac{1}{3}+\\frac{1}{4}=$（ ）A. $\\frac{3}{4}$ B. $\\frac{5}{12}$ C. $\\frac{7}{12}$ D. $\\frac{1}{2}$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_08"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 9,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$(-3)+5$的结果是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-8$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$-2$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$2$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$8$",
+        "ec_code": "EC-C2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "异号两数相加，取绝对值较大的加数的符号（+5取正号），并用较大的绝对值减去较小的绝对值：5-3=2。所以(-3)+5=2。故选C。",
+    "kp_code": "KP-01.5",
+    "kp_related": "KP-P.4",
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C2"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "用“抵消法”讲异号加法：-3理解为欠3元，+5为有5元，还清后剩2元。用“欠/有”口述10道异号加法题再动笔，先建直觉再记法则",
+    "variant_stem": "计算：$(-7)+4$的结果是（ ）A. $-11$ B. $-3$ C. $3$ D. $11$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_09"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 10,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$-7-(-4)=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "-3",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "减去一个数等于加上这个数的相反数：-7-(-4)=-7+4=-3。",
+    "kp_code": "KP-01.6",
+    "kp_related": "KP-01.5",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.8,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "口诀+对比练习：“减去负数，变加正数”。做6道对比题：-7-(-4)、-7-4、7-(-4)各2道，每题先把减法改写成加法再算，改写步骤必须写出来",
+    "variant_stem": "计算：$-5-(-8)=$____。",
+    "variant_answer": "3",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_10"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 11,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$(-3)\times(-4)$的结果是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-12$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$12$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$-7$",
+        "ec_code": "EC-C2"
+      },
+      {
+        "key": "D",
+        "text": "$7$",
+        "ec_code": "EC-C2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "两数相乘，同号得正：(-3)\\times(-4)=+(3\\times4)=12。故选B。",
+    "kp_code": "KP-01.8",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C2"
+    ],
+    "difficulty_est": 0.8,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "做“符号法则对照卡”贴在草稿本首页：同号得正、异号得负。每道乘除题第一步只写结果正负号，第二步才写数值，连续练20题固化程序",
+    "variant_stem": "计算：$(-5)\times(-6)$的结果是（ ）A. $-30$ B. $30$ C. $-11$ D. $11$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_11"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 12,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$(-12)\\div(-3)=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "4",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "两数相除，同号得正：(-12)\\div(-3)=+(12\\div3)=4。",
+    "kp_code": "KP-01.9",
+    "kp_related": "KP-01.8",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "乘除符号法则合并成一条记：“乘除一家，同号得正、异号得负”。做8道乘除混合判断题（只判断正负、不计算），30秒内完成，训练符号直觉",
+    "variant_stem": "计算：$(-24)\\div(-6)=$____。",
+    "variant_answer": "4",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_12"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 13,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$(-2)^3$ 的值是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-8$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$8$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$-6$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$6$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "(-2)³=(-2)\\times(-2)\\times(-2)=4\\times(-2)=-8。三个负因数相乘，负因数个数为奇数，结果为负。故选A。",
+    "kp_code": "KP-01.10",
+    "kp_related": "KP-01.8",
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2"
+    ],
+    "difficulty_est": 0.82,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "回到定义写展开式：做6道乘方题，每题先把aⁿ写成n个a连乘再计算，展开步骤不许省略；特别对比(-2)²与(-2)³、-2²与(-2)²两组",
+    "variant_stem": "$(-3)^2$ 的值是（ ）A. $-9$ B. $9$ C. $-6$ D. $6$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_13"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 14,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$-3+\\frac{5}{2}-(-\\frac{1}{2})=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "0",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "原式=-3+5/2+1/2（减去负数变加正数）=-3+3=0。也可先算5/2+1/2=3，再与-3相加。",
+    "kp_code": "KP-01.11",
+    "kp_related": "KP-P.1",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": "PAIR-HHYS-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "强制“一行一步”书写：混合运算每题第一步只做一件事（统一转加法，或先合并同分母），用竖线隔开每一步，练10题",
+    "variant_stem": "计算：$-5+\\frac{7}{2}-(-\\frac{3}{2})=$____。",
+    "variant_answer": "0",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_14"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 15,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "小明玩数字卡片游戏，规则是：把抽到的数先平方，再乘$(-2)$，最后加上$10$。若抽到的数是$-3$，则最后得到的结果是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-8$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$28$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "C",
+        "text": "$22$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$-28$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "按规则逐步计算：(-3)²=9；9\\times(-2)=-18；-18+10=-8。故选A。",
+    "kp_code": "KP-01.11",
+    "kp_related": "KP-01.10",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.7,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": "PAIR-HHYS-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "程序类题目用“翻译—执行”两栏草稿法：左栏把文字规则写成算式链条（x→x²→×(-2)→+10），右栏逐步代入计算，先翻译后计算",
+    "variant_stem": "规则改为：把抽到的数先平方，再乘$(-1)$，最后加上$6$。抽到$-4$时结果是（ ）A. $-10$ B. $22$ C. $-2$ D. $10$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_15"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 16,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "小明今年$a$岁，爸爸比他大28岁，5年后爸爸的年龄是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(a+33)$岁",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$(a+23)$岁",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "C",
+        "text": "$(a+28)$岁",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "D",
+        "text": "$5a$岁",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "爸爸今年(a+28)岁，5年后是(a+28+5)=(a+33)岁。故选A。",
+    "kp_code": "KP-03.1",
+    "kp_related": "KP-P.5",
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "做“具体数→字母”阶梯练习：先算“小明8岁、爸爸大28岁、5年后爸爸几岁”（41岁），再把8岁换成a，对照两种写法，让学生说出“a+33和41是同一回事的两种写法”",
+    "variant_stem": "一支铅笔$b$元，一个笔记本比铅笔贵4元，买3个笔记本共需（ ）A. $3(b+4)$元 B. $(3b+4)$元 C. $3b$元 D. $(b+12)$元",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_16"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 17,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "“比$x$的2倍小3的数”用代数式表示是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$2x-3$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$2(x-3)$",
+        "ec_code": "EC-M4"
+      },
+      {
+        "key": "C",
+        "text": "$3-2x$",
+        "ec_code": "EC-C2"
+      },
+      {
+        "key": "D",
+        "text": "$2x+3$",
+        "ec_code": "EC-C1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "“x的2倍”是2x，“比它小3”即减去3，得2x-3。故选A。注意与“比x小3的数的2倍”（即2(x-3)）区分：语言的运算顺序决定代数式结构。",
+    "kp_code": "KP-03.2",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-M4",
+      "EC-C2",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "用“划关键词断句法”：在“比”“的”“倍”“小/大”下划线，按“先算的部分先写”规则翻译；做8道对比题，其中4道故意只调换语序",
+    "variant_stem": "“比$a$的4倍大1的数”用代数式表示是（ ）A. $4a+1$ B. $4(a+1)$ C. $1-4a$ D. $4a-1$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_17"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 18,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "写出单项式$-3x^2y$的系数与次数。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第1问：单项式$-3x^2y$的系数是？",
+        "answer": "-3",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": [
+          "EC-C1",
+          "EC-N2"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第2问：单项式$-3x^2y$的次数是？",
+        "answer": "3",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": [
+          "EC-K1"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 2,
+    "solution": "系数是单项式前面的数字因数（含符号）：-3；次数是所有字母指数的和：x的指数2加y的指数1，共3。",
+    "kp_code": "KP-04.1",
+    "kp_related": null,
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K1",
+      "EC-N2"
+    ],
+    "difficulty_est": 0.8,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "做“拆家式”标注练习：给5个单项式，用红笔圈数字因数、蓝笔圈每个字母的指数（指数1也要标出来），再写系数和次数",
+    "variant_stem": "单项式$5ab^2$的系数是____，次数是____。",
+    "variant_answer": "系数5，次数3",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_18"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 19,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "下列各组单项式中，是同类项的是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$3x^2y$与$-2xy^2$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "B",
+        "text": "$5ab$与$3a$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "C",
+        "text": "$-4mn$与$2nm$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$2x$与$2y$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "同类项要求“所含字母相同，并且相同字母的指数也相同”，与系数、字母顺序无关。C中mn与nm只是顺序不同，字母及指数完全一致。A中x、y指数分别不同，B字母不全同，D字母不同。故选C。",
+    "kp_code": "KP-04.2",
+    "kp_related": "KP-04.1",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": "PAIR-TLX-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "做“同类项找朋友”卡片游戏：10张卡片（含指数陷阱3张、顺序陷阱2张），分组配对并说出每张卡片“字母是什么、指数是几”，说出口头禅“字母相同、指数也相同”",
+    "variant_stem": "下列是同类项的是（ ）A. $2a^2b$与$-3ba^2$ B. $x^2$与$2x$ C. $4ab$与$4bc$ D. $3m^2n$与$3mn^2$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_19"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 20,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$3m-2m-5m=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "-4m",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "合并同类项，系数相加：3-2-5=-4，字母部分m不变，结果为-4m。",
+    "kp_code": "KP-04.2",
+    "kp_related": "KP-01.7",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-M1",
+      "EC-K1",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": "PAIR-TLX-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "合并同类项“两问自查”：①系数算对了吗（重算3-2-5）②字母还在吗。练6道含负系数合并题，每题做两问自查",
+    "variant_stem": "计算：$4n-6n+3n=$____。",
+    "variant_answer": "n",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_20"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 21,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "下列运用等式的性质进行变形，正确的是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "若$a=b$，则$a+2=b+3$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "B",
+        "text": "若$a=b$，则$a-c=b-c$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "若$a=b$，则$2a=3b$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "若$a=b$，则$\\frac{a}{c}=\\frac{b}{c}$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "等式两边同时减去同一个数c，等式仍成立，B正确。A两边加的不是同一个数；C两边乘的不是同一个数；D两边同除以c必须c\\neq0才成立，选项未说明此条件，不严密。故选B。",
+    "kp_code": "KP-05.1",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2"
+    ],
+    "difficulty_est": 0.8,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 50,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "用天平模型讲等式性质：左右两盘“同时、同样”地加减乘除才平衡；特别强调“除以的东西不能是0”，让学生自己举一个反例讲给家长听",
+    "variant_stem": "下列变形正确的是（ ）A. 若$x=y$，则$x+5=y-5$ B. 若$x=y$，则$3x=3y$ C. 若$x=y$，则$\\frac{x}{m}=\\frac{y}{m}$ D. 若$x=y$，则$x^2=y+m$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_21"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 22,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "方程$2x+3=11$的解是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$x=7$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$x=4$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$x=5$",
+        "ec_code": "EC-C2"
+      },
+      {
+        "key": "D",
+        "text": "$x=14$",
+        "ec_code": "EC-M2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "两边同时减3：2x=8；两边同时除以2：x=4。检验：2\\times4+3=11 ✓。故选B。",
+    "kp_code": "KP-P.2",
+    "kp_related": "KP-05.1",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C2",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.82,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "解方程每题必须“写依据”：每步变形后括号注明（两边同时减3）（两边同时除以2），写满10题再提速；做完回代检验",
+    "variant_stem": "方程$3x-2=13$的解是（ ）A. $x=5$ B. $x=\\frac{11}{3}$ C. $x=4$ D. $x=15$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D1_22"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 1,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$-\\frac{1}{2}+\\frac{3}{4}-(-\\frac{1}{4})=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "1/2",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction",
+        "decimal"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "原式=-1/2+3/4+1/4（减去负数变加正数）=-2/4+3/4+1/4=2/4=1/2。",
+    "kp_code": "KP-P.1",
+    "kp_related": "KP-01.7",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 100,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "分数加减混合统一用“先通分、再合并、最后约分”三步流程，每步一行；特别练含“-(-分数)”结构的题5道",
+    "variant_stem": "计算：$-\\frac{1}{3}+\\frac{5}{6}-(-\\frac{1}{6})=$____。",
+    "variant_answer": "2/3",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_01"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 2,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "数轴上点A表示的数是$-3$，点B表示的数是$2$，则A、B两点间的距离是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$1$",
+        "ec_code": "EC-C2"
+      },
+      {
+        "key": "B",
+        "text": "$5$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$-5$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$6$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "数轴上两点间的距离等于两数之差的绝对值：|2-(-3)|=|2+3|=5。也可以数格子：从-3到0是3个单位，从0到2是2个单位，共5个单位。故选B。",
+    "kp_code": "KP-01.2",
+    "kp_related": "KP-01.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C2",
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "画数轴数格子：做5道异号两点距离题，先画图标出两点、数出格子数，再用|a-b|公式核对，两种方法结果必须一致才算完成",
+    "variant_stem": "数轴上点M表示$-1$，点N表示$4$，M、N两点间的距离是（ ）A. $3$ B. $5$ C. $-5$ D. $4$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_02"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 3,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "计算：$\\frac{5}{6}\times(-\\frac{3}{10})+\\frac{1}{4}=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "0",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "先算乘法：5/6\\times(-3/10)=-15/60=-1/4（异号得负）；再算加法：-1/4+1/4=0。",
+    "kp_code": "KP-P.1",
+    "kp_related": "KP-01.8",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.7,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 120,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "混合运算“先圈乘除、再算加减”：动笔前用铅笔把乘法部分圈出来先算；做6道“分数乘法+加减”混合题，每题第一步必须是乘法",
+    "variant_stem": "计算：$\\frac{3}{4}\times(-\\frac{2}{9})+\\frac{1}{6}=$____。",
+    "variant_answer": "0",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_03"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 4,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，直线上依次有A、B、C三个点，以其中任意两点为端点的线段共有（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$2$条",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "B",
+        "text": "$3$条",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$4$条",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "$6$条",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "按左端点分类数：以A为左端点的有AB、AC两条，以B为左端点的有BC一条，共2+1=3条。故选B。",
+    "kp_code": "KP-02.2",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C3",
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "教“固定左端点”数线段法：从左到右，每个点当一次左端点，数完划掉；用4个点的图再练2道（答案6条），形成程序",
+    "variant_stem": "直线上依次有A、B、C、D四个点，线段共有（ ）A. $4$条 B. $5$条 C. $6$条 D. $8$条",
+    "variant_answer": "C",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_04"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 5,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "已知$1^{\\circ}=60'$，把$18^{\\circ}30'$换算成以度为单位：$18^{\\circ}30'=$____$^{\\circ}$（用小数表示）。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "18.5",
+    "answer_spec": {
+      "accept_forms": [
+        "decimal"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": "°"
+    },
+    "score": 2,
+    "solution": "30′=30/60\\circ=0.5\\circ，所以18\\circ30′=18.5\\circ。",
+    "kp_code": "KP-P.3",
+    "kp_related": "KP-02.5",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C2",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "和时间换算对照记：1°=60′就像1小时=60分钟。做4道互化题（2道度→度分、2道度分→度），每题先写“÷60”或“×60”再算",
+    "variant_stem": "把$25^{\\circ}36'$换算成以度为单位：____$^{\\circ}$。",
+    "variant_answer": "25.6",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_05"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 6,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "一辆货车从石家庄运送货物到白洋淀，下表记录了行驶时间$x$（小时）与油箱剩余油量$y$（升）的部分数据：$x=0$时$y=45$；$x=1$时$y=39$；$x=2$时$y=33$；$x=3$时$y=27$。则$y$与$x$之间的关系式是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$y=45-6x$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$y=45+6x$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "C",
+        "text": "$y=6x$",
+        "ec_code": "EC-M3"
+      },
+      {
+        "key": "D",
+        "text": "$y=45-4x$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "每过1小时油量减少45-39=6升，初始油量为45升，所以y=45-6x。检验：x=3时y=45-18=27 ✓。故选A。",
+    "kp_code": "KP-03.3",
+    "kp_related": "KP-03.2",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-M3",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "读表建模“两句口诀”：先问“开头是多少”（初始量），再问“每次变多少”（变化率），两句话合成一个式子；用3组表格数据练写关系式并回代一组数据检验",
+    "variant_stem": "某停车场收费标准如下表：停车$x$小时收费$y$元：$x=1$时$y=5$；$x=2$时$y=8$；$x=3$时$y=11$。则关系式是（ ）A. $y=3x$ B. $y=3x+2$ C. $y=5x$ D. $y=2x+3$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_06"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 7,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "当$x=-2$时，代数式$3x+1$的值是____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "-5",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "把x=-2代入：3\\times(-2)+1=-6+1=-5。",
+    "kp_code": "KP-03.4",
+    "kp_related": "KP-01.8",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 45,
+    "pairing_id": "PAIR-QIUZHI-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "负数代入“带括号”规则：把x=-2代入时，所有x的位置都写成(-2)再计算，练5道含负代入的求值题，括号不许省",
+    "variant_stem": "当$a=-3$时，代数式$2a+5$的值是____。",
+    "variant_answer": "-1",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_07"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 8,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "化简$a-(2a-3)$的结果是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-a-3$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$-a+3$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$-3a+3$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "$3a-3$",
+        "ec_code": "EC-C1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "括号前是负号，去括号后括号内各项都变号：a-(2a-3)=a-2a+3=-a+3。故选B。",
+    "kp_code": "KP-04.3",
+    "kp_related": "KP-04.2",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 50,
+    "pairing_id": "PAIR-QUOKUOH-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "去括号“两项都检查”口诀：括号前是负号，心里默念“全都变”，去完括号回头检查每一项的符号；做8道题，其中4道专门练“-(…+…)”与“-(…-…)”",
+    "variant_stem": "化简$b-(3b-2)$的结果是（ ）A. $-2b+2$ B. $-2b-2$ C. $4b-2$ D. $-2b$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_08"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 9,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "化简：$3x-(x-2y)+(2x-y)=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "4x+y",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "去括号：3x-x+2y+2x-y；合并同类项：(3-1+2)x+(2-1)y=4x+y。",
+    "kp_code": "KP-04.4",
+    "kp_related": "KP-04.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "多括号化简“一去二合三查”：先去完全部括号并逐项标符号，再圈同类项合并，最后把y代1、x代1回验原式与结果是否相等，练5题",
+    "variant_stem": "化简：$2a-(a-3b)+(a-2b)=$____。",
+    "variant_answer": "2a+b",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_09"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 10,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "下列方程中，是一元一次方程的是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$x^2-3x=0$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "B",
+        "text": "$2x+1=7$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$x+y=5$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$\\frac{1}{x}=2$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "一元一次方程须同时满足三个条件：只含一个未知数、未知数的次数是1、是整式方程。只有B三个条件都满足。A次数为2，C有两个未知数，D未知数在分母。故选B。",
+    "kp_code": "KP-05.2",
+    "kp_related": "KP-05.1",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-01"
+    ],
+    "ec_mapping": [
+      "EC-K1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "把三要素做成口诀“一个字母、一次方、整式里”，用10个方程做“是不是”快速判断，每个判断必须说出缺了哪条",
+    "variant_stem": "下列是一元一次方程的是（ ）A. $3x=9$ B. $x^2=4$ C. $2x-y=1$ D. $\\frac{2}{x}=1$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_10"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 11,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "解方程$3x-5=7$，得$x=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "4",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "两边同时加5：3x=12；两边同时除以3：x=4。检验：3\\times4-5=7 ✓。",
+    "kp_code": "KP-05.3",
+    "kp_related": "KP-P.2",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": "PAIR-JIEFANGCH-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "解方程“变形写依据”：每步括号注明（两边同时加5）（两边同时除以3），做完回代检验；连续5题全对后才允许提速",
+    "variant_stem": "解方程$4x+3=19$，得$x=$____。",
+    "variant_answer": "4",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_11"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 12,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "由方程$2x-4=10$进行第一步变形，正确的是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$2x=10-4$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$2x=10+4$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$x-4=5$",
+        "ec_code": "EC-M2"
+      },
+      {
+        "key": "D",
+        "text": "$2x-4+4=10-4$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "方程两边同时加上4：2x-4+4=10+4，即2x=10+4。故选B。",
+    "kp_code": "KP-P.2",
+    "kp_related": "KP-05.1",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M2",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.7,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "把方程变形统一成“两边同时”句式：每步先说一句“两边同时___”，再动笔写；用5道题专练“两边同加/同减”与“两边同除”的第一步变形，只写第一步",
+    "variant_stem": "由方程$3x+6=15$进行第一步变形，正确的是（ ）A. $3x=15+6$ B. $3x=15-6$ C. $x+6=5$ D. $3x+6-3=15-6$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_12"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 13,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，O是直线AB上的一点，射线OC在直线AB的上方，已知$\\angle AOC=50^{\\circ}$，则$\\angle BOC=$____$^{\\circ}$。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "130",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": "°"
+    },
+    "score": 2,
+    "solution": "O在直线AB上，\\angleAOB=180\\circ（平角）；\\angleAOC与\\angleBOC合成平角：\\angleBOC=180\\circ-50\\circ=130\\circ。",
+    "kp_code": "KP-02.7",
+    "kp_related": "KP-P.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "互余与互补对比卡：和为90°叫互余、和为180°叫互补（合成平角），配“一条直线上的射线”图3张，每张图都写出两个角和为180°的等式",
+    "variant_stem": "O是直线AB上一点，射线OC在AB上方，$\\angle AOC=35^{\\circ}$，则$\\angle BOC=$____$^{\\circ}$。",
+    "variant_answer": "145",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_13"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 14,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "有理数$a$、$b$在数轴上的位置如图所示：$a$在$-3$与$-2$之间，$b$在$1$与$2$之间。下列结论一定正确的是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$a>b$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "B",
+        "text": "$|a|<|b|$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "C",
+        "text": "$a+b>0$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$-a>b$",
+        "ec_code": null
+      }
+    ],
+    "steps": null,
+    "correct_answer": "D",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "a在-3与-2之间，则-a在2与3之间；b在1与2之间。所以-a>2>b，即-a>b一定成立。A：负数不可能大于正数；B：|a|在2与3之间，|b|在1与2之间，应|a|>|b|；C：a+b的和在-2与0之间，小于0。故选D。",
+    "kp_code": "KP-01.4",
+    "kp_related": "KP-01.2",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2"
+    ],
+    "difficulty_est": 0.62,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "字母大小比较“先定位再比较”：在数轴上把a、-a、b、-b四个点的区间都标出来，再读不等式；练4道题，每题都画数轴不许空想",
+    "variant_stem": "$m$在$-4$与$-3$之间，$n$在$0$与$1$之间，下列一定正确的是（ ）A. $m>n$ B. $|m|<|n|$ C. $-m>n$ D. $m+n>0$",
+    "variant_answer": "C",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_14"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 15,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "化简：$2(3a-b)-3(a-2b)$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一步：去括号（写出展开结果）",
+        "answer": "6a-2b-3a+6b",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": [
+          "EC-K2"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第二步：合并同类项（写出最简结果）",
+        "answer": "3a+4b",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-M1"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 3,
+    "solution": "去括号：2(3a-b)=6a-2b，-3(a-2b)=-3a+6b；合并：(6-3)a+(-2+6)b=3a+4b。",
+    "kp_code": "KP-04.4",
+    "kp_related": "KP-04.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 150,
+    "pairing_id": "PAIR-QUOKUOH-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "含系数括号“分配两遍”检查：-3(a-2b)心里算两遍：-3×a=-3a，-3×(-2b)=+6b，每一项都过一遍“符号×符号”；练6道含负系数分配的题",
+    "variant_stem": "化简：$3(2m-n)-2(m-3n)$。",
+    "variant_answer": "4m+3n",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_15"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 16,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "先化简，再求值：$(2x-3y)-(x-2y)$，其中$x=2$，$y=-1$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一步：化简（写出最简结果）",
+        "answer": "x-y",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-K2"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第二步：代入求值（写出数值结果）",
+        "answer": "3",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": [
+          "EC-K2",
+          "EC-M1"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 3,
+    "solution": "化简：2x-3y-x+2y=x-y；代入：x-y=2-(-1)=2+1=3。",
+    "kp_code": "KP-03.4",
+    "kp_related": "KP-04.4",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 180,
+    "pairing_id": "PAIR-QIUZHI-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "“化简→代入”两道工序分开写：第一行写化简结果，第二行写“当x=2,y=-1时”，第三行才代入；代入负数必须带括号，练4题",
+    "variant_stem": "先化简再求值：$(3a-b)-(a-3b)$，其中$a=1$，$b=-2$。",
+    "variant_answer": "化简2a+2b，求值-2",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_16"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 17,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "解方程：$\\frac{2x-1}{3}=\\frac{x+2}{2}$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一步：去分母并去括号（写出变形后的方程）",
+        "answer": "4x-2=3x+6",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-K2"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第二步：移项求解（写出x的值）",
+        "answer": "8",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": [
+          "EC-K2",
+          "EC-M2"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 3,
+    "solution": "两边同乘6：2(2x-1)=3(x+2)；去括号：4x-2=3x+6；移项：4x-3x=6+2，x=8。检验：左边=(16-1)/3=5，右边=(8+2)/2=5 ✓。",
+    "kp_code": "KP-05.3",
+    "kp_related": "KP-P.1",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.7,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 180,
+    "pairing_id": "PAIR-JIEFANGCH-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "去分母“三查”：①两边都乘了吗②每个分子都加括号了吗③每项都乘到吗；练4道含分母方程，每题把三查写在题旁",
+    "variant_stem": "解方程：$\\frac{x-1}{2}=\\frac{x+1}{3}$。",
+    "variant_answer": "x=5（3(x-1)=2(x+1)→3x-3=2x+2→x=5）",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_17"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 18,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "唐山港某物流仓库开展“双日清点”：第一天运进货物的吨数比第二天多20吨，两天共运进180吨。两天各运进货物多少吨？（要求：用一元一次方程解答）",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一步：设未知数并列出一元一次方程",
+        "answer": "设第二天运进x吨，x+(x+20)=180",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-M4"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第二步：解方程并写出两天各多少吨",
+        "answer": "第二天80吨，第一天100吨",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": "吨"
+        },
+        "score": 1,
+        "ec_mapping": [
+          "EC-C4"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 3,
+    "solution": "设第二天运进x吨，则第一天运进(x+20)吨。x+(x+20)=180，2x=160，x=80。第二天80吨，第一天80+20=100吨。检验：100+80=180 ✓，100-80=20 ✓。",
+    "kp_code": "KP-05.4",
+    "kp_related": "KP-05.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-M4",
+      "EC-J1",
+      "EC-C4"
+    ],
+    "difficulty_est": 0.62,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 240,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "应用题“翻译三步”：①把“谁比谁多”改写成“大数=小数+差”②设小数为x③用x表示大数再相加等于总数；用3道和差倍分题走完整流程，不许口算跳步",
+    "variant_stem": "雄安新区某绿化队两天共植树240棵，第一天比第二天少植30棵，两天各植多少棵？（用方程解答）",
+    "variant_answer": "设第二天x棵：x+(x-30)=240，x=135；第二天135棵，第一天105棵",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D2_18"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 1,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "规定：数轴上点P表示的数为$x$，若$|x+1|=3$，则称点P为\"基准点\"。满足条件的\"基准点\"表示的数是（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$2$",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "B",
+        "text": "$-4$",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "C",
+        "text": "$2$或$-4$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$4$或$-2$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "|x+1|=3，则x+1=3或x+1=-3，解得x=2或x=-4。两种情况都要考虑。故选C。",
+    "kp_code": "KP-01.2",
+    "kp_related": "KP-01.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C3",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "绝对值方程\"一拆二\"口诀：看见|式子|=正数，立刻写成\"式子=正\"和\"式子=负\"两行再分别解；练5道，每题必须写出两行",
+    "variant_stem": "若$|y-2|=5$，则$y=$（ ）A. $7$ B. $-3$ C. $7$或$-3$ D. $3$或$-7$",
+    "variant_answer": "C",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_01"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 2,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "用火柴棒按下图规律摆正方形：摆1个正方形用4根，摆2个相连的正方形用7根，摆3个相连的正方形用10根……按此规律，摆$n$个相连的正方形需要火柴棒____根（用含$n$的式子表示）。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "3n+1",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "每增加1个正方形增加3根火柴棒（共享一条边）。首项4根，公差3：4+3(n-1)=3n+1。检验：n=3时3\\times3+1=10 ✓。",
+    "kp_code": "KP-03.3",
+    "kp_related": "KP-03.2",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-05",
+      "YS-09"
+    ],
+    "ec_mapping": [
+      "EC-C3",
+      "EC-M3",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.5,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 150,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "规律题\"三步归纳\"：①写出前3项的具体数②算相邻差确定\"每次变多少\"③用第1项反推修正项（4=3×1+1），再用第2、3项检验；练4组图形规律",
+    "variant_stem": "按规律搭三角形：1个三角形用3根，2个相连的用5根，3个相连的用7根……搭$n$个需要____根。",
+    "variant_answer": "2n+1",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_02"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 3,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，点C是线段AB的中点，点D是线段AC的中点，若$AB=12$cm，则$DB=$（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$3$cm",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "B",
+        "text": "$6$cm",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "C",
+        "text": "$9$cm",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$8$cm",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "C是AB中点：AC=CB=6cm；D是AC中点：AD=DC=3cm。DB=DC+CB=3+6=9cm。故选C。",
+    "kp_code": "KP-02.4",
+    "kp_related": "KP-02.2",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-M4"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 90,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "几何题\"目标圈注法\"：动笔前先用红笔圈出题目要求的量（DB），再拆解：DB=DC+CB，缺谁求谁；每题做完回头看一眼\"我算的是不是圈里的量\"",
+    "variant_stem": "点C是线段AB的中点，D是CB的中点，$AB=16$cm，则$AD=$（ ）A. $8$cm B. $12$cm C. $4$cm D. $10$cm",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_03"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 4,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "一个长方形的长是宽的2倍，周长是36cm，它的面积是____cm²。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "72",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": "cm²"
+    },
+    "score": 2,
+    "solution": "设宽为x cm，则长为2x cm。周长：2(x+2x)=36，6x=36，x=6；长12cm；面积12\\times6=72cm²。",
+    "kp_code": "KP-P.3",
+    "kp_related": "KP-05.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C4",
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 120,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "多步应用题在草稿纸顶端先写\"最终求什么\"（面积=长×宽=?），每求出一个中间量就打勾确认\"这是中间量，还不是答案\"",
+    "variant_stem": "一个长方形的长比宽多4cm，周长是28cm，面积是____cm²。",
+    "variant_answer": "45",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_04"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 5,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "一个长方形的长为$(2a+3)$cm，宽比长少$a$ cm，则这个长方形的周长用含$a$的式子表示为（ ）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(6a+12)$cm",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$(6a+6)$cm",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "C",
+        "text": "$(3a+6)$cm",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$(4a+6)$cm",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "宽=2a+3-a=a+3；周长=2[(2a+3)+(a+3)]=2(3a+6)=6a+12。故选A。",
+    "kp_code": "KP-04.4",
+    "kp_related": "KP-03.2",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.62,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 120,
+    "pairing_id": "PAIR-ZHENGSHI-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "几何+代数综合题\"先翻译后计算\"：把\"宽比长少a\"先写成 宽=长-a=(2a+3)-a，化简出宽再套周长公式；练3道同类题",
+    "variant_stem": "长方形的长为$(3b+1)$cm，宽比长少$b$ cm，周长用含$b$的式子表示为（ ）A. $(10b+4)$cm B. $(10b+2)$cm C. $(5b+2)$cm D. $(8b+4)$cm",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_05"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 6,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "规定一种新运算\"⊗\"：$a\\otimes b=a^2-ab$。例如$3\\otimes2=3^2-3\\times2=3$。按此规定，$(-2)\\otimes3=$____。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "10",
+    "answer_spec": {
+      "accept_forms": [
+        "integer"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": null
+    },
+    "score": 2,
+    "solution": "(-2)⊗3=(-2)²-(-2)\\times3=4-(-6)=4+6=10。注意：(-2)²=4（不是-4）；-(-2)\\times3=+6。",
+    "kp_code": "KP-01.11",
+    "kp_related": "KP-01.10",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-01",
+      "YS-09"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2",
+      "EC-M4"
+    ],
+    "difficulty_est": 0.45,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 120,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "新定义运算\"照猫画虎\"三步：①把例题的代入过程抄一遍②对照着把新数换进去③逐符号检查后再算；练3道自定义运算题",
+    "variant_stem": "规定$m\\otimes n=m^2+2n$，则$(-3)\\otimes4=$____。",
+    "variant_answer": "17",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_06"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 7,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "假期里，小明一家从石家庄自驾到太行山某景区游玩。去时平均速度为60千米/时，用了3小时；沿原路返回时车速提高，用了2.5小时。返回时的平均速度是多少千米/时？（要求：用一元一次方程解答）",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一问：设未知数，并根据\"往返路程相等\"列出一元一次方程",
+        "answer": "设返回时平均速度为x千米/时，2.5x=60\\times3",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-M4"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第二问：解这个方程，求出x的值",
+        "answer": "72",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-M1"
+        ]
+      },
+      {
+        "seq": 3,
+        "prompt": "第三问：检验结果的合理性（对照题中\"车速提高\"的条件），并完整作答",
+        "answer": "返回时平均速度是72千米/时；72\\times2.5=180=60\\times3，且72>60符合\"车速提高\"",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-C4"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 6,
+    "solution": "设返回时平均速度为x千米/时。往返路程相等：2.5x=60\\times3，2.5x=180，x=72。检验：72\\times2.5=180=60\\times3 ✓；72>60，与\"车速提高\"一致 ✓。答：返回时平均速度是72千米/时。",
+    "kp_code": "KP-05.4",
+    "kp_related": "KP-05.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07",
+      "YS-08"
+    ],
+    "ec_mapping": [
+      "EC-M4",
+      "EC-J1",
+      "EC-M1",
+      "EC-C4"
+    ],
+    "difficulty_est": 0.6,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 300,
+    "pairing_id": "PAIR-FANGCHENG-APP-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "应用题收尾\"两问自查\"：①把答案代回题目所有数字条件算一遍②问自己\"答案和题目里哪个描述能对上\"（如本题\"车速提高\"→返回速度应更大）；每题强制写\"答：\"完整句",
+    "variant_stem": "某旅行团从保定到白洋淀景区，去时大巴平均速度50千米/时，用了2小时；原路返回时用了2.5小时。返回时平均速度是多少？（用方程解答）",
+    "variant_answer": "设返回速度x：2.5x=50\\times2，x=40；检验40\\times2.5=100 ✓，答：40千米/时",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_07"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 8,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "白洋淀某特产店中，咸鸭蛋每盒30元，松花蛋每盒25元。李老师买了两种蛋共10盒，共花了270元。（1）两种蛋各买了几盒？（用一元一次方程解答）（2）若预算追加到300元，松花蛋盒数不变，最多能再多买几盒咸鸭蛋？说明理由。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一问①：设未知数并列出一元一次方程",
+        "answer": "设咸鸭蛋买了x盒，30x+25(10-x)=270",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-M4"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第一问②：解方程并写出两种蛋各几盒",
+        "answer": "咸鸭蛋4盒，松花蛋6盒",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-C4"
+        ]
+      },
+      {
+        "seq": 3,
+        "prompt": "第二问：预算300元、松花蛋盒数不变，最多再多买几盒咸鸭蛋？写出理由",
+        "answer": "最多再买1盒；再买1盒共300元\\leq300元，再买2盒需330元>300元",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-C3"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 6,
+    "solution": "设咸鸭蛋x盒，则松花蛋(10-x)盒。30x+25(10-x)=270，30x+250-25x=270，5x=20，x=4；松花蛋6盒。检验：30\\times4+25\\times6=120+150=270 ✓。第二问：再买1盒总花费270+30=300元，正好；再买2盒需330元，超预算。最多再买1盒。",
+    "kp_code": "KP-05.4",
+    "kp_related": "KP-05.3",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-07",
+      "YS-08"
+    ],
+    "ec_mapping": [
+      "EC-M4",
+      "EC-J1",
+      "EC-C3"
+    ],
+    "difficulty_est": 0.5,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 360,
+    "pairing_id": "PAIR-FANGCHENG-APP-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "双约束模型\"两个条件分工\"口诀：一个条件设关系（共10盒→(10-x)），一个条件列方程（共270元→等式）；方案比较题必须\"两头试\"：试\"可以\"还要试\"不行\"",
+    "variant_stem": "某文具店笔记本每本8元，笔袋每个15元。小明买两种文具共9件，花了100元。各买了多少？（用方程解答）",
+    "variant_answer": "设笔记本x本：8x+15(9-x)=100→-7x=-35→x=5；笔记本5本、笔袋4个",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_08"
+  },
+  {
+    "sku_code": "S1_XIAOSHENGCHU_MATH",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 9,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "先化简，再求值：$\\frac{3}{2}(4x-2y)-2(3x-y)$，其中$x=-1$，$y=2$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "第一步：去括号（写出展开结果）",
+        "answer": "6x-3y-6x+2y",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-K2",
+          "EC-M1"
+        ]
+      },
+      {
+        "seq": 2,
+        "prompt": "第二步：合并同类项（写出最简结果）",
+        "answer": "-y",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-K1"
+        ]
+      },
+      {
+        "seq": 3,
+        "prompt": "第三步：代入求值（写出数值结果）",
+        "answer": "-2",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": false,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": [
+          "EC-C4"
+        ]
+      }
+    ],
+    "correct_answer": null,
+    "answer_spec": null,
+    "score": 6,
+    "solution": "去括号：(3/2)(4x-2y)=6x-3y；-2(3x-y)=-6x+2y；合并：6x-3y-6x+2y=-y；代入y=2：原式=-2。（注意：化简结果不含x，x=-1用不上，这是正常现象，可作检验线索。）",
+    "kp_code": "KP-04.4",
+    "kp_related": "KP-P.1",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-K1",
+      "EC-C4"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": 0.3,
+    "expected_time_sec": 300,
+    "pairing_id": "PAIR-ZHENGSHI-01",
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "化简求值题\"结果预判\"习惯：化简完先看结果含哪些字母，代入前就知道哪些条件用得上；遇到\"条件用不上\"先相信自己的化简，回检一遍再定稿",
+    "variant_stem": "先化简，再求值：$\\frac{2}{3}(6a-3b)-3(2a-b)$，其中$a=5$，$b=-1$。",
+    "variant_answer": "化简：4a-2b-6a+3b=-2a+b；代入：-10+(-1)=-11",
+    "status": "active",
+    "stem_hash": "PLACEHOLDER_D3_09"
+  }
 ]
