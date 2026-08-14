@@ -108,10 +108,10 @@ export async function getSession(sessionId: string) {
 }
 
 /** 标记会话为已提交。 */
-export async function markSessionSubmitted(sessionId: string, score: number) {
+export async function markSessionSubmitted(sessionId: string) {
   return (prisma as any).sessions.update({
     where: { id: sessionId },
-    data: { status: 'submitted', submittedAt: new Date(), score },
+    data: { status: 'submitted', submittedAt: new Date() },
   });
 }
 

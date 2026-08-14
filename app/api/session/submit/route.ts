@@ -15,7 +15,6 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import {
   getSession,
-  markSessionSubmitted,
   getCompletedSessions,
 } from '@/lib/auth';
 import {
@@ -88,7 +87,7 @@ export async function POST(req: Request) {
     // 取本次会话题目
     const qRows: any[] = await (prisma as any).questions.findMany({
       where: { skuCode: session.skuCode, dayTag: session.dayTag, status: 'active' },
-      orderBy: [{ seqNo: 'asc' }],
+      orderBy: { seqNo: 'asc' },
     });
     const qMap = new Map<string, any>(qRows.map((q) => [String(q.id), q]));
 
@@ -254,38 +253,51 @@ export async function POST(req: Request) {
       await (prisma as any).records.create({
         data: {
           sessionId,
-          questionId: record.question_id,
-          answer: ans.answer ?? null,
-          answerEvents: events,
-          selfMark: selfMark,
+          studentId: session.studentId,
+          questionId: Number(record.question_id),
+          stepSeq: 1,
+          studentAnswer: ans.answer ?? null,
           isCorrect: record.is_correct,
-          score: record.score,
-          timeSpentMs: record.time_spent_ms,
-          modifyCount: record.modify_count,
+          scoreObtained: record.score ?? 0,
+          timeSpentMs: record.time_spent_ms ?? 0,
+          modifyCount: record.modify_count ?? 0,
+          deleteRewriteCount: 0,
           behaviorTag: record.behavior_tag,
           ecCode: record.ec_code,
-          invalidInput: record.invalid_input,
+          selfMark: selfMark,
+          answerEvents: events,
+          invalidInput: record.invalid_input ?? false,
           probeResult: record.probe_result,
         },
       });
     }
 
     const totalScore = graded.reduce((s, r) => s + r.score, 0);
-    await markSessionSubmitted(sessionId, totalScore);
+    await (prisma as any).sessions.update({
+      where: { id: sessionId },
+      data: { status: 'submitted', submittedAt: new Date() },
+    });
 
     // 判断三天是否全部完成
-    const completed = await getCompletedSessions(session.accessCode);
+    const student = await (prisma as any).students.findUnique({
+      where: { id: session.studentId },
+    });
+    const accessCode = student ? (await (prisma as any).accessCodes.findUnique({
+      where: { id: student.accessCodeId },
+    })) : null;
+    const accessCodeStr = accessCode?.code ?? '';
+
+    const completed = await getCompletedSessions(accessCodeStr);
     const completedDays = new Set(
       (completed ?? []).map((s: any) => Number(s.dayTag)),
     );
     const allDone = [1, 2, 3].every((d) => completedDays.has(d));
 
-    let studentId: string | undefined =
-      session.studentId ?? session.accessCode;
+    let studentId: string | undefined = String(session.studentId);
 
     if (allDone) {
       try {
-        await generateReport(session.accessCode, session.skuCode, completed);
+        await generateReport(accessCodeStr, session.skuCode, completed);
       } catch (err) {
         console.error('[session/submit] report generation failed:', err);
       }
@@ -353,19 +365,19 @@ async function generateReport(
   const qMap = new Map<string, any>(qRows.map((q) => [String(q.id), q]));
 
   const records: ReportRecord[] = recordRows.map((r) => {
-    const q = qMap.get(String(r.questionId));
+    const q = qMap.get(String(r.questionId ?? r.question_id));
     return {
-      question_id: String(r.questionId),
+      question_id: String(r.questionId ?? r.question_id),
       kp_code: q?.kpCode ?? null,
       module: undefined,
       literacy: Array.isArray(q?.literacyCodes) ? q.literacyCodes[0] : undefined,
       pairing_id: q?.pairingId ?? null,
-      is_correct: !!r.isCorrect,
-      score: r.score ?? 0,
+      is_correct: !!(r.isCorrect ?? r.is_correct),
+      score: r.scoreObtained ?? r.score ?? r.score_obtained ?? 0,
       time_spent_ms: r.timeSpentMs ?? 0,
       modify_count: r.modifyCount ?? 0,
       self_mark: r.selfMark ?? null,
-      invalid_input: !!r.invalidInput,
+      invalid_input: !!(r.invalidInput ?? r.invalid_input),
       behavior_tag: r.behaviorTag ?? null,
       probe_result: r.probeResult ?? null,
       ec_code: r.ecCode ?? null,
