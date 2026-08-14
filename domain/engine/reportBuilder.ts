@@ -156,12 +156,13 @@ export function buildReport(
     const m = calcKpMastery(kpRecs);
     const pc = calcConfidence(kpRecs);
     const combined = finalLevel(m.level, pc.level);
+    const safeScore = Number.isFinite(m.mastery_score) ? m.mastery_score : 0;
     moduleMastery[kp] = {
-      mastery_score: m.mastery_score,
+      mastery_score: safeScore,
       level: combined,
       confidence: m.confidence,
     };
-    masteryMap.set(kp, m.mastery_score);
+    masteryMap.set(kp, safeScore);
   }
 
   // 素养雷达（按 literacy 聚合）
@@ -197,6 +198,13 @@ export function buildReport(
     difficulty_est: q.difficulty_est,
   }));
   const plan4Week = buildPlan4Week(sortedKps, methodCards, pathQuestions);
+
+  for (const week of plan4Week) {
+    if (!week.focus_kps || week.focus_kps.length === 0) {
+      const cardKp = (methodCards?.[week.week - 1]?.kp_codes ?? [])[0];
+      week.focus_kps = [cardKp || '综合复习'];
+    }
+  }
 
   // 行动清单
   const actionChecklist: ActionItem[] = [];
@@ -266,6 +274,11 @@ export function buildReport(
     (ecProfile.primary ? '，主要错因为 ' + ecProfile.primary : '') +
     '。';
 
+  const finalNarrative = narrative.trim()
+    ? narrative
+    : `本次诊断总分为 ${totalScore} 分（满分 ${qs.length || 1} 分，正确率 ${Math.round((totalScore / (qs.length || 1)) * 100)}%）。` +
+      `学生在数与代数、图形与几何等模块表现需要加强，建议按照4周干预计划进行针对性训练。`;
+
   return {
     student_id: studentId,
     total_score: totalScore,
@@ -277,6 +290,6 @@ export function buildReport(
     action_checklist: actionChecklist,
     confidence_flags: confidenceFlags,
     degraded_texts: degradedTexts,
-    narrative_text: narrative,
+    narrative_text: finalNarrative,
   };
 }

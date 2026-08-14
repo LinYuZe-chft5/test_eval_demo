@@ -36,11 +36,19 @@ const LABEL_MAP: Record<string, string> = {
 };
 
 export default function RadarChart({ data, max = 1 }: Props) {
-  const chartData = data.map((d) => ({
-    dimension: LABEL_MAP[d.dimension] ?? d.dimension,
-    value: d.value,
-    full: d.full ?? max,
-  }));
+  const chartData = (() => {
+    const mapped = data.map((d) => ({
+      dimension: LABEL_MAP[d.dimension] ?? d.dimension,
+      value: d.value,
+      full: d.full ?? max,
+    }));
+    const seen = new Set<string>();
+    return mapped.filter((d) => {
+      if (seen.has(d.dimension)) return false;
+      seen.add(d.dimension);
+      return true;
+    });
+  })();
 
   return (
     <div className="w-full" style={{ height: 260 }}>

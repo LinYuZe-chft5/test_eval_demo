@@ -149,7 +149,15 @@ export function buildPlan4Week(
   for (let w = 0; w < weeks; w++) {
     const start = Math.floor((w * len) / weeks);
     const end = Math.floor(((w + 1) * len) / weeks);
-    const focus = kps.slice(start, end);
+    let focus = kps.slice(start, end);
+
+    if (focus.length === 0) {
+      const cardKp = (methodCards?.[w]?.kp_codes ?? [])[0];
+      const qKp = (questions?.[w]?.kp_code) ?? undefined;
+      const fallback = cardKp || qKp || '';
+      focus = fallback ? [fallback] : [];
+    }
+
     const cards = (methodCards ?? []).filter((mc) =>
       (mc.kp_codes ?? []).some((k) => focus.includes(k)),
     );

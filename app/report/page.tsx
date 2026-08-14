@@ -85,8 +85,10 @@ export default async function ReportPage({ searchParams }: PageProps) {
   for (const [kp, entry] of Object.entries(draft.module_mastery ?? {})) {
     const mod = kpModule.get(kp) ?? '其他';
     if (!moduleAgg[mod]) moduleAgg[mod] = { sum: 0, count: 0, level: 'red' };
-    moduleAgg[mod].sum += entry.mastery_score;
-    moduleAgg[mod].count += 1;
+    if (Number.isFinite(entry.mastery_score)) {
+      moduleAgg[mod].sum += entry.mastery_score;
+      moduleAgg[mod].count += 1;
+    }
   }
   const moduleList = Object.entries(moduleAgg).map(([mod, v]) => {
     const avg = v.count > 0 ? v.sum / v.count : 0;
@@ -95,9 +97,15 @@ export default async function ReportPage({ searchParams }: PageProps) {
   });
 
   // 素养雷达数据
-  const radarData: RadarDatum[] = Object.entries(draft.literacy_radar ?? {}).map(
+  const radarRaw = Object.entries(draft.literacy_radar ?? {}).map(
     ([dim, v]) => ({ dimension: dim, value: v.score }),
   );
+  const seenDims = new Set<string>();
+  const radarData: RadarDatum[] = radarRaw.filter((d) => {
+    if (seenDims.has(d.dimension)) return false;
+    seenDims.add(d.dimension);
+    return true;
+  });
 
   const lowCredibility = Array.isArray(draft.confidence_flags) &&
     draft.confidence_flags.some((f: any) => /低信度|credibility|low/i.test(f.flag));
@@ -148,13 +156,13 @@ export default async function ReportPage({ searchParams }: PageProps) {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-700">{m.module}</span>
                   <span className={`font-medium ${LEVEL_COLOR[m.level]}`}>
-                    {LEVEL_TEXT[m.level]}（{Math.round(m.score * 100)}%）
+                    {LEVEL_TEXT[m.level]}（{Number.isFinite(m.score) ? Math.round(m.score * 100) : 0}%）
                   </span>
                 </div>
                 <div className="h-1.5 w-full rounded-full bg-gray-200">
                   <div
                     className="h-full rounded-full bg-blue-500"
-                    style={{ width: `${Math.round(m.score * 100)}%` }}
+                    style={{ width: `${Number.isFinite(m.score) ? Math.round(m.score * 100) : 0}%` }}
                   />
                 </div>
               </li>
