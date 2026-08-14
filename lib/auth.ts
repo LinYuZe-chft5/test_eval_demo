@@ -77,18 +77,26 @@ export async function createSession(params: {
     }
   }
 
+  if (!realStudentId) {
+    throw new Error('无法创建会话：缺少学生记录');
+  }
+
   const timeLimitSec = Math.floor(params.timeLimitMin * 60);
 
+  // 仅写入 DDL 中 test_sessions 真实存在的列
   const session = await (prisma as any).sessions.create({
     data: {
       id,
-      accessCode: params.accessCode,
-      skuCode: params.skuCode,
-      studentId: realStudentId,
-      dayTag: params.dayTag,
-      status: 'in_progress',
-      timeLimitSec: timeLimitSec,
-      startedAt: new Date(),
+      // accessCode/accessCodeId 在 DDL 中不存在，需通过 student_id 反查
+      studentId: realStudentId,   // BIGINT NOT NULL REFERENCES students(id)
+      skuCode: params.skuCode,    // VARCHAR(32) NOT NULL
+      dayTag: params.dayTag,      // SMALLINT NOT NULL
+      status: 'in_progress',      // locked/available/in_progress/submitted
+      timeLimitSec,               // INT NOT NULL
+      startedAt: new Date(),      // TIMESTAMPTZ
+      optionOrders: {},           // JSONB 默认空对象（题目乱序，我们暂时不需要乱序功能）
+      credibilityFlag: null,      // VARCHAR(16) 低信度标记：low_credibility
+      deviceInfo: null,           // JSONB {type,ua,screen}
     },
   });
   return session;
@@ -107,10 +115,27 @@ export async function markSessionSubmitted(sessionId: string, score: number) {
   });
 }
 
-/** 获取某访问码已完成的各天会话（用于判断三天是否全部完成）。 */
+/**
+ * 获取某访问码已完成的各天会话（用于判断三天是否全部完成）。
+ * 由于 test_sessions 表无 access_code 直连列，先通过 access_code → students.access_code_id
+ * 找到 student，再用 student_id 查询已提交会话。
+ */
 export async function getCompletedSessions(accessCode: string) {
+  if (!accessCode) return [];
+  const trimmedCode = accessCode.trim().toUpperCase();
+  const accessCodeRecord = await (prisma as any).accessCodes.findUnique({
+    where: { code: trimmedCode },
+  });
+  if (!accessCodeRecord) return [];
+
+  const student = await (prisma as any).students.findUnique({
+    where: { accessCodeId: accessCodeRecord.id },
+  });
+  if (!student) return [];
+
+  const studentId = typeof student.id === 'string' ? BigInt(student.id) : Number(student.id);
   return (prisma as any).sessions.findMany({
-    where: { accessCode, status: 'submitted' },
+    where: { studentId, status: 'submitted' },
     orderBy: { dayTag: 'asc' },
   });
 }
