@@ -84,6 +84,9 @@ export async function POST(req: Request) {
       );
     }
 
+    const numericSessionId = Number(sessionId);
+    const numericStudentId = Number(session.studentId);
+
     // 取本次会话题目
     const qRows: any[] = await (prisma as any).questions.findMany({
       where: { skuCode: session.skuCode, dayTag: session.dayTag, status: 'active' },
@@ -252,8 +255,8 @@ export async function POST(req: Request) {
       // 存储作答记录
       await (prisma as any).records.create({
         data: {
-          sessionId,
-          studentId: session.studentId,
+          sessionId: numericSessionId,
+          studentId: numericStudentId,
           questionId: Number(record.question_id),
           stepSeq: 1,
           studentAnswer: ans.answer ?? null,
@@ -274,13 +277,13 @@ export async function POST(req: Request) {
 
     const totalScore = graded.reduce((s, r) => s + r.score, 0);
     await (prisma as any).sessions.update({
-      where: { id: sessionId },
+      where: { id: numericSessionId },
       data: { status: 'submitted', submittedAt: new Date() },
     });
 
     // 判断三天是否全部完成
     const student = await (prisma as any).students.findUnique({
-      where: { id: session.studentId },
+      where: { id: numericStudentId },
     });
     const accessCode = student ? (await (prisma as any).accessCodes.findUnique({
       where: { id: student.accessCodeId },

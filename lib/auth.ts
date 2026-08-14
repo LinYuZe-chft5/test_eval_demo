@@ -5,9 +5,6 @@
  * 依赖 access_codes / sessions 表（由 prisma db pull 生成模型）。
  */
 import { prisma } from './prisma';
-import { customAlphabet } from 'nanoid';
-
-const sessionIdGen = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16);
 
 /** 根据访问码获取或创建学生记录，返回含 BIGINT id 的 student 对象。 */
 export async function getOrCreateStudentByAccessCode(accessCode: string) {
@@ -65,8 +62,6 @@ export async function createSession(params: {
   dayTag: 1 | 2 | 3;
   timeLimitMin: number;
 }) {
-  const id = sessionIdGen();
-
   let realStudentId: number | bigint | null = null;
   if (params.studentId != null && typeof params.studentId !== 'string') {
     realStudentId = params.studentId;
@@ -83,11 +78,9 @@ export async function createSession(params: {
 
   const timeLimitSec = Math.floor(params.timeLimitMin * 60);
 
-  // 仅写入 DDL 中 test_sessions 真实存在的列
+  // 仅写入 DDL 中 test_sessions 真实存在的列；id 由 BIGSERIAL 自动生成
   const session = await (prisma as any).sessions.create({
     data: {
-      id,
-      // accessCode/accessCodeId 在 DDL 中不存在，需通过 student_id 反查
       studentId: realStudentId,   // BIGINT NOT NULL REFERENCES students(id)
       skuCode: params.skuCode,    // VARCHAR(32) NOT NULL
       dayTag: params.dayTag,      // SMALLINT NOT NULL
@@ -102,15 +95,19 @@ export async function createSession(params: {
   return session;
 }
 
-/** 按 id 获取会话。 */
+/** 按 id 获取会话（前端传入的 sessionId 为字符串形式的数字）。 */
 export async function getSession(sessionId: string) {
-  return (prisma as any).sessions.findUnique({ where: { id: sessionId } });
+  const numericId = Number(sessionId);
+  if (isNaN(numericId)) return null;
+  return (prisma as any).sessions.findUnique({ where: { id: numericId } });
 }
 
 /** 标记会话为已提交。 */
 export async function markSessionSubmitted(sessionId: string) {
+  const numericId = Number(sessionId);
+  if (isNaN(numericId)) return null;
   return (prisma as any).sessions.update({
-    where: { id: sessionId },
+    where: { id: numericId },
     data: { status: 'submitted', submittedAt: new Date() },
   });
 }

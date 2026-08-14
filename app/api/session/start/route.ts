@@ -85,7 +85,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       data: {
-        session_id: session.id,
+        session_id: String(session.id),
         questions,
         time_limit_min: timeLimitMin,
       },
