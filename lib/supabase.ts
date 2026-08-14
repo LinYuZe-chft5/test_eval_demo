@@ -32,7 +32,7 @@ async function request<T = any>(
     'apikey': SUPABASE_SERVICE_ROLE_KEY,
     'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
     'Content-Type': 'application/json',
-    'Prefer': 'return=representation',
+    'Prefer': 'return=representation,resolution=merge-duplicates,profile=public',
     ...extraHeaders,
   };
 

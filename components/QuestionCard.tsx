@@ -68,12 +68,31 @@ interface Props {
   onSelfMark?: (mark: string | null) => void;
 }
 
+// ===== LaTeX 反斜杠修复 =====
+const LATEX_COMMANDS = [
+  'frac','sqrt','times','div','pm','mp','circ','leq','geq','neq','sim',
+  'triangle','angle','perp','parallel','sum','min','max','infty','cdot','cdots','ldots',
+  'overline','vec','hat','bar','dot','alpha','beta','gamma','delta','theta','pi',
+  'sigma','lambda','mu','left','right','begin','end','array','hline',
+];
+
+function fixLatexBackslashes(text: string): string {
+  if (!text) return text;
+  let result = text;
+  for (const cmd of LATEX_COMMANDS) {
+    const regex = new RegExp(`(?<!\\\\)\\b${cmd}\\b`, 'g');
+    result = result.replace(regex, `\\${cmd}`);
+  }
+  return result;
+}
+
 // ===== 数学公式文本渲染 =====
 /** 将含 $$...$$ 与 $...$ 的文本切分为段并渲染。 */
 export function MathText({ text }: { text: string }) {
   if (!text) return null;
+  const fixedText = fixLatexBackslashes(text);
   const parts: React.ReactNode[] = [];
-  let rest = String(text);
+  let rest = String(fixedText);
   let key = 0;
 
   while (rest.length > 0) {
