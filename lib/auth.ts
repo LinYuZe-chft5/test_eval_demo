@@ -78,6 +78,41 @@ export async function createSession(params: {
 
   const timeLimitSec = Math.floor(params.timeLimitMin * 60);
 
+  // 先检查是否已存在该学生+SKU+Day的会话（UNIQUE 约束：student_id+sku_code+day_tag）
+  const existingSessions = await (prisma as any).sessions.findMany({
+    where: {
+      studentId: realStudentId,
+      skuCode: params.skuCode,
+      dayTag: params.dayTag,
+    },
+  });
+
+  if (existingSessions && existingSessions.length > 0) {
+    const existing = existingSessions[0];
+    if (existing.status === 'in_progress') {
+      return existing;
+    }
+    // 已提交的会话：清理旧答题记录 + 重置为 in_progress 供重新作答
+    try {
+      await (prisma as any).records.deleteMany({
+        where: { sessionId: existing.id },
+      });
+    } catch {}
+    const resetSession = await (prisma as any).sessions.update({
+      where: { id: existing.id },
+      data: {
+        status: 'in_progress',
+        startedAt: new Date(),
+        timeLimitSec,
+        submittedAt: null,
+        optionOrders: {},
+        credibilityFlag: null,
+        deviceInfo: null,
+      },
+    });
+    return resetSession;
+  }
+
   // 仅写入 DDL 中 test_sessions 真实存在的列；id 由 BIGSERIAL 自动生成
   const session = await (prisma as any).sessions.create({
     data: {
