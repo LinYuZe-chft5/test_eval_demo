@@ -253,8 +253,29 @@ export async function POST(req: Request) {
       }
 
       // 存储作答记录
-      await (prisma as any).records.create({
-        data: {
+      try {
+        await (prisma as any).records.create({
+          data: {
+            sessionId: numericSessionId,
+            studentId: numericStudentId,
+            questionId: Number(record.question_id),
+            stepSeq: 1,
+            studentAnswer: ans.answer ?? null,
+            isCorrect: record.is_correct,
+            scoreObtained: record.score ?? 0,
+            timeSpentMs: record.time_spent_ms ?? 0,
+            modifyCount: record.modify_count ?? 0,
+            deleteRewriteCount: 0,
+            behaviorTag: record.behavior_tag,
+            ecCode: record.ec_code,
+            selfMark: selfMark,
+            answerEvents: events,
+            invalidInput: record.invalid_input ?? false,
+            probeResult: record.probe_result,
+          },
+        });
+      } catch (e: any) {
+        const safeData: any = {
           sessionId: numericSessionId,
           studentId: numericStudentId,
           questionId: Number(record.question_id),
@@ -265,14 +286,10 @@ export async function POST(req: Request) {
           timeSpentMs: record.time_spent_ms ?? 0,
           modifyCount: record.modify_count ?? 0,
           deleteRewriteCount: 0,
-          behaviorTag: record.behavior_tag,
-          ecCode: record.ec_code,
-          selfMark: selfMark,
-          answerEvents: events,
           invalidInput: record.invalid_input ?? false,
-          probeResult: record.probe_result,
-        },
-      });
+        };
+        await (prisma as any).records.create({ data: safeData });
+      }
     }
 
     const totalScore = graded.reduce((s, r) => s + r.score, 0);

@@ -69,20 +69,72 @@ interface Props {
 }
 
 // ===== LaTeX 反斜杠修复 =====
-const LATEX_COMMANDS = [
-  'frac','sqrt','times','div','pm','mp','circ','leq','geq','neq','sim',
-  'triangle','angle','perp','parallel','sum','min','max','infty','cdot','cdots','ldots',
-  'overline','vec','hat','bar','dot','alpha','beta','gamma','delta','theta','pi',
-  'sigma','lambda','mu','left','right','begin','end','array','hline',
-];
-
 function fixLatexBackslashes(text: string): string {
   if (!text) return text;
   let result = text;
+
+  result = result.replace(/\^rac(\[[^\]]+\])?\|([^\)]+)\)/g, (match, bracket, content) => {
+    if (bracket) {
+      return `\\sqrt${bracket}{${content}}`;
+    }
+    return `\\sqrt{${content}}`;
+  });
+  result = result.replace(/\^rac\{([^}]+)\}\{([^}]+)\}/g, '\\sqrt{$1/$2}');
+  result = result.replace(/\^rac\{([^}]+)\}/g, '\\sqrt{$1}');
+
+  result = result.replace(/×/g, '\\times');
+  result = result.replace(/÷/g, '\\div');
+  result = result.replace(/±/g, '\\pm');
+  result = result.replace(/≤/g, '\\leq');
+  result = result.replace(/≥/g, '\\geq');
+  result = result.replace(/≠/g, '\\neq');
+  result = result.replace(/·/g, '\\cdot');
+  result = result.replace(/°/g, '\\circ');
+  result = result.replace(/∞/g, '\\infty');
+  result = result.replace(/∠/g, '\\angle');
+  result = result.replace(/⊥/g, '\\perp');
+  result = result.replace(/α/g, '\\alpha');
+  result = result.replace(/β/g, '\\beta');
+  result = result.replace(/γ/g, '\\gamma');
+  result = result.replace(/δ/g, '\\delta');
+  result = result.replace(/θ/g, '\\theta');
+  result = result.replace(/π/g, '\\pi');
+  result = result.replace(/σ/g, '\\sigma');
+  result = result.replace(/λ/g, '\\lambda');
+  result = result.replace(/μ/g, '\\mu');
+  result = result.replace(/△/g, '\\triangle');
+
+  const HAT_COMMANDS = [
+    'frac', 'times', 'div', 'pm', 'mp', 'circ', 'leq', 'geq', 'neq', 'sim',
+    'sum', 'min', 'max', 'cdot', 'cdots', 'ldots', 'sqrt',
+    'overline', 'vec', 'hat', 'bar', 'dot',
+    'left', 'right', 'begin', 'end', 'array', 'hline',
+    'alpha', 'beta', 'gamma', 'delta', 'theta', 'pi', 'sigma', 'lambda', 'mu',
+    'triangle', 'angle', 'perp', 'parallel', 'infty'
+  ];
+  for (const cmd of HAT_COMMANDS) {
+    const re = new RegExp(`\\^${cmd}(?=[\\{\\[\\s]|$)`, 'g');
+    result = result.replace(re, `\\${cmd}`);
+  }
+
+  result = result.replace(/√([\d]+)/g, '\\sqrt{$1}');
+  result = result.replace(/√([a-zA-Z])/g, '\\sqrt{$1}');
+  result = result.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
+
+  result = result.replace(/\|/g, '{');
+
+  const LATEX_COMMANDS = [
+    'frac', 'sqrt', 'times', 'div', 'pm', 'mp', 'circ', 'leq', 'geq', 'neq', 'sim',
+    'triangle', 'angle', 'perp', 'parallel', 'sum', 'min', 'max', 'infty',
+    'cdot', 'cdots', 'ldots', 'overline', 'vec', 'hat', 'bar', 'dot',
+    'alpha', 'beta', 'gamma', 'delta', 'theta', 'pi', 'sigma', 'lambda', 'mu',
+    'left', 'right', 'begin', 'end', 'array', 'hline'
+  ];
   for (const cmd of LATEX_COMMANDS) {
     const regex = new RegExp(`(?<!\\\\)\\b${cmd}\\b`, 'g');
     result = result.replace(regex, `\\${cmd}`);
   }
+
   return result;
 }
 
