@@ -1,12 +1,15 @@
+#!/bin/bash
+# 直接覆盖报告页文件（绕过 git）
+# 在 Codespaces 终端执行: bash scripts/force_fix_report.sh
+
+cd /workspace/test_eval_demo
+
+echo "=== 直接覆盖报告页 ==="
+
+cat > app/report/page.tsx << 'ENDOFFILE'
 /**
  * app/report/page.tsx
- * 诊断报告页 —— 展示诊断结果（Server Component，数据在服务端获取）。
- * - 适应性评定（达标/基本达标/待加强）
- * - 模块掌握度（数与代数/图形与几何）
- * - 素养雷达图（Recharts）
- * - 首要错因及改进建议
- * - 4周干预计划
- * - 置信度标记（低信度提示）
+ * 诊断报告页 v3 —— 所有逻辑移至 lib/report-utils.ts
  */
 import { prisma } from '@/lib/prisma';
 import { renderInlineMath } from '@/lib/katex';
@@ -47,7 +50,6 @@ export default async function ReportPage({ searchParams }: PageProps) {
     return <EmptyReport message="缺少学生标识，无法查看报告。" />;
   }
 
-  // 查询报告草稿
   const row = await (prisma as any).reportDrafts.findFirst({
     where: { studentId: Number(studentId) },
     orderBy: { createdAt: 'desc' },
@@ -72,13 +74,15 @@ export default async function ReportPage({ searchParams }: PageProps) {
     degraded_texts: [],
   };
 
-  // 查询知识点依赖，用于按模块聚合掌握度
   const kpRows: any[] = await (prisma as any).kpDependencies.findMany({
     select: 'kpCode,module',
   });
-  const kpModule = new Map<string, string>(kpRows.map((r) => [r.kp_code ?? r.kpCode, r.module]));
+  const kpModule = new Map<string, string>();
+  for (const r of kpRows) {
+    const kp = r.kp_code ?? r.kpCode;
+    if (kp) kpModule.set(kp, r.module);
+  }
 
-  // 按模块聚合掌握度
   const moduleAgg: Record<string, { sum: number; count: number; level: MasteryLevel }> = {};
   const masteryEntries = Object.entries(draft.module_mastery ?? {});
   for (const [kp, entry] of masteryEntries) {
@@ -99,7 +103,6 @@ export default async function ReportPage({ searchParams }: PageProps) {
     moduleList.push({ module: mod, score: avg, level });
   }
 
-  // 素养雷达数据
   const radarRaw = Object.entries(draft.literacy_radar ?? {});
   const radarData: RadarDatum[] = [];
   const seenDims = new Set<string>();
@@ -113,40 +116,30 @@ export default async function ReportPage({ searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen px-4 py-6 space-y-4">
-      {/* 标题 */}
       <header className="text-center pt-2 pb-2">
         <h1 className="text-xl font-bold">诊断报告</h1>
         <p className="text-xs text-gray-400 mt-1">学生标识：{studentId}</p>
       </header>
 
-      {/* 低信度提示 */}
       {lowCredibility && (
         <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
           ⚠️ 本次答卷存在低信度信号，结论仅供参考，建议复测。
         </div>
       )}
 
-      {/* 适应性评定 */}
       <Section title="适应性评定">
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">综合评定</span>
-          <span
-            className={`text-lg font-bold ${
-              ADAPT_COLOR[draft.adaptive_level] ?? 'text-gray-600'
-            }`}
-          >
+          <span className={`text-lg font-bold ${ADAPT_COLOR[draft.adaptive_level] ?? 'text-gray-600'}`}>
             {ADAPT_TEXT[draft.adaptive_level] ?? draft.adaptive_level}
           </span>
         </div>
         <div className="flex items-center justify-between mt-1">
           <span className="text-sm text-gray-600">总分</span>
-          <span className="text-lg font-bold text-blue-600">
-            {draft.total_score} 分
-          </span>
+          <span className="text-lg font-bold text-blue-600">{draft.total_score} 分</span>
         </div>
       </Section>
 
-      {/* 模块掌握度 */}
       <Section title="模块掌握度">
         {moduleList.length === 0 ? (
           <p className="text-xs text-gray-400">暂无模块数据</p>
@@ -157,26 +150,23 @@ export default async function ReportPage({ searchParams }: PageProps) {
                 ? Math.round(m.score * 100)
                 : 0;
               return (
-              <li key={m.module} className="space-y-1">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700">{m.module}</span>
-                  <span className={`font-medium ${LEVEL_COLOR[m.level]}`}>
-                    {LEVEL_TEXT[m.level]}（{displayPercent}%）
-                  </span>
-                </div>
-                <div className="h-1.5 w-full rounded-full bg-gray-200">
-                  <div
-                    className="h-full rounded-full bg-blue-500"
-                    style={{ width: `${displayPercent}%` }}
-                  />
-                </div>
-              </li>
-            )})
+                <li key={m.module} className="space-y-1">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-700">{m.module}</span>
+                    <span className={`font-medium ${LEVEL_COLOR[m.level]}`}>
+                      {LEVEL_TEXT[m.level]}（{displayPercent}%）
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-gray-200">
+                    <div className="h-full rounded-full bg-blue-500" style={{ width: `${displayPercent}%` }} />
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </Section>
 
-      {/* 素养雷达图 */}
       <Section title="素养雷达图">
         {radarData.length > 0 ? (
           <RadarChart data={radarData} max={1} />
@@ -185,47 +175,36 @@ export default async function ReportPage({ searchParams }: PageProps) {
         )}
       </Section>
 
-      {/* 首要错因及改进建议 */}
       <Section title="首要错因及改进建议">
         {draft.ec_profile?.primary ? (
           <div className="space-y-1 text-sm">
             <p>
               首要错因：
-              <span className="font-semibold text-red-600">
-                {draft.ec_profile.primary}
-              </span>
+              <span className="font-semibold text-red-600">{draft.ec_profile.primary}</span>
             </p>
             {draft.ec_profile.secondary && (
-              <p className="text-gray-500">
-                次要错因：{draft.ec_profile.secondary}
-              </p>
+              <p className="text-gray-500">次要错因：{draft.ec_profile.secondary}</p>
             )}
             {draft.ec_profile.low_confidence_notes?.length > 0 && (
-              <p className="text-xs text-gray-400">
-                {draft.ec_profile.low_confidence_notes.join('；')}
-              </p>
+              <p className="text-xs text-gray-400">{draft.ec_profile.low_confidence_notes.join('；')}</p>
             )}
           </div>
         ) : (
           <div className="space-y-1 text-sm">
-            <p className="text-amber-600 font-medium">
-              暂无显著归因错因
-            </p>
+            <p className="text-amber-600 font-medium">暂无显著归因错因</p>
             <p className="text-xs text-gray-500">
               可能原因：错题样本不足、多选题分散错因、或学生整体发挥较为稳定。
               建议关注错题涉及的知识点进行综合复习。
             </p>
             {draft.action_checklist?.length > 0 && (
               <p className="text-xs text-gray-500">
-                已为您生成 {draft.action_checklist.length} 项改进行动清单，
-                详见下方行动清单部分。
+                已为您生成 {draft.action_checklist.length} 项改进行动清单，详见下方行动清单部分。
               </p>
             )}
           </div>
         )}
       </Section>
 
-      {/* 4周干预计划 */}
       <Section title="4周干预计划">
         {draft.plan_4week?.length ? (
           <ol className="space-y-2">
@@ -234,35 +213,26 @@ export default async function ReportPage({ searchParams }: PageProps) {
                 ? w.focus_kps.join('、')
                 : '综合复习（重点补强薄弱考点）';
               return (
-              <li
-                key={w.week}
-                className="rounded-lg bg-gray-50 border border-gray-100 px-3 py-2"
-              >
-                <div className="text-sm font-medium text-gray-800">
-                  第 {w.week} 周
-                </div>
-                <div className="text-xs text-gray-500 mt-0.5">
-                  焦点考点：{focusKp}
-                </div>
-                {w.method_cards?.length > 0 && (
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    方法卡：{w.method_cards.map((c) => c.title ?? c.id).join('、')}
-                  </div>
-                )}
-                {w.questions?.length > 0 && (
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    练习题：{w.questions.length} 道
-                  </div>
-                )}
-              </li>
-            )})
+                <li key={w.week} className="rounded-lg bg-gray-50 border border-gray-100 px-3 py-2">
+                  <div className="text-sm font-medium text-gray-800">第 {w.week} 周</div>
+                  <div className="text-xs text-gray-500 mt-0.5">焦点考点：{focusKp}</div>
+                  {w.method_cards?.length > 0 && (
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      方法卡：{w.method_cards.map((c) => c.title ?? c.id).join('、')}
+                    </div>
+                  )}
+                  {w.questions?.length > 0 && (
+                    <div className="text-xs text-gray-500 mt-0.5">练习题：{w.questions.length} 道</div>
+                  )}
+                </li>
+              );
+            })}
           </ol>
         ) : (
           <p className="text-xs text-gray-400">暂无干预计划</p>
         )}
       </Section>
 
-      {/* 行动清单 */}
       {draft.action_checklist?.length > 0 && (
         <Section title="行动清单">
           <ul className="space-y-1.5 text-sm">
@@ -276,48 +246,26 @@ export default async function ReportPage({ searchParams }: PageProps) {
         </Section>
       )}
 
-      {/* 置信度标记 */}
       {draft.confidence_flags?.length > 0 && (
         <Section title="置信度标记">
           <ul className="space-y-1 text-xs text-gray-600">
             {draft.confidence_flags.map((f, i) => (
-              <li key={i}>
-                题目 {f.question_id}：{f.flag}
-              </li>
+              <li key={i}>题目 {f.question_id}：{f.flag}</li>
             ))}
           </ul>
         </Section>
       )}
 
-      {/* 叙述 */}
       <Section title="诊断综述">
         <NarrativeParagraph draft={draft} />
       </Section>
 
       <div className="pt-2 pb-6 text-center">
-        <a
-          href="/"
-          className="inline-block rounded-lg border border-gray-300 px-6 py-2 text-sm text-gray-600"
-        >
+        <a href="/" className="inline-block rounded-lg border border-gray-300 px-6 py-2 text-sm text-gray-600">
           返回首页
         </a>
       </div>
     </main>
-  );
-}
-
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="bg-white rounded-xl p-4 shadow-sm">
-      <h2 className="text-sm font-semibold text-gray-800 mb-2">{title}</h2>
-      {children}
-    </section>
   );
 }
 
@@ -327,10 +275,16 @@ function NarrativeParagraph({ draft }: { draft: ReportDraft }) {
     : buildFallbackNarrative(draft);
   const html = renderInlineMath(raw);
   return (
-    <p
-      className="text-sm text-gray-700 leading-relaxed"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <p className="text-sm text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: html }} />
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="bg-white rounded-xl p-4 shadow-sm">
+      <h2 className="text-sm font-semibold text-gray-800 mb-2">{title}</h2>
+      {children}
+    </section>
   );
 }
 
@@ -339,14 +293,25 @@ function EmptyReport({ message }: { message: string }) {
     <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
       <div className="text-4xl mb-3">📋</div>
       <p className="text-sm text-gray-500">{message}</p>
-      <a
-        href="/"
-        className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-2 text-sm text-white"
-      >
+      <a href="/" className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-2 text-sm text-white">
         返回首页
       </a>
     </main>
   );
 }
+ENDOFFILE
 
+# 同时确保 lib/report-utils.ts 也存在
+if [ ! -f "lib/report-utils.ts" ]; then
+  echo "错误: lib/report-utils.ts 不存在"
+  echo "请先执行: git pull origin main"
+  exit 1
+fi
 
+# 清理缓存
+rm -rf .next
+
+echo "=== 文件已覆盖 ==="
+echo "请重启 dev server: npm run dev"
+echo ""
+echo "如果还有错误，请把完整日志发给我"
