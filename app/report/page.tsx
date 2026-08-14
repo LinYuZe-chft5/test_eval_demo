@@ -108,8 +108,9 @@ export default async function ReportPage({ searchParams }: PageProps) {
     return true;
   });
 
+  const credibilityPattern = /low|credibility|l/i;
   const lowCredibility = Array.isArray(draft.confidence_flags) &&
-    draft.confidence_flags.some((f: any) => /low|credibility|l/i.test(f.flag));
+    draft.confidence_flags.some((f: any) => credibilityPattern.test(f.flag));
 
   return (
     <main className="min-h-screen px-4 py-6 space-y-4">
