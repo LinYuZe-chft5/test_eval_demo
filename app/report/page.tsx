@@ -17,6 +17,100 @@ const LEVEL_TEXT: Record<MasteryLevel, string> = {
   yellow: '基本掌握',
   red: '待加强',
 };
+
+// 知识点中文名称映射
+const KP_NAME_MAP: Record<string, string> = {
+  'KP-01.1': '正负数概念',
+  'KP-02.01': '有理数运算',
+  'KP-02.02': '实数与无理数',
+  'KP-03.01': '代数式与整式',
+  'KP-03.02': '代入求值',
+  'KP-04.01': '一元一次方程',
+  'KP-04.02': '一元一次不等式',
+  'KP-04.03': '含参方程',
+  'KP-06.01': '二元一次方程组概念',
+  'KP-06.02': '代入消元法',
+  'KP-06.03': '加减消元法',
+  'KP-06.04': '方程组应用题',
+  'KP-06.05': '方程组整数解',
+  'KP-07.01': '相交线与对顶角',
+  'KP-07.02': '平行线判定',
+  'KP-07.03': '平行线性质',
+  'KP-07.04': '平移',
+  'KP-07.05': '角平分线',
+  'KP-07.06': '拐点问题',
+  'KP-08.01': '幂的运算',
+  'KP-08.02': '积的乘方',
+  'KP-08.03': '乘法公式',
+  'KP-08.04': '整式混合运算',
+  'KP-09.01': '因式分解概念',
+  'KP-09.02': '提公因式法',
+  'KP-09.03': '公式法分解',
+  'KP-09.04': '综合因式分解',
+  'KP-09.05': '因式分解应用',
+  'KP-09.06': '十字相乘法',
+  'KP-10.01': '三角形三边关系',
+  'KP-10.02': '三角形中线',
+  'KP-10.03': '平行线分三角形',
+  'KP-11.01': '不等式性质',
+  'KP-11.02': '不等式解法',
+  'KP-11.03': '不等式组应用',
+  'KP-12.01': '分式有意义条件',
+  'KP-12.02': '分式加减',
+  'KP-12.03': '分式乘除',
+  'KP-12.04': '分式方程',
+  'KP-13.01': '全等三角形概念',
+  'KP-13.02': '全等三角形判定',
+  'KP-13.03': '全等三角形应用',
+  'KP-23.01': '一元二次方程解法',
+  'KP-23.02': '一元二次方程应用',
+  'KP-P.1': '分数基本性质',
+  'KP-P.2': '小数与分数互化',
+  'KP-P.3': '钟表角度计算',
+  'KP-P.4': '四则混合运算',
+  'KP-P.5': '比例与比例尺',
+  'KP-P.6': '正比例函数',
+  'KP-P.7': '反比例函数',
+};
+
+function getKpName(kpCode: string): string {
+  return KP_NAME_MAP[kpCode] || kpCode;
+}
+
+// 错因代码中文描述
+const EC_DESC: Record<string, string> = {
+  'EC-K1': '概念理解不清',
+  'EC-K2': '公式/法则记忆错误',
+  'EC-K3': '运算步骤有误',
+  'EC-C1': '审题不仔细',
+  'EC-C2': '条件运用不当',
+  'EC-C3': '计算失误',
+  'EC-C4': '逻辑推理跳跃',
+  'EC-M1': '方法选择不当',
+  'EC-M2': '运算技能不熟练',
+  'EC-M3': '空间想象力不足',
+  'EC-M4': '证明书写不规范',
+};
+
+function getEcDesc(ecCode: string): string {
+  return EC_DESC[ecCode] || ecCode;
+}
+
+// 素养维度中文描述
+const LITERACY_DESC: Record<string, string> = {
+  'YS-01': '知识理解',
+  'YS-02': '运算能力',
+  'YS-03': '空间想象',
+  'YS-04': '数据处理',
+  'YS-05': '逻辑推理',
+  'YS-06': '模型构建',
+  'YS-07': '应用创新',
+  'YS-08': '数学阅读',
+};
+
+function getLiteracyDesc(litCode: string): string {
+  return LITERACY_DESC[litCode] || litCode;
+}
 const LEVEL_COLOR: Record<MasteryLevel, string> = {
   green: 'text-green-600',
   yellow: 'text-amber-600',
@@ -117,46 +211,20 @@ export default async function ReportPage({ searchParams }: PageProps) {
     degraded_texts: [],
   };
 
-  const kpRows: any[] = await (prisma as any).kpDependencies.findMany({
-    select: 'kpCode,module',
-  });
-
-  const kpModule = new Map<string, string>();
-  for (let i = 0; i < kpRows.length; i++) {
-    const r = kpRows[i];
-    const k = r.kp_code ?? r.kpCode;
-    const m = r.module;
-    kpModule.set(k, m);
-  }
-
-  const moduleAgg: Record<string, { sum: number; count: number; level: MasteryLevel }> = {};
+  // 直接使用知识点代码和掌握度数据，显示中文名称
+  const moduleList: { module: string; score: number; level: MasteryLevel; kpCode: string }[] = [];
   const masteryEntries = Object.entries(draft.module_mastery ?? {});
   for (let i = 0; i < masteryEntries.length; i++) {
     const [kp, entry] = masteryEntries[i];
-    const mod = kpModule.get(kp) ?? '其他';
-    if (!moduleAgg[mod]) {
-      moduleAgg[mod] = { sum: 0, count: 0, level: 'red' };
-    }
+    const kpName = getKpName(kp);
     const masteryValue = Number((entry as any).mastery_score);
-    if (!isNaN(masteryValue) && isFinite(masteryValue)) {
-      moduleAgg[mod].sum += masteryValue;
-      moduleAgg[mod].count += 1;
+    const level = (entry as any).level as MasteryLevel;
+    if (!isNaN(masteryValue) && isFinite(masteryValue) && masteryValue > 0) {
+      moduleList.push({ module: kpName, score: masteryValue, level: level, kpCode: kp });
     }
   }
-
-  const moduleList: { module: string; score: number; level: MasteryLevel }[] = [];
-  const aggEntries = Object.entries(moduleAgg);
-  for (let i = 0; i < aggEntries.length; i++) {
-    const [mod, v] = aggEntries[i];
-    const avg = v.count > 0 ? v.sum / v.count : 0;
-    let level: MasteryLevel = 'red';
-    if (avg >= 0.8) {
-      level = 'green';
-    } else if (avg >= 0.5) {
-      level = 'yellow';
-    }
-    moduleList.push({ module: mod, score: avg, level: level });
-  }
+  // 按得分排序
+  moduleList.sort(function (a, b) { return b.score - a.score; });
 
   const radarRaw = Object.entries(draft.literacy_radar ?? {});
   const radarData: RadarDatum[] = [];
@@ -165,7 +233,8 @@ export default async function ReportPage({ searchParams }: PageProps) {
     const [dim, v] = radarRaw[i];
     if (seenDims.has(dim)) continue;
     seenDims.add(dim);
-    radarData.push({ dimension: dim, value: (v as any).score });
+    const litName = getLiteracyDesc(dim);
+    radarData.push({ dimension: litName, value: (v as any).score });
   }
 
   const lowCred = isLowCredibility(draft.confidence_flags);
@@ -257,12 +326,12 @@ export default async function ReportPage({ searchParams }: PageProps) {
             <p>
               首要错因：
               <span className="font-semibold text-red-600">
-                {draft.ec_profile!.primary}
+                {getEcDesc(draft.ec_profile!.primary!)}
               </span>
             </p>
             {hasSecondaryEc && (
               <p className="text-gray-500">
-                次要错因：{draft.ec_profile!.secondary}
+                次要错因：{getEcDesc(draft.ec_profile!.secondary!)}
               </p>
             )}
             {hasLowConfNotes && (
@@ -293,31 +362,33 @@ export default async function ReportPage({ searchParams }: PageProps) {
       <Section title="4周干预计划">
         {hasPlan ? (
           <ol className="space-y-2">
-            {draft.plan_4week!.map(function renderWeek(w: any) {
-              const focusKp = (w.focus_kps && w.focus_kps.length)
-                ? w.focus_kps.join('、')
+            {draft.plan_4week!.map(function renderWeek(w: any, idx: number) {
+              const focusKpNames = (w.focus_kps && w.focus_kps.length)
+                ? w.focus_kps.map(function (kp: string) { return getKpName(kp); }).join('、')
                 : '综合复习（重点补强薄弱考点）';
-              const hasMethodCards = !!(w.method_cards && w.method_cards.length > 0);
-              const hasQuestions = !!(w.questions && w.questions.length > 0);
+              const weeklyContent = (w.weekly_content && w.weekly_content.length)
+                ? w.weekly_content.join('；')
+                : '';
+              const weekNum = w.week || (idx + 1);
               return (
                 <li
-                  key={w.week}
+                  key={weekNum}
                   className="rounded-lg bg-gray-50 border border-gray-100 px-3 py-2"
                 >
                   <div className="text-sm font-medium text-gray-800">
-                    第 {w.week} 周
+                    第 {weekNum} 周
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
-                    焦点考点：{focusKp}
+                    焦点考点：{focusKpNames}
                   </div>
-                  {hasMethodCards && (
-                    <div className="text-xs text-gray-500 mt-0.5">
-                      方法卡：{w.method_cards.map(function (c: any) { return c.title ?? c.id; }).join('、')}
+                  {weeklyContent && (
+                    <div className="text-xs text-gray-600 mt-1 leading-relaxed">
+                      训练内容：{weeklyContent}
                     </div>
                   )}
-                  {hasQuestions && (
-                    <div className="text-xs text-gray-500 mt-0.5">
-                      练习题：{w.questions.length} 道
+                  {w.practice_count && (
+                    <div className="text-xs text-gray-400 mt-0.5">
+                      建议练习量：每周 {w.practice_count} 道
                     </div>
                   )}
                 </li>
@@ -331,12 +402,18 @@ export default async function ReportPage({ searchParams }: PageProps) {
 
       {hasChecklist && (
         <Section title="行动清单">
-          <ul className="space-y-1.5 text-sm">
+          <ul className="space-y-2 text-sm">
             {draft.action_checklist!.map(function renderAction(a: any, i: number) {
+              const kpName = getKpName(a.kp_code);
+              const levelText = LEVEL_TEXT[a.level] || a.level;
+              const levelColor = LEVEL_COLOR[a.level] || 'text-gray-600';
               return (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-0.5">•</span>
-                  <span className="text-gray-700">{a.action}</span>
+                <li key={i} className="rounded-lg bg-gray-50 px-3 py-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-medium text-gray-800">{kpName}</span>
+                    <span className={'text-xs ' + levelColor}>{levelText}</span>
+                  </div>
+                  <p className="text-xs text-gray-600 leading-relaxed">{a.action}</p>
                 </li>
               );
             })}

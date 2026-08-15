@@ -73,6 +73,7 @@ function fixLatexBackslashes(text: string): string {
   if (!text) return text;
   let result = text;
 
+  // 1. Unicode 数学符号 → LaTeX 命令
   result = result.replace(/×/g, '\\times');
   result = result.replace(/÷/g, '\\div');
   result = result.replace(/±/g, '\\pm');
@@ -95,30 +96,89 @@ function fixLatexBackslashes(text: string): string {
   result = result.replace(/μ/g, '\\mu');
   result = result.replace(/△/g, '\\triangle');
 
-  const HAT_COMMANDS = [
-    'frac', 'times', 'div', 'pm', 'mp', 'circ', 'leq', 'geq', 'neq', 'sim',
-    'sum', 'min', 'max', 'cdot', 'cdots', 'ldots', 'sqrt',
-    'overline', 'vec', 'hat', 'bar', 'dot',
-    'left', 'right', 'begin', 'end', 'array', 'hline',
-    'alpha', 'beta', 'gamma', 'delta', 'theta', 'pi', 'sigma', 'lambda', 'mu',
-    'triangle', 'angle', 'perp', 'parallel', 'infty'
+  // 2. 修复被转义吞掉的反斜杠：LaTeX命令前缀
+  // 这些命令如果丢失了反斜杠，会导致渲染异常
+  const COMMANDS = [
+    'frac', 'sqrt', 'times', 'div', 'pm', 'mp',
+    'circ', 'leq', 'geq', 'neq', 'sim', 'approx',
+    'sum', 'min', 'max', 'prod',
+    'cdot', 'cdots', 'ldots', 'dots',
+    'overline', 'underline', 'vec', 'hat', 'bar', 'dot',
+    'left', 'right', 'middle',
+    'begin', 'end', 'array', 'hline', 'vspace', 'hspace',
+    'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta',
+    'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu',
+    'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau',
+    'upsilon', 'phi', 'chi', 'psi', 'omega',
+    'triangle', 'angle', 'perp', 'parallel', 'infty',
+    'forall', 'exists', 'notin', 'subset', 'subseteq',
+    'supset', 'cup', 'cap', 'emptyset',
+    'ast', 'star',
+    'oplus', 'ominus', 'otimes', 'oslash',
+    'nthroot',
+    'to', 'leftarrow', 'rightarrow', 'Rightarrow', 'Leftarrow',
+    'mapsto', 'longmapsto', 'uparrow', 'downarrow',
+    'ne', 'cong', 'simeq',
+    'le', 'ge', 'll', 'gg',
+    'sin', 'cos', 'tan', 'log', 'ln',
+    'setminus', 'backslash',
+    'quad', 'qquad', 'space',
+    '!', 'W', 'w', 'R', 'Z', 'N',
+    'infty', 'aleph', 'beth',
+    'hbar', 'ell', 'wp', 'weierp',
+    'Re', 'Im', 'hbar',
   ];
-  for (const cmd of HAT_COMMANDS) {
-    const re = new RegExp(`\\^${cmd}(?=[\\{\\[\\s]|$)`, 'g');
-    result = result.replace(re, `\\${cmd}`);
-  }
 
-  const LATEX_COMMANDS = [
-    'frac', 'sqrt', 'times', 'div', 'pm', 'mp', 'circ', 'leq', 'geq', 'neq', 'sim',
-    'triangle', 'angle', 'perp', 'parallel', 'sum', 'min', 'max', 'infty',
-    'cdot', 'cdots', 'ldots', 'overline', 'vec', 'hat', 'bar', 'dot',
-    'alpha', 'beta', 'gamma', 'delta', 'theta', 'pi', 'sigma', 'lambda', 'mu',
-    'left', 'right', 'begin', 'end', 'array', 'hline'
-  ];
-  for (const cmd of LATEX_COMMANDS) {
-    const regex = new RegExp(`(?<!\\\\)\\b${cmd}\\b`, 'g');
+  // 为每个命令添加反斜杠（如果前面没有）
+  for (const cmd of COMMANDS) {
+    if (!cmd) continue;
+    // 匹配前面没有反斜杠的命令，后面跟 { [ 空格 数字 标点 或结尾
+    const escapedCmd = cmd.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(?<!\\\\)${escapedCmd}(?=[{[\\s0-9,.;!?]|$)`, 'g');
     result = result.replace(regex, `\\${cmd}`);
   }
+
+  // 3. 特殊处理：^后直接跟命令的情况（如 ^2\times3）
+  for (const cmd of ['times', 'div', 'pm', 'cdot', 'frac', 'sqrt', 'sin', 'cos', 'tan', 'log', 'ln']) {
+    const regex = new RegExp(`\\^${cmd}(?=[{[\\s0-9]|$)`, 'g');
+    result = result.replace(regex, `^\\${cmd}`);
+  }
+
+  // 4. 特殊处理：_后直接跟命令的情况（如 _2\times3）
+  for (const cmd of ['times', 'div', 'pm', 'cdot', 'frac', 'sqrt']) {
+    const regex = new RegExp(`_${cmd}(?=[{[\\s0-9]|$)`, 'g');
+    result = result.replace(regex, `_\\${cmd}`);
+  }
+
+  // 5. 修复常见的反斜杠丢失模式
+  // 如：$imes$ → $\times$（检测到imes前面是$且没有反斜杠）
+  result = result.replace(/\$times/g, '$\\times');
+  result = result.replace(/\$frac/g, '$\\frac');
+  result = result.replace(/\$sqrt/g, '$\\sqrt');
+  result = result.replace(/\$div/g, '$\\div');
+  result = result.replace(/\$cdot/g, '$\\cdot');
+  result = result.replace(/\$angle/g, '$\\angle');
+  result = result.replace(/\$parallel/g, '$\\parallel');
+  result = result.replace(/\$perp/g, '$\\perp');
+  result = result.replace(/\$triangle/g, '$\\triangle');
+  result = result.replace(/\$circ/g, '$\\circ');
+  result = result.replace(/\$infty/g, '$\\infty');
+  result = result.replace(/\$alpha/g, '$\\alpha');
+  result = result.replace(/\$beta/g, '$\\beta');
+  result = result.replace(/\$gamma/g, '$\\gamma');
+  result = result.replace(/\$delta/g, '$\\delta');
+  result = result.replace(/\$theta/g, '$\\theta');
+  result = result.replace(/\$pi/g, '$\\pi');
+  result = result.replace(/\$sigma/g, '$\\sigma');
+  result = result.replace(/\$lambda/g, '$\\lambda');
+  result = result.replace(/\$mu/g, '$\\mu');
+  result = result.replace(/\$leq/g, '$\\leq');
+  result = result.replace(/\$geq/g, '$\\geq');
+  result = result.replace(/\$neq/g, '$\\neq');
+
+  // 6. 修复\begin{cases}等环境命令
+  result = result.replace(/\$begin\{/g, '$\\begin{');
+  result = result.replace(/\\\\begin\{/g, '\\\\begin{');
 
   return result;
 }

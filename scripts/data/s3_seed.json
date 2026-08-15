@@ -1588,7 +1588,7 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "过点E作 $EF\\parallel AB$",
+        "prompt": "请添加一条辅助线，使 $AB\\parallel CD$ 的性质能够应用于求解 $\\angle BED$（写出辅助线的作法）",
         "answer": "",
         "answer_spec": {
           "accept_forms": [
@@ -1603,7 +1603,7 @@
       },
       {
         "seq": 2,
-        "prompt": "由 $AB\\parallel CD$ 推出 $EF\\parallel CD$，得 $\\angle BEF=\\angle B=40^{\\circ}$，$\\angle FED=\\angle D=30^{\\circ}$",
+        "prompt": "利用 $AB\\parallel CD$ 和你添加的辅助线，分别求出 $\\angle BEF$ 和 $\\angle FED$ 的度数，并说明依据",
         "answer": "30^{\\circ}",
         "answer_spec": {
           "accept_forms": [
@@ -1618,7 +1618,7 @@
       },
       {
         "seq": 3,
-        "prompt": "得 $\\angle BED=\\angle BEF+\\angle FED=70^{\\circ}$",
+        "prompt": "根据以上推理，计算 $\\angle BED$ 的度数",
         "answer": "70^{\\circ}",
         "answer_spec": {
           "accept_forms": [
@@ -1681,7 +1681,7 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "由 $DE\\parallel BC$ 得 $\\angle ADE=\\angle C=70^{\\circ}$（同位角相等）",
+        "prompt": "请添加一条辅助线，使 $AB\\parallel CD$ 的性质能够应用于求解 $\\angle BED$（写出辅助线的作法）",
         "answer": "70^{\\circ}$（同位角相等）",
         "answer_spec": {
           "accept_forms": [
@@ -1696,7 +1696,7 @@
       },
       {
         "seq": 2,
-        "prompt": "答 $\\angle C=70^{\\circ}$",
+        "prompt": "利用 $AB\\parallel CD$ 和你添加的辅助线，分别求出 $\\angle BEF$ 和 $\\angle FED$ 的度数，并说明依据",
         "answer": "70^{\\circ}",
         "answer_spec": {
           "accept_forms": [
@@ -2208,7 +2208,7 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "由 $AB\\parallel CD$ 推出 $\\angle ABD+\\angle CDB=180^{\\circ}$（同旁内角互补）",
+        "prompt": "由 $\\angle BAC=\\angle DAE$，两边同时减去 $\\angle DAC$ 后，能得到什么新的等量关系？请写出推理过程",
         "answer": "180^{\\circ}$（同旁内角互补）",
         "answer_spec": {
           "accept_forms": [
@@ -2223,7 +2223,7 @@
       },
       {
         "seq": 2,
-        "prompt": "由角平分线得 $\\angle EBD+\\angle BDE=\\frac{1}{2}(\\angle ABD+\\angle CDB)=90^{\\circ}$",
+        "prompt": "在 $\\triangle ABD$ 和 $\\triangle ACE$ 中，写出你已推导出的三组对应相等的元素",
         "answer": "90^{\\circ}",
         "answer_spec": {
           "accept_forms": [
@@ -2238,7 +2238,7 @@
       },
       {
         "seq": 3,
-        "prompt": "由三角形内角和得 $\\angle BED=90^{\\circ}$，即 $BE\\perp DE$",
+        "prompt": "根据以上三组对应相等的元素，判断 $\\triangle ABD\\cong\\triangle ACE$ 的判定依据，并写出结论",
         "answer": "",
         "answer_spec": {
           "accept_forms": [
