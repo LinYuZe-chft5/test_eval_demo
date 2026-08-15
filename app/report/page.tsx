@@ -198,17 +198,36 @@ export default async function ReportPage({ searchParams }: PageProps) {
     );
   }
 
-  const draft: ReportDraft = row.degradedTexts ? (row.degradedTexts as ReportDraft) : {
+  // 🔴 关键修复：优先读取结构化字段（literacyRadar/moduleMastery等），
+  // degradedTexts仅作为兼容旧报告的兜底，决不允许其覆盖最新结构化数据。
+  // 否则零作答用户会看到旧报告（上一位用户或上一次的）缓存的雷达图。
+  const hasNewStructuredData = (
+    row.literacyRadar !== undefined &&
+    row.moduleMastery !== undefined &&
+    row.totalScore !== undefined
+  );
+
+  // 如果存在结构化字段（新格式），直接使用，完全忽略degradedTexts旧缓存
+  // 只有完全没有结构化字段（纯旧版本报告）才fallback到degradedTexts
+  const fallbackDraft: ReportDraft = row.degradedTexts && !hasNewStructuredData
+    ? (row.degradedTexts as ReportDraft)
+    : null;
+
+  const degradedTextListFromStructured: any[] = Array.isArray((row as any).degraded_texts)
+    ? (row as any).degraded_texts
+    : [];
+
+  const draft: ReportDraft = fallbackDraft ?? {
     total_score: row.totalScore ?? 0,
     adaptive_level: row.adaptiveLevel ?? 'weak',
     module_mastery: row.moduleMastery ?? {},
     literacy_radar: row.literacyRadar ?? {},
-    ec_profile: row.ecProfile ?? { primary: undefined, secondary: undefined, distribution: {}, low_confidence_notes: [] },
+    ec_profile: row.ecProfile ?? { primary: null, secondary: null, distribution: {}, low_confidence_notes: [] },
     confidence_flags: row.confidenceFlags ?? [],
     plan_4week: row.plan4week ?? [],
     action_checklist: row.actionChecklist ?? [],
     narrative_text: row.narrativeText ?? '',
-    degraded_texts: [],
+    degraded_texts: degradedTextListFromStructured,
   };
 
   // 直接使用知识点代码和掌握度数据，显示中文名称
@@ -253,6 +272,14 @@ export default async function ReportPage({ searchParams }: PageProps) {
   const adaptText = ADAPT_TEXT[adaptLevel] ?? adaptLevel;
   const totalScore = draft.total_score;
 
+  // 🔴 degraded_texts 警告渲染数据（空答卷/低信度的强提示）
+  const degradedTextsList: { key: string; text: string }[] = Array.isArray(draft.degraded_texts)
+    ? (draft.degraded_texts as any[])
+    : [];
+  const blankResponseWarn = degradedTextsList.find((d: any) =>
+    String(d.key || '').indexOf('blank') >= 0
+  );
+
   return (
     <main className="min-h-screen px-4 py-6 space-y-4">
       <header className="text-center pt-2 pb-2">
@@ -260,7 +287,29 @@ export default async function ReportPage({ searchParams }: PageProps) {
         <p className="text-xs text-gray-400 mt-1">学生标识：{studentId}</p>
       </header>
 
-      {lowCred && (
+      {/* 🔴【无效答卷警告（最优先展示）】空答卷红色全屏提醒 */}
+      {blankResponseWarn && (
+        <div className="rounded-xl border-2 border-red-400 bg-red-50 px-4 py-4 space-y-2 shadow-sm">
+          <div className="flex items-start gap-2">
+            <span className="text-2xl">🚫</span>
+            <div className="flex-1">
+              <h3 className="text-sm font-bold text-red-700 mb-1">本次诊断为【无效答卷】</h3>
+              <p className="text-xs text-red-600 whitespace-pre-line leading-relaxed">
+                {String(blankResponseWarn.text).replace(/^⚠️【无效答卷警告】/, '').trim()}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 其他 degraded_texts 警告（非空白类） */}
+      {degradedTextsList.filter((d: any) => String(d.key || '').indexOf('blank') < 0).map((d: any, i: number) => (
+        <div key={i} className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700 whitespace-pre-line leading-relaxed">
+          {String(d.text)}
+        </div>
+      ))}
+
+      {lowCred && !blankResponseWarn && (
         <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
           ⚠️ 本次答卷存在低信度信号，结论仅供参考，建议复测。
         </div>
@@ -283,7 +332,14 @@ export default async function ReportPage({ searchParams }: PageProps) {
 
       <Section title="模块掌握度">
         {moduleListEmpty ? (
-          <p className="text-xs text-gray-400">暂无模块数据</p>
+          <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-3 space-y-1">
+            <p className="text-xs text-gray-500 font-medium">📭 暂无模块掌握度数据</p>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              诊断算法（参考MBTI维度投票原理）要求每个知识点至少<b>2道真实作答</b>才能生成掌握度结论。
+              空答卷、大量秒跳过、或作答题目分布不均时，会选择「不输出结论」而非「随意给分」，以免误判。
+              完成三天全部题目后再查看即可获得完整模块图谱。
+            </p>
+          </div>
         ) : (
           <ul className="space-y-2">
             {moduleList.map(function renderMod(m) {
@@ -314,7 +370,20 @@ export default async function ReportPage({ searchParams }: PageProps) {
 
       <Section title="素养雷达图">
         {radarEmpty ? (
-          <p className="text-xs text-gray-400">暂无素养数据</p>
+          <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-4 space-y-2 text-center">
+            <div className="text-3xl">🕸️</div>
+            <p className="text-xs text-gray-500 font-medium">素养雷达图未生成（显示中心点/空白）</p>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              <b>算法原理说明（参考MBTI 16型人格）：</b><br/>
+              MBTI每维度至少需要3道题的投票才输出人格倾向；
+              本系统同理，每个素养维度（运算能力、推理能力等）需要至少<b>2道真实作答</b>，
+              且整体真实作答题数≥4道才渲染雷达图。<b>空答卷 = 数据不足 ≠ 能力差</b>，
+              系统选择显示中心空白而非虚假多边形，避免对学生产生标签化误判。
+            </p>
+            <p className="text-[11px] text-blue-500 leading-relaxed">
+              ✅ 解决方法：重新完成三天测评，每题认真作答（即使做错也能参与计算）
+            </p>
+          </div>
         ) : (
           <RadarChart data={radarData} max={1} />
         )}

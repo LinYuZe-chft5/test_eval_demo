@@ -492,7 +492,10 @@ async function generateReport(
     plan4week !== undefined ||
     actionChecklist !== undefined;
 
-  const degradedTexts = hasStructuredFields ? undefined : draft;
+  // 🔴 关键修复：hasStructuredFields为真时必须显式写null，
+  // 否则旧记录的degradedTexts残留值会在report/page.tsx第201行被优先读取，
+  // 导致雷达图/模块掌握度显示上一次报告的旧缓存数据（零作答场景误显示）
+  const degradedTextsValue = hasStructuredFields ? null : draft;
 
   const baseCreateData: any = {
     studentId: bigintId,
@@ -508,10 +511,18 @@ async function generateReport(
   if (confidenceFlags !== undefined) baseCreateData.confidenceFlags = confidenceFlags;
   if (plan4week !== undefined) baseCreateData.plan4week = plan4week;
   if (actionChecklist !== undefined) baseCreateData.actionChecklist = actionChecklist;
-  if (degradedTexts !== undefined) baseCreateData.degradedTexts = degradedTexts;
+  // degradedTexts显式写入（可能为null，用于覆盖旧报告缓存）
+  baseCreateData.degradedTexts = degradedTextsValue;
+  // degraded_texts（驼峰命名版）同样写入，覆盖旧命名的残留
+  baseCreateData.degraded_texts = degradedTextsValue;
+  // narrative文本存入独立字段（便于report页读取最新内容而不是旧缓存）
+  if (draft?.narrative_text) baseCreateData.narrativeText = draft.narrative_text;
 
   const baseUpdateData: any = { ...baseCreateData, updatedAt: new Date() };
   delete baseUpdateData.viewToken;
+  // update也必须显式清空degradedTexts，防止旧缓存残留
+  baseUpdateData.degradedTexts = degradedTextsValue;
+  baseUpdateData.degraded_texts = degradedTextsValue;
 
   await (prisma as any).reportDrafts.upsert({
     where: { studentId: bigintId, skuCode: skuCode },

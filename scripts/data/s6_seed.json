@@ -1387,8 +1387,9 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "总人数 $=20\\div20\\%=100$",
+        "prompt": "（1）已知\"$\\le 0.5$小时\"的人数与对应百分比，利用\"部分量 $\\div$ 对应百分比 $=$ 总量\"求全班总人数",
         "answer": "100",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "integer"
@@ -1397,13 +1398,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 2,
         "ec_mapping": []
       },
       {
         "seq": 2,
-        "prompt": "\"$\\ge1$小时\"人数 $=100\\times40\\%=40$",
+        "prompt": "（2）已知\"$\\ge 1$小时\"所占百分比，根据总人数求该部分的人数",
         "answer": "40",
+        "score": 1,
         "answer_spec": {
           "accept_forms": [
             "integer"
@@ -1412,13 +1413,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       },
       {
         "seq": 3,
-        "prompt": "估计人数 $=1200\\times40\\%=480$",
+        "prompt": "（3）用样本百分比估计总体，全校有 1200 名学生时，估计其中\"$\\ge 1$小时\"的学生人数",
         "answer": "480",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "integer"
@@ -1427,7 +1428,6 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 2,
         "ec_mapping": []
       }
     ],
@@ -1480,38 +1480,24 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "$\\begin{cases}1+b+c=0\\\\9+3b+c=0\\end{cases}$",
-        "answer": "0\\end{cases}",
+        "prompt": "（1）将点 $(1,0)$ 和 $(3,0)$ 分别代入抛物线解析式 $y=x^2+bx+c$，列出关于 $b,c$ 的方程组并求解",
+        "answer": "b=-4,c=3",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
-            "fraction"
+            "expression"
           ],
           "decimal_tolerance": 0.01,
           "allow_pi": true,
           "unit": null
         },
-        "score": 2,
         "ec_mapping": []
       },
       {
         "seq": 2,
-        "prompt": "$b=-4,c=3$",
-        "answer": "3",
-        "answer_spec": {
-          "accept_forms": [
-            "integer"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 3,
-        "prompt": "对称轴 $x=2$，$x<1$ 时 $y$ 随 $x$ 增大而减小",
-        "answer": "",
+        "prompt": "（2）先求抛物线对称轴，根据开口方向判断当 $x_1<x_2<1$ 时函数的单调性，再比较 $y_1$ 与 $y_2$ 的大小关系（用 $>、<、=$ 表示）",
+        "answer": "y_1>y_2",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "expression"
@@ -1520,22 +1506,6 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 4,
-        "prompt": "$x_1<x_2<1$ $\\Rightarrow$ $y_1>y_2$",
-        "answer": "",
-        "answer_spec": {
-          "accept_forms": [
-            "expression"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
         "ec_mapping": []
       }
     ],
@@ -1586,8 +1556,9 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "$60+x-40=20+x$",
-        "answer": "20+x",
+        "prompt": "（1）设涨价 $x$ 元：用含 $x$ 的代数式分别表示\"每件实际利润\"和\"实际销售量\"，再写出总利润 $y$ 与 $x$ 的函数关系式（整理为 $y=ax^2+bx+c$ 的一般形式）",
+        "answer": "y=-2x^2+20x+400",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "expression"
@@ -1596,13 +1567,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       },
       {
         "seq": 2,
-        "prompt": "$20-2x$",
-        "answer": "",
+        "prompt": "（2）用配方法或对称轴公式求利润函数取最大值时的 $x$ 值，再反推\"售价多少元\"和\"最大利润为多少元\"两个结果",
+        "answer": "售价65元，最大利润450元",
+        "score": 3,
         "answer_spec": {
           "accept_forms": [
             "expression"
@@ -1611,52 +1582,6 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 3,
-        "prompt": "$y=(20+x)(20-2x)=-2x^2+20x+400$",
-        "answer": "-2x^2+20x+400",
-        "answer_spec": {
-          "accept_forms": [
-            "expression"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 4,
-        "prompt": "$x=5$（或对称轴/配方）",
-        "answer": "5$（或对称轴/配方）",
-        "answer_spec": {
-          "accept_forms": [
-            "fraction"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 5,
-        "prompt": "售价65元，最大利润450元",
-        "answer": "",
-        "answer_spec": {
-          "accept_forms": [
-            "expression"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
         "ec_mapping": []
       }
     ],
@@ -1709,8 +1634,9 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "$\\angle ACB=90^{\\circ}$",
+        "prompt": "（1）由\"$AB$ 是直径\"这一条件，根据圆周角定理能推出 $\\angle ACB$ 为多少度？请说明理由",
         "answer": "90^{\\circ}",
+        "score": 1,
         "answer_spec": {
           "accept_forms": [
             "fraction"
@@ -1719,13 +1645,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       },
       {
         "seq": 2,
-        "prompt": "$AB=\\sqrt{4^2+3^2}=5$",
+        "prompt": "（1）续：在 $Rt\\triangle ABC$ 中，已知两条直角边 $AC=4,BC=3$，利用勾股定理求斜边 $AB$ 的长",
         "answer": "5",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "integer"
@@ -1734,28 +1660,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       },
       {
         "seq": 3,
-        "prompt": "$\\frac{1}{2}AC\\cdot BC=\\frac{1}{2}AB\\cdot CD$",
-        "answer": "\\frac{1}{2}AB\\cdot CD",
-        "answer_spec": {
-          "accept_forms": [
-            "fraction"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 2,
-        "ec_mapping": []
-      },
-      {
-        "seq": 4,
-        "prompt": "$CD=\\frac{12}{5}$",
+        "prompt": "（2）用面积等积法：$S_{\\triangle ABC}=\\frac{1}{2}\\cdot AC\\cdot BC=\\frac{1}{2}\\cdot AB\\cdot CD$，代入已知量求 $CD$ 的长度（写成分数形式）",
         "answer": "\\frac{12}{5}",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "fraction"
@@ -1764,7 +1675,6 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       }
     ],
@@ -2149,8 +2059,9 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "连接 $OC$",
-        "answer": "",
+        "prompt": "（1）连接 $OC$：由 $CD$ 切 $\\odot O$ 于 $C$ 得切线性质 $OC\\perp CD$，结合 $AD\\perp CD$，请判断 $AD$ 与 $OC$ 的位置关系，再利用 $OA=OC$ 等边对等角，推导 $\\angle DAC=\\angle OAC$，完成角平分线证明（写角相等关键等式即可）",
+        "answer": "\\angle DAC=\\angle OAC",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "expression"
@@ -2159,73 +2070,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       },
       {
         "seq": 2,
-        "prompt": "$OC\\perp CD$",
-        "answer": "",
-        "answer_spec": {
-          "accept_forms": [
-            "expression"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 3,
-        "prompt": "$OC\\parallel AD$（都垂直于 $CD$）",
-        "answer": "",
-        "answer_spec": {
-          "accept_forms": [
-            "expression"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 4,
-        "prompt": "$\\angle OCA=\\angle OAC=\\angle CAD$",
-        "answer": "\\angle CAD",
-        "answer_spec": {
-          "accept_forms": [
-            "fraction"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 5,
-        "prompt": "$AC$ 平分 $\\angle DAB$",
-        "answer": "",
-        "answer_spec": {
-          "accept_forms": [
-            "expression"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
-        "ec_mapping": []
-      },
-      {
-        "seq": 6,
-        "prompt": "$AC=\\sqrt{6^2+8^2}=10$",
+        "prompt": "（2）在 $Rt\\triangle ACD$ 中，已知直角边 $CD=6,AD=8$，先用勾股定理求斜边 $AC$ 的长",
         "answer": "10",
+        "score": 2,
         "answer_spec": {
           "accept_forms": [
             "integer"
@@ -2234,37 +2085,21 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 2,
         "ec_mapping": []
       },
       {
-        "seq": 7,
-        "prompt": "$\\triangle ACD\\sim\\triangle ABC$",
-        "answer": "",
+        "seq": 3,
+        "prompt": "（2）续：连接 $BC$，证明 $\\triangle ACD\\sim\\triangle ABC$（两组角相等），再利用相似三角形对应边成比例 $\\frac{AD}{AC}=\\frac{AC}{AB}$，求直径 $AB$ 的长度（写成分数或小数）",
+        "answer": "\\frac{25}{2}",
+        "score": 3,
         "answer_spec": {
           "accept_forms": [
-            "expression"
+            "fraction"
           ],
           "decimal_tolerance": 0.01,
           "allow_pi": true,
           "unit": null
         },
-        "score": 2,
-        "ec_mapping": []
-      },
-      {
-        "seq": 8,
-        "prompt": "$\\frac{AD}{AC}=\\frac{AC}{AB}$，$AB=12.5$",
-        "answer": "12.5",
-        "answer_spec": {
-          "accept_forms": [
-            "decimal"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 1,
         "ec_mapping": []
       }
     ],
@@ -2317,38 +2152,9 @@
     "steps": [
       {
         "seq": 1,
-        "prompt": "$\\angle ABD=\\angle CBA$",
-        "answer": "\\angle CBA",
-        "answer_spec": {
-          "accept_forms": [
-            "fraction"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
+        "prompt": "（1）已知 $\\angle BAD=\\angle C$，再找出一组公共角（用三个字母表示该角），然后依据相似三角形判定定理（AA/SAS/SSS），说明判定 $\\triangle ABD\\sim\\triangle CBA$ 的依据",
+        "answer": "AA",
         "score": 2,
-        "ec_mapping": []
-      },
-      {
-        "seq": 2,
-        "prompt": "$\\angle BAD=\\angle C$",
-        "answer": "\\angle C",
-        "answer_spec": {
-          "accept_forms": [
-            "fraction"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 2,
-        "ec_mapping": []
-      },
-      {
-        "seq": 3,
-        "prompt": "$\\triangle ABD\\sim\\triangle CBA$（AA）",
-        "answer": "",
         "answer_spec": {
           "accept_forms": [
             "expression"
@@ -2357,28 +2163,13 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 1,
         "ec_mapping": []
       },
       {
-        "seq": 4,
-        "prompt": "$\\frac{BD}{BA}=\\frac{BA}{BC}$",
-        "answer": "\\frac{BA}{BC}",
-        "answer_spec": {
-          "accept_forms": [
-            "fraction"
-          ],
-          "decimal_tolerance": 0.01,
-          "allow_pi": true,
-          "unit": null
-        },
-        "score": 3,
-        "ec_mapping": []
-      },
-      {
-        "seq": 5,
-        "prompt": "$BC=9$",
+        "seq": 2,
+        "prompt": "（2）由 $\\triangle ABD\\sim\\triangle CBA$，写出对应边的比例式（$\\frac{AB}{CB}=\\frac{BD}{BA}$），代入已知 $AB=6,BD=4$，求解 $BC$ 的长",
         "answer": "9",
+        "score": 3,
         "answer_spec": {
           "accept_forms": [
             "integer"
@@ -2387,7 +2178,6 @@
           "allow_pi": true,
           "unit": null
         },
-        "score": 2,
         "ec_mapping": []
       }
     ],
