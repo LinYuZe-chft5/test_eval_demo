@@ -56,7 +56,46 @@
     "variant_stem": "计算：$125\\times8+49\\div7=$（ ）",
     "variant_answer": "1007",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_01"
+    "stem_hash": "PLACEHOLDER_D1_01",
+    "error_label_pool": [
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 0,
+      "rubric_items": [
+        {
+          "description": "选对A得0分",
+          "score": 0
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.4",
+        "name": "四则混合运算"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -115,7 +154,46 @@
     "variant_stem": "钟表上6时整，时针与分针所成的角是（ ）",
     "variant_answer": "180\\circ",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_02"
+    "stem_hash": "PLACEHOLDER_D1_02",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 0,
+      "rubric_items": [
+        {
+          "description": "选对B得0分",
+          "score": 0
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.3",
+        "name": "角与度分秒"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -174,7 +252,46 @@
     "variant_stem": "白洋淀某水文站将水位“高于警戒水位0.8米”记作$+0.8$米，则“低于警戒水位1.2米”记作（ ）A. $+1.2$米 B. $-1.2$米 C. $-0.4$米 D. $+0.4$米",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_03"
+    "stem_hash": "PLACEHOLDER_D1_03",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-08",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.1",
+        "name": "正负数意义"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -233,7 +350,46 @@
     "variant_stem": "数轴上$-1$与$0$正中间的点表示的数是（ ）A. $-1.5$ B. $-0.5$ C. $0.5$ D. $-2$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_04"
+    "stem_hash": "PLACEHOLDER_D1_04",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.2",
+        "name": "数轴"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -292,7 +448,46 @@
     "variant_stem": "$-|+3|$ 的值是（ ）A. $3$ B. $-3$ C. $3$或$-3$ D. $\\frac{1}{3}$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_05"
+    "stem_hash": "PLACEHOLDER_D1_05",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.3",
+        "name": "绝对值与相反数"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -337,7 +532,46 @@
     "variant_stem": "若$|b|=4$，且$b$是正数，则$b$的相反数是____。",
     "variant_answer": "-4",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_06"
+    "stem_hash": "PLACEHOLDER_D1_06",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于7得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.3",
+        "name": "绝对值与相反数"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -397,7 +631,54 @@
     "variant_stem": "比较大小：$-\\frac{3}{5}$____$-\\frac{5}{8}$（填“>”“<”或“=”）",
     "variant_answer": ">",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_07"
+    "stem_hash": "PLACEHOLDER_D1_07",
+    "error_label_pool": [
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.4",
+        "name": "有理数比较"
+      },
+      "secondary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -456,7 +737,46 @@
     "variant_stem": "计算：$\\frac{5}{6}-\\frac{1}{3}+\\frac{1}{4}=$（ ）A. $\\frac{3}{4}$ B. $\\frac{5}{12}$ C. $\\frac{7}{12}$ D. $\\frac{1}{2}$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_08"
+    "stem_hash": "PLACEHOLDER_D1_08",
+    "error_label_pool": [
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -515,7 +835,49 @@
     "variant_stem": "计算：$(-7)+4$的结果是（ ）A. $-11$ B. $-3$ C. $3$ D. $11$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_09"
+    "stem_hash": "PLACEHOLDER_D1_09",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.5",
+        "name": "有理数加法"
+      },
+      "secondary": {
+        "code": "KP-P.4",
+        "name": "四则混合运算"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -560,7 +922,49 @@
     "variant_stem": "计算：$-5-(-8)=$____。",
     "variant_answer": "3",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_10"
+    "stem_hash": "PLACEHOLDER_D1_10",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于-3得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.6",
+        "name": "有理数减法"
+      },
+      "secondary": {
+        "code": "KP-01.5",
+        "name": "有理数加法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -619,7 +1023,46 @@
     "variant_stem": "计算：$(-5)\\times(-6)$的结果是（ ）A. $-30$ B. $30$ C. $-11$ D. $11$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_11"
+    "stem_hash": "PLACEHOLDER_D1_11",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.8",
+        "name": "有理数乘法"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -664,7 +1107,49 @@
     "variant_stem": "计算：$(-24)\\div(-6)=$____。",
     "variant_answer": "4",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_12"
+    "stem_hash": "PLACEHOLDER_D1_12",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于4得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.9",
+        "name": "有理数除法"
+      },
+      "secondary": {
+        "code": "KP-01.8",
+        "name": "有理数乘法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -723,7 +1208,49 @@
     "variant_stem": "$(-3)^2$ 的值是（ ）A. $-9$ B. $9$ C. $-6$ D. $6$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_13"
+    "stem_hash": "PLACEHOLDER_D1_13",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.10",
+        "name": "有理数乘方"
+      },
+      "secondary": {
+        "code": "KP-01.8",
+        "name": "有理数乘法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -769,7 +1296,54 @@
     "variant_stem": "计算：$-5+\\frac{7}{2}-(-\\frac{3}{2})=$____。",
     "variant_answer": "0",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_14"
+    "stem_hash": "PLACEHOLDER_D1_14",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于0得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.11",
+        "name": "有理数混合运算"
+      },
+      "secondary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -829,7 +1403,54 @@
     "variant_stem": "规则改为：把抽到的数先平方，再乘$(-1)$，最后加上$6$。抽到$-4$时结果是（ ）A. $-10$ B. $22$ C. $-2$ D. $10$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_15"
+    "stem_hash": "PLACEHOLDER_D1_15",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.11",
+        "name": "有理数混合运算"
+      },
+      "secondary": {
+        "code": "KP-01.10",
+        "name": "有理数乘方"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -888,7 +1509,49 @@
     "variant_stem": "一支铅笔$b$元，一个笔记本比铅笔贵4元，买3个笔记本共需（ ）A. $3(b+4)$元 B. $(3b+4)$元 C. $3b$元 D. $(b+12)$元",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_16"
+    "stem_hash": "PLACEHOLDER_D1_16",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-03.1",
+        "name": "代数式概念"
+      },
+      "secondary": {
+        "code": "KP-P.5",
+        "name": "字母表示数"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -948,7 +1611,51 @@
     "variant_stem": "“比$a$的4倍大1的数”用代数式表示是（ ）A. $4a+1$ B. $4(a+1)$ C. $1-4a$ D. $4a-1$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_17"
+    "stem_hash": "PLACEHOLDER_D1_17",
+    "error_label_pool": [
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-03.2",
+        "name": "列代数式"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1023,7 +1730,55 @@
     "variant_stem": "单项式$5ab^2$的系数是____，次数是____。",
     "variant_answer": "系数5，次数3",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_18"
+    "stem_hash": "PLACEHOLDER_D1_18",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-N2",
+        "label": "符号丢失",
+        "description": "漏写负号或符号判断错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一步：分析已知条件，写出第一步的推理过程或结果",
+          "answer": "-3",
+          "score": 1
+        },
+        {
+          "seq": 2,
+          "description": "第二步：基于上一步结论，继续写出下一步的推导过程",
+          "answer": "3",
+          "score": 1
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.1",
+        "name": "单项式"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1082,7 +1837,49 @@
     "variant_stem": "下列是同类项的是（ ）A. $2a^2b$与$-3ba^2$ B. $x^2$与$2x$ C. $4ab$与$4bc$ D. $3m^2n$与$3mn^2$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_19"
+    "stem_hash": "PLACEHOLDER_D1_19",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.2",
+        "name": "同类项"
+      },
+      "secondary": {
+        "code": "KP-04.1",
+        "name": "单项式"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1128,7 +1925,54 @@
     "variant_stem": "计算：$4n-6n+3n=$____。",
     "variant_answer": "n",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_20"
+    "stem_hash": "PLACEHOLDER_D1_20",
+    "error_label_pool": [
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于-4m得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.2",
+        "name": "同类项"
+      },
+      "secondary": {
+        "code": "KP-01.7",
+        "name": "有理数加减混合"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1187,7 +2031,46 @@
     "variant_stem": "下列变形正确的是（ ）A. 若$x=y$，则$x+5=y-5$ B. 若$x=y$，则$3x=3y$ C. 若$x=y$，则$\\frac{x}{m}=\\frac{y}{m}$ D. 若$x=y$，则$x^2=y+m$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_21"
+    "stem_hash": "PLACEHOLDER_D1_21",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.1",
+        "name": "等式性质"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1247,7 +2130,54 @@
     "variant_stem": "方程$3x-2=13$的解是（ ）A. $x=5$ B. $x=\\frac{11}{3}$ C. $x=4$ D. $x=15$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D1_22"
+    "stem_hash": "PLACEHOLDER_D1_22",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.2",
+        "name": "一元一次方程解法"
+      },
+      "secondary": {
+        "code": "KP-05.1",
+        "name": "等式性质"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1294,7 +2224,54 @@
     "variant_stem": "计算：$-\\frac{1}{3}+\\frac{5}{6}-(-\\frac{1}{6})=$____。",
     "variant_answer": "2/3",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_01"
+    "stem_hash": "PLACEHOLDER_D2_01",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于1/2得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      },
+      "secondary": {
+        "code": "KP-01.7",
+        "name": "有理数加减混合"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1354,7 +2331,54 @@
     "variant_stem": "数轴上点M表示$-1$，点N表示$4$，M、N两点间的距离是（ ）A. $3$ B. $5$ C. $-5$ D. $4$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_02"
+    "stem_hash": "PLACEHOLDER_D2_02",
+    "error_label_pool": [
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.2",
+        "name": "数轴"
+      },
+      "secondary": {
+        "code": "KP-01.3",
+        "name": "绝对值与相反数"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1400,7 +2424,54 @@
     "variant_stem": "计算：$\\frac{3}{4}\\times(-\\frac{2}{9})+\\frac{1}{6}=$____。",
     "variant_answer": "0",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_03"
+    "stem_hash": "PLACEHOLDER_D2_03",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于0得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      },
+      "secondary": {
+        "code": "KP-01.8",
+        "name": "有理数乘法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1460,7 +2531,51 @@
     "variant_stem": "直线上依次有A、B、C、D四个点，线段共有（ ）A. $4$条 B. $5$条 C. $6$条 D. $8$条",
     "variant_answer": "C",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_04"
+    "stem_hash": "PLACEHOLDER_D2_04",
+    "error_label_pool": [
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-02.2",
+        "name": "线段计数"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1505,7 +2620,49 @@
     "variant_stem": "把$25^{\\circ}36'$换算成以度为单位：____$^{\\circ}$。",
     "variant_answer": "25.6",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_05"
+    "stem_hash": "PLACEHOLDER_D2_05",
+    "error_label_pool": [
+      {
+        "code": "EC-C2",
+        "label": "算术定势迁移",
+        "description": "小学算术方法负迁移到初中代数"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于18.5得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.3",
+        "name": "角与度分秒"
+      },
+      "secondary": {
+        "code": "KP-02.5",
+        "name": "角的概念"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1565,7 +2722,54 @@
     "variant_stem": "某停车场收费标准如下表：停车$x$小时收费$y$元：$x=1$时$y=5$；$x=2$时$y=8$；$x=3$时$y=11$。则关系式是（ ）A. $y=3x$ B. $y=3x+2$ C. $y=5x$ D. $y=2x+3$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_06"
+    "stem_hash": "PLACEHOLDER_D2_06",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M3",
+        "label": "建模双要素缺失",
+        "description": "只抓变化率漏初始量"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-03.3",
+        "name": "关系式与规律"
+      },
+      "secondary": {
+        "code": "KP-03.2",
+        "name": "列代数式"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1610,7 +2814,49 @@
     "variant_stem": "当$a=-3$时，代数式$2a+5$的值是____。",
     "variant_answer": "-1",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_07"
+    "stem_hash": "PLACEHOLDER_D2_07",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于-5得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-03.4",
+        "name": "代数式求值"
+      },
+      "secondary": {
+        "code": "KP-01.8",
+        "name": "有理数乘法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1670,7 +2916,54 @@
     "variant_stem": "化简$b-(3b-2)$的结果是（ ）A. $-2b+2$ B. $-2b-2$ C. $4b-2$ D. $-2b$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_08"
+    "stem_hash": "PLACEHOLDER_D2_08",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.3",
+        "name": "去括号法则"
+      },
+      "secondary": {
+        "code": "KP-04.2",
+        "name": "同类项"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1715,7 +3008,49 @@
     "variant_stem": "化简：$2a-(a-3b)+(a-2b)=$____。",
     "variant_answer": "2a+b",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_09"
+    "stem_hash": "PLACEHOLDER_D2_09",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于4x+y得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.4",
+        "name": "整式加减"
+      },
+      "secondary": {
+        "code": "KP-04.3",
+        "name": "去括号法则"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1773,7 +3108,44 @@
     "variant_stem": "下列是一元一次方程的是（ ）A. $3x=9$ B. $x^2=4$ C. $2x-y=1$ D. $\\frac{2}{x}=1$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_10"
+    "stem_hash": "PLACEHOLDER_D2_10",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.2",
+        "name": "一元一次方程概念"
+      },
+      "secondary": {
+        "code": "KP-05.1",
+        "name": "等式性质"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1818,7 +3190,49 @@
     "variant_stem": "解方程$4x+3=19$，得$x=$____。",
     "variant_answer": "4",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_11"
+    "stem_hash": "PLACEHOLDER_D2_11",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于4得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.3",
+        "name": "一元一次方程解法"
+      },
+      "secondary": {
+        "code": "KP-P.2",
+        "name": "一元一次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1878,7 +3292,54 @@
     "variant_stem": "由方程$3x+6=15$进行第一步变形，正确的是（ ）A. $3x=15+6$ B. $3x=15-6$ C. $x+6=5$ D. $3x+6-3=15-6$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_12"
+    "stem_hash": "PLACEHOLDER_D2_12",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.2",
+        "name": "一元一次方程解法"
+      },
+      "secondary": {
+        "code": "KP-05.1",
+        "name": "等式性质"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1924,7 +3385,54 @@
     "variant_stem": "O是直线AB上一点，射线OC在AB上方，$\\angle AOC=35^{\\circ}$，则$\\angle BOC=$____$^{\\circ}$。",
     "variant_answer": "145",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_13"
+    "stem_hash": "PLACEHOLDER_D2_13",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于130得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-02.7",
+        "name": "角平分线与互余互补"
+      },
+      "secondary": {
+        "code": "KP-P.3",
+        "name": "角与度分秒"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -1983,7 +3491,49 @@
     "variant_stem": "$m$在$-4$与$-3$之间，$n$在$0$与$1$之间，下列一定正确的是（ ）A. $m>n$ B. $|m|<|n|$ C. $-m>n$ D. $m+n>0$",
     "variant_answer": "C",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_14"
+    "stem_hash": "PLACEHOLDER_D2_14",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对D得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.4",
+        "name": "有理数比较"
+      },
+      "secondary": {
+        "code": "KP-01.2",
+        "name": "数轴"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2056,7 +3606,53 @@
     "variant_stem": "化简：$3(2m-n)-2(m-3n)$。",
     "variant_answer": "4m+3n",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_15"
+    "stem_hash": "PLACEHOLDER_D2_15",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一步：去括号（写出展开结果）",
+          "answer": "6a-2b-3a+6b",
+          "score": 1
+        },
+        {
+          "seq": 2,
+          "description": "第二步：合并同类项（写出最简结果）",
+          "answer": "3a+4b",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.4",
+        "name": "整式加减"
+      },
+      "secondary": {
+        "code": "KP-04.3",
+        "name": "去括号法则"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2131,7 +3727,58 @@
     "variant_stem": "先化简再求值：$(3a-b)-(a-3b)$，其中$a=1$，$b=-2$。",
     "variant_answer": "化简2a+2b，求值-2",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_16"
+    "stem_hash": "PLACEHOLDER_D2_16",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一步：化简（写出最简结果）",
+          "answer": "x-y",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "第二步：代入求值（写出数值结果）",
+          "answer": "3",
+          "score": 1
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-03.4",
+        "name": "代数式求值"
+      },
+      "secondary": {
+        "code": "KP-04.4",
+        "name": "整式加减"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2205,7 +3852,53 @@
     "variant_stem": "解方程：$\\frac{x-1}{2}=\\frac{x+1}{3}$。",
     "variant_answer": "x=5（3(x-1)=2(x+1)→3x-3=2x+2→x=5）",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_17"
+    "stem_hash": "PLACEHOLDER_D2_17",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一步：去分母并去括号（写出变形后的方程）",
+          "answer": "4x-2=3x+6",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "第二步：移项求解（写出x的值）",
+          "answer": "8",
+          "score": 1
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.3",
+        "name": "一元一次方程解法"
+      },
+      "secondary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2279,7 +3972,58 @@
     "variant_stem": "雄安新区某绿化队两天共植树240棵，第一天比第二天少植30棵，两天各植多少棵？（用方程解答）",
     "variant_answer": "设第二天x棵：x+(x-30)=240，x=135；第二天135棵，第一天105棵",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D2_18"
+    "stem_hash": "PLACEHOLDER_D2_18",
+    "error_label_pool": [
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-J1",
+        "label": "衔接障碍",
+        "description": "算术思维向代数思维转换未完成"
+      },
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一步：设未知数并列出一元一次方程",
+          "answer": "设第二天运进x吨，x+(x+20)=180",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "第二步：解方程并写出两天各多少吨",
+          "answer": "第二天80吨，第一天100吨",
+          "score": 1
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.4",
+        "name": "一元一次方程应用"
+      },
+      "secondary": {
+        "code": "KP-05.3",
+        "name": "一元一次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2338,7 +4082,49 @@
     "variant_stem": "若$|y-2|=5$，则$y=$（ ）A. $7$ B. $-3$ C. $7$或$-3$ D. $3$或$-7$",
     "variant_answer": "C",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_01"
+    "stem_hash": "PLACEHOLDER_D3_01",
+    "error_label_pool": [
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.2",
+        "name": "数轴"
+      },
+      "secondary": {
+        "code": "KP-01.3",
+        "name": "绝对值与相反数"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2385,7 +4171,58 @@
     "variant_stem": "按规律搭三角形：1个三角形用3根，2个相连的用5根，3个相连的用7根……搭$n$个需要____根。",
     "variant_answer": "2n+1",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_02"
+    "stem_hash": "PLACEHOLDER_D3_02",
+    "error_label_pool": [
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      },
+      {
+        "code": "EC-M3",
+        "label": "建模双要素缺失",
+        "description": "只抓变化率漏初始量"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 0.5
+      },
+      {
+        "dimension": "YS-09",
+        "weight": 0.5
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于3n+1得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-03.3",
+        "name": "关系式与规律"
+      },
+      "secondary": {
+        "code": "KP-03.2",
+        "name": "列代数式"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2444,7 +4281,54 @@
     "variant_stem": "点C是线段AB的中点，D是CB的中点，$AB=16$cm，则$AD=$（ ）A. $8$cm B. $12$cm C. $4$cm D. $10$cm",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_03"
+    "stem_hash": "PLACEHOLDER_D3_03",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-02.4",
+        "name": "中点与线段和差"
+      },
+      "secondary": {
+        "code": "KP-02.2",
+        "name": "线段计数"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2490,7 +4374,54 @@
     "variant_stem": "一个长方形的长比宽多4cm，周长是28cm，面积是____cm²。",
     "variant_answer": "45",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_04"
+    "stem_hash": "PLACEHOLDER_D3_04",
+    "error_label_pool": [
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于72得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-P.3",
+        "name": "角与度分秒"
+      },
+      "secondary": {
+        "code": "KP-05.3",
+        "name": "一元一次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2550,7 +4481,54 @@
     "variant_stem": "长方形的长为$(3b+1)$cm，宽比长少$b$ cm，周长用含$b$的式子表示为（ ）A. $(10b+4)$cm B. $(10b+2)$cm C. $(5b+2)$cm D. $(8b+4)$cm",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_05"
+    "stem_hash": "PLACEHOLDER_D3_05",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.4",
+        "name": "整式加减"
+      },
+      "secondary": {
+        "code": "KP-03.2",
+        "name": "列代数式"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2597,7 +4575,58 @@
     "variant_stem": "规定$m\\otimes n=m^2+2n$，则$(-3)\\otimes4=$____。",
     "variant_answer": "17",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_06"
+    "stem_hash": "PLACEHOLDER_D3_06",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-01",
+        "weight": 0.5
+      },
+      {
+        "dimension": "YS-09",
+        "weight": 0.5
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "答案等于10得2分",
+          "score": 2
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-01.11",
+        "name": "有理数混合运算"
+      },
+      "secondary": {
+        "code": "KP-01.10",
+        "name": "有理数乘方"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2690,7 +4719,73 @@
     "variant_stem": "某旅行团从保定到白洋淀景区，去时大巴平均速度50千米/时，用了2小时；原路返回时用了2.5小时。返回时平均速度是多少？（用方程解答）",
     "variant_answer": "设返回速度x：2.5x=50\\times2，x=40；检验40\\times2.5=100 ✓，答：40千米/时",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_07"
+    "stem_hash": "PLACEHOLDER_D3_07",
+    "error_label_pool": [
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-J1",
+        "label": "衔接障碍",
+        "description": "算术思维向代数思维转换未完成"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 0.5
+      },
+      {
+        "dimension": "YS-08",
+        "weight": 0.5
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 6,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一问：设未知数，并根据\"往返路程相等\"列出一元一次方程",
+          "answer": "设返回时平均速度为x千米/时，2.5x=60\\times3",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "第二问：解这个方程，求出x的值",
+          "answer": "72",
+          "score": 2
+        },
+        {
+          "seq": 3,
+          "description": "第三步：按要求写出计算或推理结果",
+          "answer": "返回时平均速度是72千米/时；72\\times2.5=180=60\\times3，且72>60符合\"车速提高\"",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.4",
+        "name": "一元一次方程应用"
+      },
+      "secondary": {
+        "code": "KP-05.3",
+        "name": "一元一次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2782,7 +4877,73 @@
     "variant_stem": "某文具店笔记本每本8元，笔袋每个15元。小明买两种文具共9件，花了100元。各买了多少？（用方程解答）",
     "variant_answer": "设笔记本x本：8x+15(9-x)=100→-7x=-35→x=5；笔记本5本、笔袋4个",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_08"
+    "stem_hash": "PLACEHOLDER_D3_08",
+    "error_label_pool": [
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-J1",
+        "label": "衔接障碍",
+        "description": "算术思维向代数思维转换未完成"
+      },
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      },
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 0.5
+      },
+      {
+        "dimension": "YS-08",
+        "weight": 0.5
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 6,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一问①：设未知数并列出一元一次方程",
+          "answer": "设咸鸭蛋买了x盒，30x+25(10-x)=270",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "第一问②：解方程并写出两种蛋各几盒",
+          "answer": "咸鸭蛋4盒，松花蛋6盒",
+          "score": 2
+        },
+        {
+          "seq": 3,
+          "description": "第二问：预算300元、松花蛋盒数不变，最多再多买几盒咸鸭蛋？写出理由",
+          "answer": "最多再买1盒；再买1盒共300元\\leq300元，再买2盒需330元>300元",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-05.4",
+        "name": "一元一次方程应用"
+      },
+      "secondary": {
+        "code": "KP-05.3",
+        "name": "一元一次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S1_XIAOSHENGCHU_MATH",
@@ -2875,6 +5036,68 @@
     "variant_stem": "先化简，再求值：$\\frac{2}{3}(6a-3b)-3(2a-b)$，其中$a=5$，$b=-1$。",
     "variant_answer": "化简：4a-2b-6a+3b=-2a+b；代入：-10+(-1)=-11",
     "status": "active",
-    "stem_hash": "PLACEHOLDER_D3_09"
+    "stem_hash": "PLACEHOLDER_D3_09",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 6,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "第一步：去括号（写出展开结果）",
+          "answer": "6x-3y-6x+2y",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "第二步：合并同类项（写出最简结果）",
+          "answer": "-y",
+          "score": 2
+        },
+        {
+          "seq": 3,
+          "description": "第三步：代入求值（写出数值结果）",
+          "answer": "-2",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-04.4",
+        "name": "整式加减"
+      },
+      "secondary": {
+        "code": "KP-P.1",
+        "name": "分数运算"
+      }
+    }
   }
 ]

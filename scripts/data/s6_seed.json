@@ -57,7 +57,54 @@
     "variant_stem": "$x^2-7x+12=0$ 的解为______",
     "variant_answer": "$x_1=3,x_2=4$",
     "status": "active",
-    "stem_hash": "0938d1ed83d5bf9c64422fe6e13f8ec5f2543b31480c12ac74dd6c8924fab257"
+    "stem_hash": "0938d1ed83d5bf9c64422fe6e13f8ec5f2543b31480c12ac74dd6c8924fab257",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      },
+      "secondary": {
+        "code": "KP-09.03",
+        "name": "因式分解"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -116,7 +163,49 @@
     "variant_stem": "用配方法解 $x^2-4x+1=0$，配方后为______",
     "variant_answer": "$(x-2)^2=3$",
     "status": "active",
-    "stem_hash": "450d18fae066c7c2679791d92f16035311e37ebbb908f00f715d5cd33a7f41b2"
+    "stem_hash": "450d18fae066c7c2679791d92f16035311e37ebbb908f00f715d5cd33a7f41b2",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      },
+      "secondary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -175,7 +264,49 @@
     "variant_stem": "$x^2+4x+m=0$ 无实根，则 $m$ 的范围是______",
     "variant_answer": "$m>4$",
     "status": "active",
-    "stem_hash": "9ba7e2310ec43f3a6b2faa23898f8d99ab95831e728dbb34896c04d8f18ca146"
+    "stem_hash": "9ba7e2310ec43f3a6b2faa23898f8d99ab95831e728dbb34896c04d8f18ca146",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-23.02",
+        "name": "韦达定理与判别式"
+      },
+      "secondary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -235,7 +366,54 @@
     "variant_stem": "若 $x_1,x_2$ 是 $x^2+5x-3=0$ 的两根，则 $x_1+x_2+x_1x_2=$______",
     "variant_answer": "$-8$",
     "status": "active",
-    "stem_hash": "96bfe5905819a5a4775ffafe3a43df35b0de8a34879d2975ba67d2931f0fd3b8"
+    "stem_hash": "96bfe5905819a5a4775ffafe3a43df35b0de8a34879d2975ba67d2931f0fd3b8",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-23.02",
+        "name": "韦达定理与判别式"
+      },
+      "secondary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -294,7 +472,49 @@
     "variant_stem": "$y=x^2-2x-8$ 与 $x$ 轴交点为______",
     "variant_answer": "$(4,0)$ 和 $(-2,0)$",
     "status": "active",
-    "stem_hash": "92b4af92e873ae3e17f744425de87912eb4d1983132415d75371c346d90dab46"
+    "stem_hash": "92b4af92e873ae3e17f744425de87912eb4d1983132415d75371c346d90dab46",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.01",
+        "name": "圆的性质"
+      },
+      "secondary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -353,7 +573,49 @@
     "variant_stem": "$y=2(x+1)^2-5$ 的顶点坐标为______",
     "variant_answer": "$(-1,-5)$",
     "status": "active",
-    "stem_hash": "1b82385b2703b6522b599515b7c2b907f8ab17ee0f3b46459c963d04fbad4c8e"
+    "stem_hash": "1b82385b2703b6522b599515b7c2b907f8ab17ee0f3b46459c963d04fbad4c8e",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.02",
+        "name": "切线"
+      },
+      "secondary": {
+        "code": "KP-24.01",
+        "name": "圆的性质"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -413,7 +675,51 @@
     "variant_stem": "$y=-\\frac{8}{x}$ 经过点（　　）  \nA. $(2,4)$　B. $(-2,4)$　C. $(1,8)$　D. $(4,2)$",
     "variant_answer": "B",
     "status": "active",
-    "stem_hash": "f66b30755c122507b4f0ea9892a24b9ec84c70e2a48affb6097f50cc67c717cf"
+    "stem_hash": "f66b30755c122507b4f0ea9892a24b9ec84c70e2a48affb6097f50cc67c717cf",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-25.01",
+        "name": "概率概念"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S6-01",
@@ -472,7 +778,54 @@
     "variant_stem": "反比例函数 $y=\\frac{k}{x}$ 在第一象限，点P在图象上，$PA\\perp x$ 轴，$\\triangle POA$ 面积为4，则 $k=$______",
     "variant_answer": "$8$",
     "status": "active",
-    "stem_hash": "1d87a9f595e70009f8e8d5bb7880f70f6451897b5f62e6bb6337fcc6ac7a8656"
+    "stem_hash": "1d87a9f595e70009f8e8d5bb7880f70f6451897b5f62e6bb6337fcc6ac7a8656",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      },
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-25.02",
+        "name": "概率计算"
+      },
+      "secondary": {
+        "code": "KP-25.01",
+        "name": "概率概念"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -531,7 +884,46 @@
     "variant_stem": "$\\cos60^{\\circ}=$______",
     "variant_answer": "$\\frac{1}{2}$",
     "status": "active",
-    "stem_hash": "262a04206b48a4d29c9050fbf32a1226c93ef7d1876a9c6149f7207a4b63aa74"
+    "stem_hash": "262a04206b48a4d29c9050fbf32a1226c93ef7d1876a9c6149f7207a4b63aa74",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-29.01",
+        "name": "命题与证明"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S6-01",
@@ -591,7 +983,54 @@
     "variant_stem": "$\\sin^245^{\\circ}+\\cos^245^{\\circ}=$______",
     "variant_answer": "$1$",
     "status": "active",
-    "stem_hash": "768d0274b68880325a24fc6eb25fb8561fdbf25e28ff447c5316f1e2a10dfddd"
+    "stem_hash": "768d0274b68880325a24fc6eb25fb8561fdbf25e28ff447c5316f1e2a10dfddd",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-29.02",
+        "name": "逻辑推理"
+      },
+      "secondary": {
+        "code": "KP-29.01",
+        "name": "命题与证明"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -650,7 +1089,49 @@
     "variant_stem": "$Rt\\triangle ABC$ 中，$\\angle C=90^{\\circ},AB=10,BC=6$，则 $\\cos A=$______",
     "variant_answer": "$\\frac{4}{5}$",
     "status": "active",
-    "stem_hash": "e5309a697de9e9c14189f9c4de9fc4cfae463ac8457f967a24e64865251dbd92"
+    "stem_hash": "e5309a697de9e9c14189f9c4de9fc4cfae463ac8457f967a24e64865251dbd92",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-30.01",
+        "name": "动点问题"
+      },
+      "secondary": {
+        "code": "KP-29.01",
+        "name": "命题与证明"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -710,7 +1191,54 @@
     "variant_stem": "圆中弦 $AB=12$，弦心距 $d=5$，则半径为______",
     "variant_answer": "$13$",
     "status": "active",
-    "stem_hash": "6391775d48d7b4a9f57a47bb5c77485a2ba8a7780a705b747f9f608006ac0fa5"
+    "stem_hash": "6391775d48d7b4a9f57a47bb5c77485a2ba8a7780a705b747f9f608006ac0fa5",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.01",
+        "name": "统计图表"
+      },
+      "secondary": {
+        "code": "KP-28.02",
+        "name": "数据分析"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -769,7 +1297,54 @@
     "variant_stem": "圆心角 $\\angle AOB=80^{\\circ}$，则圆周角 $\\angle ACB=$______",
     "variant_answer": "$40^{\\circ}$",
     "status": "active",
-    "stem_hash": "c5089b52c43b017b03bcaf667a2c71ac146ac67a9cfa38c4d2b61aa37f86bd13"
+    "stem_hash": "c5089b52c43b017b03bcaf667a2c71ac146ac67a9cfa38c4d2b61aa37f86bd13",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对C得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.02",
+        "name": "数据分析"
+      },
+      "secondary": {
+        "code": "KP-28.01",
+        "name": "统计图表"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -815,7 +1390,51 @@
     "variant_stem": "袋中有黄球4个、蓝球6个，摸到黄球的概率为______",
     "variant_answer": "$\\frac{2}{5}$",
     "status": "active",
-    "stem_hash": "5158b3c28c5a9001a10d057c74e80b27fd905458c3c8cee6e704b76536446c2e"
+    "stem_hash": "5158b3c28c5a9001a10d057c74e80b27fd905458c3c8cee6e704b76536446c2e",
+    "error_label_pool": [
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 4,
+      "rubric_items": [
+        {
+          "description": "答案等于$\\frac{3}{5}$（或 $0.6$）得4分",
+          "score": 4
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-31.01",
+        "name": "综合应用"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S6-01",
@@ -860,7 +1479,49 @@
     "variant_stem": "同时掷两枚骰子，点数之和为7的概率为______",
     "variant_answer": "$\\frac{1}{6}$",
     "status": "active",
-    "stem_hash": "f1300fa167545dcf7f8b297b6f2fd1853ebc434bcb0e83028cabcd4f7fede48f"
+    "stem_hash": "f1300fa167545dcf7f8b297b6f2fd1853ebc434bcb0e83028cabcd4f7fede48f",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 4,
+      "rubric_items": [
+        {
+          "description": "答案等于$\\frac{1}{4}$（或 $0.25$）得4分",
+          "score": 4
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-31.02",
+        "name": "函数综合"
+      },
+      "secondary": {
+        "code": "KP-31.01",
+        "name": "综合应用"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -904,7 +1565,41 @@
     "variant_stem": "数据 $2,8,5,8,6$ 的众数是______，中位数是______",
     "variant_answer": "$8$；$6$",
     "status": "active",
-    "stem_hash": "ea42b4015b49dd00a9c0ebf9e2eef48bff39ac11b4b535e429c7cd38478e93a3"
+    "stem_hash": "ea42b4015b49dd00a9c0ebf9e2eef48bff39ac11b4b535e429c7cd38478e93a3",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "答案等于众数 $=5$；中位数 $=5$得3分",
+          "score": 3
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-32.01",
+        "name": "中考综合"
+      },
+      "secondary": null
+    }
   },
   {
     "sku_code": "S6-01",
@@ -951,7 +1646,59 @@
     "variant_stem": "$y=x^2-5x+6$ 与坐标轴交于A、B、C，则 $\\triangle ABC$ 面积为______",
     "variant_answer": "$3$",
     "status": "active",
-    "stem_hash": "37f2c341f25a9d92d58fd055cd713eb5559d15edfe63fd4ec23934dc5d40139e"
+    "stem_hash": "37f2c341f25a9d92d58fd055cd713eb5559d15edfe63fd4ec23934dc5d40139e",
+    "error_label_pool": [
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "答案等于$1$得3分",
+          "score": 3
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.03",
+        "name": "弧长与扇形"
+      },
+      "secondary": {
+        "code": "KP-24.01",
+        "name": "圆的性质"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1011,7 +1758,54 @@
     "variant_stem": "某厂一月份产值10万元，第一季度共33.1万元，若月增长率为 $x$，则方程为______",
     "variant_answer": "$10+10(1+x)+10(1+x)^2=33.1$",
     "status": "active",
-    "stem_hash": "a6ea42f27e7fa6c7ed1ce6c6296a1fc096e34861a004e899726b4b3f2e30f9c0"
+    "stem_hash": "a6ea42f27e7fa6c7ed1ce6c6296a1fc096e34861a004e899726b4b3f2e30f9c0",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-23.03",
+        "name": "KP-23.03"
+      },
+      "secondary": {
+        "code": "KP-23.01",
+        "name": "一元二次方程解法"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1071,7 +1865,54 @@
     "variant_stem": "用30cm铁丝围成面积为50cm²的矩形，设一边为 $x$，列方程为______",
     "variant_answer": "$x(15-x)=50$",
     "status": "active",
-    "stem_hash": "091c52d9bed640c9449fdad497ea4b4cacbd3cba3bd79c570f20892f30038bdf"
+    "stem_hash": "091c52d9bed640c9449fdad497ea4b4cacbd3cba3bd79c570f20892f30038bdf",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对B得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-23.03",
+        "name": "KP-23.03"
+      },
+      "secondary": {
+        "code": "KP-P.3",
+        "name": "角与度分秒"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1129,7 +1970,44 @@
     "variant_stem": "进价30元，售价50元时售40件，每涨1元少售1件。设涨价 $x$ 元，总利润 $y=$______",
     "variant_answer": "$(20+x)(40-x)$",
     "status": "active",
-    "stem_hash": "2568237581244b7e2927f3372a9ea61172572a9a1c2d9545e1212bf65149deb2"
+    "stem_hash": "2568237581244b7e2927f3372a9ea61172572a9a1c2d9545e1212bf65149deb2",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对A得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.04",
+        "name": "KP-24.04"
+      },
+      "secondary": {
+        "code": "KP-24.01",
+        "name": "圆的性质"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1187,7 +2065,44 @@
     "variant_stem": "抛物线开口向上，对称轴在 $y$ 轴右侧，与 $y$ 轴负半轴相交，则 $a$______0，$b$______0，$c$______0（填$>$或$<$）",
     "variant_answer": "$>$；$<$；$<$",
     "status": "active",
-    "stem_hash": "02b85ebdeef16d15d215bc6ca556e570dd5a21199365cbbfca850ecfdd614b0c"
+    "stem_hash": "02b85ebdeef16d15d215bc6ca556e570dd5a21199365cbbfca850ecfdd614b0c",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 2,
+      "rubric_items": [
+        {
+          "description": "选对D得2分",
+          "score": 2
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.05",
+        "name": "KP-24.05"
+      },
+      "secondary": {
+        "code": "KP-24.02",
+        "name": "切线"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1233,7 +2148,54 @@
     "variant_stem": "$DE\\parallel BC,AD=4,AB=10,BC=15$，则 $DE=$______",
     "variant_answer": "$6$",
     "status": "active",
-    "stem_hash": "17dc146c63d29d81bdb9433ae7348dc4b5836c46c1a85b9ced96445a38fcee42"
+    "stem_hash": "17dc146c63d29d81bdb9433ae7348dc4b5836c46c1a85b9ced96445a38fcee42",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "答案等于$10$得3分",
+          "score": 3
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-26.02",
+        "name": "反比例函数应用"
+      },
+      "secondary": {
+        "code": "KP-26.01",
+        "name": "反比例函数"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1280,7 +2242,59 @@
     "variant_stem": "$PA$ 切 $\\odot O$ 于A，$\\angle P=45^{\\circ},OA=3$，则 $OP=$______",
     "variant_answer": "$3\\sqrt{2}$",
     "status": "active",
-    "stem_hash": "d8f86b93fec5a3facbc6e918db65775d227926b405b667d6f34c95620389cd1d"
+    "stem_hash": "d8f86b93fec5a3facbc6e918db65775d227926b405b667d6f34c95620389cd1d",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "答案等于$2$得3分",
+          "score": 3
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.04",
+        "name": "KP-28.04"
+      },
+      "secondary": {
+        "code": "KP-28.01",
+        "name": "统计图表"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1326,7 +2340,54 @@
     "variant_stem": "$\\sin^260^{\\circ}+\\cos^260^{\\circ}-\\tan45^{\\circ}=$______",
     "variant_answer": "$0$",
     "status": "active",
-    "stem_hash": "e993d6b70d6564993626fef9266e10052fbc2645c824f8e9594bbfe427ae9157"
+    "stem_hash": "e993d6b70d6564993626fef9266e10052fbc2645c824f8e9594bbfe427ae9157",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "答案等于$\\frac{3}{2}$（或 $1.5$）得3分",
+          "score": 3
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-29.03",
+        "name": "KP-29.03"
+      },
+      "secondary": {
+        "code": "KP-29.02",
+        "name": "逻辑推理"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1371,7 +2432,49 @@
     "variant_stem": "两个相似三角形对应高之比为 $3:5$，则面积比为______",
     "variant_answer": "$9:25$",
     "status": "active",
-    "stem_hash": "a9d40cb03a0ae3ef4274c1538259bd64073970cf79171c81ccf196704dc7e675"
+    "stem_hash": "a9d40cb03a0ae3ef4274c1538259bd64073970cf79171c81ccf196704dc7e675",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "答案等于$4:9$（或 $\\frac{4}{9}$）得3分",
+          "score": 3
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-27.01",
+        "name": "投影与视图"
+      },
+      "secondary": {
+        "code": "KP-26.02",
+        "name": "反比例函数应用"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1464,7 +2567,69 @@
     "variant_stem": "某调查中\"喜欢篮球\"占30%，对应60人；\"喜欢足球\"占25%。若全校2000人，估计喜欢足球的有______人",
     "variant_answer": "$500$",
     "status": "active",
-    "stem_hash": "06a4fd86759b6ae44a27abae7a4a1fc2b0281179496a751f0f8ba0de3070915e"
+    "stem_hash": "06a4fd86759b6ae44a27abae7a4a1fc2b0281179496a751f0f8ba0de3070915e",
+    "error_label_pool": [
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      },
+      {
+        "code": "EC-M3",
+        "label": "建模双要素缺失",
+        "description": "只抓变化率漏初始量"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 5,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "（1）已知\"$\\le 0.5$小时\"的人数与对应百分比，利用\"部分量 $\\div$ 对应百分比 $=$ 总量\"求全班总人数",
+          "answer": "100",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "（2）已知\"$\\ge 1$小时\"所占百分比，根据总人数求该部分的人数",
+          "answer": "40",
+          "score": 1
+        },
+        {
+          "seq": 3,
+          "description": "（3）用样本百分比估计总体，全校有 1200 名学生时，估计其中\"$\\ge 1$小时\"的学生人数",
+          "answer": "480",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-32.02",
+        "name": "KP-32.02"
+      },
+      "secondary": {
+        "code": "KP-32.01",
+        "name": "中考综合"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1540,7 +2705,53 @@
     "variant_stem": "$y=x^2+bx+c$ 过 $(-1,0)$ 和 $(2,0)$，若 $x_1>x_2>2$，比较 $y_1$ 与 $y_2$",
     "variant_answer": "$y_1>y_2$",
     "status": "active",
-    "stem_hash": "7e6510fecba2141e7e8e37a5e08f74294d8186c91aae8e5dce7c328da66b0d67"
+    "stem_hash": "7e6510fecba2141e7e8e37a5e08f74294d8186c91aae8e5dce7c328da66b0d67",
+    "error_label_pool": [
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 5,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "（1）将点 $(1,0)$ 和 $(3,0)$ 分别代入抛物线解析式 $y=x^2+bx+c$，列出关于 $b,c$ 的方程组并求解",
+          "answer": "b=-4,c=3",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "（2）先求抛物线对称轴，根据开口方向判断当 $x_1<x_2<1$ 时函数的单调性，再比较 $y_1$ 与 $y_2$ 的大小关系（用 $>、<、=$ 表示）",
+          "answer": "y_1>y_2",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.06",
+        "name": "KP-24.06"
+      },
+      "secondary": {
+        "code": "KP-24.02",
+        "name": "切线"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1618,7 +2829,63 @@
     "variant_stem": "进价50元，售价80元时售30件，每降1元多售3件。求利润最大时的售价和最大利润",
     "variant_answer": "售价70元，最大利润1200元",
     "status": "active",
-    "stem_hash": "f221500943a5d326c82a4b2801c85d71e79d09bfb4b6335f57fb2a78394782a4"
+    "stem_hash": "f221500943a5d326c82a4b2801c85d71e79d09bfb4b6335f57fb2a78394782a4",
+    "error_label_pool": [
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 5,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "（1）设涨价 $x$ 元：用含 $x$ 的代数式分别表示\"每件实际利润\"和\"实际销售量\"，再写出总利润 $y$ 与 $x$ 的函数关系式（整理为 $y=ax^2+bx+c$ 的一般形式）",
+          "answer": "y=-2x^2+20x+400",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "（2）用配方法或对称轴公式求利润函数取最大值时的 $x$ 值，再反推\"售价多少元\"和\"最大利润为多少元\"两个结果",
+          "answer": "售价65元，最大利润450元",
+          "score": 3
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.04",
+        "name": "KP-24.04"
+      },
+      "secondary": {
+        "code": "KP-24.02",
+        "name": "切线"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1709,7 +2976,59 @@
     "variant_stem": "$AB$ 是直径，$C$ 在圆上，$AC=6,BC=8$，$CD\\perp AB$，求 $CD$",
     "variant_answer": "$\\frac{24}{5}$",
     "status": "active",
-    "stem_hash": "41cfe1fa1e4091409dde2a4c70bc54fa9ea8dbf6e578fd6c08f175d8f5353dfe"
+    "stem_hash": "41cfe1fa1e4091409dde2a4c70bc54fa9ea8dbf6e578fd6c08f175d8f5353dfe",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 5,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "（1）由\"$AB$ 是直径\"这一条件，根据圆周角定理能推出 $\\angle ACB$ 为多少度？请说明理由",
+          "answer": "90^{\\circ}",
+          "score": 1
+        },
+        {
+          "seq": 2,
+          "description": "（1）续：在 $Rt\\triangle ABC$ 中，已知两条直角边 $AC=4,BC=3$，利用勾股定理求斜边 $AB$ 的长",
+          "answer": "5",
+          "score": 2
+        },
+        {
+          "seq": 3,
+          "description": "（2）用面积等积法：$S_{\\triangle ABC}=\\frac{1}{2}\\cdot AC\\cdot BC=\\frac{1}{2}\\cdot AB\\cdot CD$，代入已知量求 $CD$ 的长度（写成分数形式）",
+          "answer": "\\frac{12}{5}",
+          "score": 2
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.03",
+        "name": "KP-28.03"
+      },
+      "secondary": {
+        "code": "KP-28.01",
+        "name": "统计图表"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1770,7 +3089,59 @@
     "variant_stem": "抛物线 $y=x^2-4x+3$ 上是否存在点P使 $\\triangle ABP$ 面积为6？若存在，有几个？",
     "variant_answer": "存在，2个",
     "status": "active",
-    "stem_hash": "b433ae96f089e2bf53bc6e5958384543d2a24db0d378e567f7001f900d0aa9bf"
+    "stem_hash": "b433ae96f089e2bf53bc6e5958384543d2a24db0d378e567f7001f900d0aa9bf",
+    "error_label_pool": [
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "选对C得3分",
+          "score": 3
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.07",
+        "name": "KP-24.07"
+      },
+      "secondary": {
+        "code": "KP-24.03",
+        "name": "弧长与扇形"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1830,7 +3201,64 @@
     "variant_stem": "$AB$ 是直径，$C$ 在圆上，$CD$ 切 $\\odot O$ 于C，$AD\\perp CD$，$\\angle A=30^{\\circ},CD=\\sqrt{3}$，则半径为（　　）\nA. $2$　　B. $2\\sqrt{3}$　　C. $4$　　D. $4\\sqrt{3}$",
     "variant_answer": "A",
     "status": "active",
-    "stem_hash": "0af8ad480f81f3f262bf7228da19577a2ef442ef9d2a25a5fe5b183840f40e11"
+    "stem_hash": "0af8ad480f81f3f262bf7228da19577a2ef442ef9d2a25a5fe5b183840f40e11",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "选对C得3分",
+          "score": 3
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.05",
+        "name": "KP-28.05"
+      },
+      "secondary": {
+        "code": "KP-28.04",
+        "name": "KP-28.04"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1890,7 +3318,59 @@
     "variant_stem": "在 $Rt\\triangle ABC$ 中，$\\angle C=90^{\\circ},\\angle A=30^{\\circ},BC=4$。以C为圆心、$CB$ 为半径作圆，交 $AB$ 于D，交 $AC$ 于E，则图中阴影部分的面积为______",
     "variant_answer": "$\\frac{8\\pi}{3}-4\\sqrt{3}$",
     "status": "active",
-    "stem_hash": "726f6fd53c8d2e5d246b37b51d596b4008d8e2a0866795baf5b865b4f96b33c8"
+    "stem_hash": "726f6fd53c8d2e5d246b37b51d596b4008d8e2a0866795baf5b865b4f96b33c8",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "选对B得3分",
+          "score": 3
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-29.04",
+        "name": "KP-29.04"
+      },
+      "secondary": {
+        "code": "KP-28.06",
+        "name": "KP-28.06"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1950,7 +3430,54 @@
     "variant_stem": "$B(2,3)$ 以原点为位似中心缩小 $\\frac{1}{2}$，则 $B'$ 的坐标为______",
     "variant_answer": "$(1,\\frac{3}{2})$ 或 $(-1,-\\frac{3}{2})$",
     "status": "active",
-    "stem_hash": "28751d4a67e9fb73ba3d42b22de6b5939332ba8f57064ba59fc664adb6f7201f"
+    "stem_hash": "28751d4a67e9fb73ba3d42b22de6b5939332ba8f57064ba59fc664adb6f7201f",
+    "error_label_pool": [
+      {
+        "code": "EC-C3",
+        "label": "分类不完整",
+        "description": "分类讨论遗漏情况"
+      },
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-03",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 3,
+      "rubric_items": [
+        {
+          "description": "选对C得3分",
+          "score": 3
+        },
+        {
+          "description": "选错或不选得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-27.01",
+        "name": "投影与视图"
+      },
+      "secondary": {
+        "code": "KP-26.02",
+        "name": "反比例函数应用"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -1996,7 +3523,54 @@
     "variant_stem": "圆锥底面半径4cm，母线6cm，侧面积为______",
     "variant_answer": "$24\\pi$",
     "status": "active",
-    "stem_hash": "cb0472954bc3fe5c0c9b508680a8eabad7f675727c2326f90a161516febdf328"
+    "stem_hash": "cb0472954bc3fe5c0c9b508680a8eabad7f675727c2326f90a161516febdf328",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-C1",
+        "label": "审题不完整",
+        "description": "漏读条件、扫读失误"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-02",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 4,
+      "rubric_items": [
+        {
+          "description": "答案等于$15\\pi$（cm²）得4分",
+          "score": 4
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.06",
+        "name": "KP-28.06"
+      },
+      "secondary": {
+        "code": "KP-28.01",
+        "name": "统计图表"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -2043,7 +3617,59 @@
     "variant_stem": "进价30元，售价 $x$ 元时售 $(150-3x)$ 件，利润最大时售价为______",
     "variant_answer": "$40$",
     "status": "active",
-    "stem_hash": "12a8564b8405816a7f5bf4d7d00e9a004729926af2a41e57d4ddd04f424ea7dd"
+    "stem_hash": "12a8564b8405816a7f5bf4d7d00e9a004729926af2a41e57d4ddd04f424ea7dd",
+    "error_label_pool": [
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      },
+      {
+        "code": "EC-M2",
+        "label": "程序不完整",
+        "description": "跳步或解题步骤不完整"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-C4",
+        "label": "答非所问",
+        "description": "求出中间量就停笔，未回答最终问题"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-07",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 4,
+      "rubric_items": [
+        {
+          "description": "答案等于$y=-2x^2+280x-8000$（或等价形式）；$70$得4分",
+          "score": 4
+        },
+        {
+          "description": "答案错误或无法解析得0分",
+          "score": 0
+        }
+      ]
+    },
+    "grading_mode": "auto",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-24.04",
+        "name": "KP-24.04"
+      },
+      "secondary": {
+        "code": "KP-24.02",
+        "name": "切线"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -2136,7 +3762,69 @@
     "variant_stem": "$AB$ 是直径，$C$ 在圆上，$CD$ 切 $\\odot O$ 于C，$AD\\perp CD$ 交圆于E。（1）求证：$AC$ 平分 $\\angle DAB$；（2）若 $CD=3,AD=4$，求直径。",
     "variant_answer": "（1）证明见解析；（2）$\\frac{25}{4}$（或 $6.25$）",
     "status": "active",
-    "stem_hash": "dc3819157d62b553487832864d8703e88143c7fc7b15bea20e897a81a2a73280"
+    "stem_hash": "dc3819157d62b553487832864d8703e88143c7fc7b15bea20e897a81a2a73280",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 10,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "（1）连接 $OC$：由 $CD$ 切 $\\odot O$ 于 $C$ 得切线性质 $OC\\perp CD$，结合 $AD\\perp CD$，请判断 $AD$ 与 $OC$ 的位置关系，再利用 $OA=OC$ 等边对等角，推导 $\\angle DAC=\\angle OAC$，完成角平分线证明（写角相等关键等式即可）",
+          "answer": "\\angle DAC=\\angle OAC",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "（2）在 $Rt\\triangle ACD$ 中，已知直角边 $CD=6,AD=8$，先用勾股定理求斜边 $AC$ 的长",
+          "answer": "10",
+          "score": 2
+        },
+        {
+          "seq": 3,
+          "description": "（2）续：连接 $BC$，证明 $\\triangle ACD\\sim\\triangle ABC$（两组角相等），再利用相似三角形对应边成比例 $\\frac{AD}{AC}=\\frac{AC}{AB}$，求直径 $AB$ 的长度（写成分数或小数）",
+          "answer": "\\frac{25}{2}",
+          "score": 3
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-28.03",
+        "name": "KP-28.03"
+      },
+      "secondary": {
+        "code": "KP-28.04",
+        "name": "KP-28.04"
+      }
+    }
   },
   {
     "sku_code": "S6-01",
@@ -2214,6 +3902,62 @@
     "variant_stem": "$\\triangle ABC$ 中，D在 $BC$ 上，$\\angle CAD=\\angle B,AC=8,CD=4$，求 $BC$",
     "variant_answer": "$16$",
     "status": "active",
-    "stem_hash": "918343957b019f382d88c66cfa884cfae16cd8030fe96c38788ee5d6cf327585"
+    "stem_hash": "918343957b019f382d88c66cfa884cfae16cd8030fe96c38788ee5d6cf327585",
+    "error_label_pool": [
+      {
+        "code": "EC-K1",
+        "label": "概念未建立",
+        "description": "对核心概念定义不理解或未掌握"
+      },
+      {
+        "code": "EC-K2",
+        "label": "法则记忆混乱",
+        "description": "运算法则或符号法则记忆错误"
+      },
+      {
+        "code": "EC-M1",
+        "label": "计算错误",
+        "description": "基础运算口算出错"
+      },
+      {
+        "code": "EC-M4",
+        "label": "表征转换失败",
+        "description": "文字→符号转换障碍"
+      }
+    ],
+    "radar_dimensions": [
+      {
+        "dimension": "YS-05",
+        "weight": 1
+      }
+    ],
+    "scoring_rubric": {
+      "full_score": 10,
+      "rubric_items": [
+        {
+          "seq": 1,
+          "description": "（1）已知 $\\angle BAD=\\angle C$，再找出一组公共角（用三个字母表示该角），然后依据相似三角形判定定理（AA/SAS/SSS），说明判定 $\\triangle ABD\\sim\\triangle CBA$ 的依据",
+          "answer": "AA",
+          "score": 2
+        },
+        {
+          "seq": 2,
+          "description": "（2）由 $\\triangle ABD\\sim\\triangle CBA$，写出对应边的比例式（$\\frac{AB}{CB}=\\frac{BD}{BA}$），代入已知 $AB=6,BD=4$，求解 $BC$ 的长",
+          "answer": "9",
+          "score": 3
+        }
+      ]
+    },
+    "grading_mode": "llm",
+    "knowledge_points": {
+      "primary": {
+        "code": "KP-26.02",
+        "name": "反比例函数应用"
+      },
+      "secondary": {
+        "code": "KP-26.01",
+        "name": "反比例函数"
+      }
+    }
   }
 ]

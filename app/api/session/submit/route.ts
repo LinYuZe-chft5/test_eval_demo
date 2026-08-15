@@ -8,7 +8,7 @@
  *   2. 行为分析（domain/engine/behavior）
  *   3. 二次探测判断（domain/engine/probe）
  *   4. 存储 records
- *   5. 若三天全部完成，生成报告（domain/engine/reportBuilder）
+ *   5. 若三天全部完成，执行五层流水线生成报告（domain/engine/pipeline）
  * 输出: { session_id, score, probe_questions?, all_done?, student_id? }
  */
 import { NextResponse } from 'next/server';
@@ -31,12 +31,7 @@ import {
   shouldProbe,
   selectProbeQuestion,
 } from '@/domain/engine/probe';
-import {
-  buildReport,
-  type ReportRecord,
-  type ReportQuestion,
-} from '@/domain/engine/reportBuilder';
-import type { KpDep, MethodCard } from '@/domain/engine/pathEngine';
+import { runPipeline } from '@/domain/engine/pipeline';
 
 interface SubmitAnswer {
   question_id: string;
@@ -154,7 +149,6 @@ export async function POST(req: Request) {
         score = r.total_score;
         isCorrect = maxScore > 0 && r.total_score >= maxScore;
         if (!isCorrect) {
-          // 取第一个错步的 ec_mapping
           const firstWrong = r.step_results.find((sr) => !sr.is_correct);
           if (firstWrong) {
             const def = stepDefs.find((d) => d.seq === firstWrong.seq);
@@ -342,7 +336,7 @@ export async function POST(req: Request) {
   }
 }
 
-// ===== 报告生成 =====
+// ===== 报告生成（五层流水线） =====
 async function generateReport(
   accessCode: string,
   skuCode: string,
@@ -373,89 +367,85 @@ async function generateReport(
   }
   const bigintId = typeof student.id === 'string' ? BigInt(student.id) : Number(student.id);
 
+  const gradeMap: Record<string, string> = {
+    'S1_XIAOSHENGCHU_MATH': '初一', 'S1': '初一',
+    'S3-01': '初二', 'S3': '初二',
+    'S6-01': '初三', 'S6': '初三',
+  };
+  const gradeLabel = gradeMap[skuCode] || '初一';
+  const skuLabelMap: Record<string, string> = {
+    'S1_XIAOSHENGCHU_MATH': '小升初诊断',
+    'S3-01': '七升八诊断',
+    'S6-01': '中考一轮诊断',
+  };
+  const skuLabel = skuLabelMap[skuCode] || '数学诊断';
+
   // 全部作答记录
   const recordRows: any[] = await (prisma as any).records.findMany({
     where: { sessionId: { in: sessionIds } },
   });
 
-  // 全部题目（三天）
+  // 全部题目（三天，含五层流水线元数据）
   const qRows: any[] = await (prisma as any).questions.findMany({
     where: { skuCode, dayTag: { in: [1, 2, 3] }, status: 'active' },
   });
-  const qMap = new Map<string, any>(qRows.map((q) => [String(q.id), q]));
 
-  const records: ReportRecord[] = recordRows.map((r) => {
-    const q = qMap.get(String(r.questionId ?? r.question_id));
-    return {
-      question_id: String(r.questionId ?? r.question_id),
-      kp_code: q?.kpCode ?? null,
-      module: undefined,
-      literacy: Array.isArray(q?.literacyCodes) ? q.literacyCodes[0] : undefined,
-      pairing_id: q?.pairingId ?? null,
-      is_correct: !!(r.isCorrect ?? r.is_correct),
-      score: r.scoreObtained ?? r.score ?? r.score_obtained ?? 0,
-      time_spent_ms: r.timeSpentMs ?? 0,
-      modify_count: r.modifyCount ?? 0,
-      self_mark: r.selfMark ?? null,
-      invalid_input: !!(r.invalidInput ?? r.invalid_input),
-      behavior_tag: r.behaviorTag ?? null,
-      probe_result: r.probeResult ?? null,
-      ec_code: r.ecCode ?? null,
-    };
-  });
+  // 构建学生答案映射
+  const studentAnswers: Record<string, any> = {};
+  const behaviorData: Record<string, { time_spent_ms: number; modify_count: number; behavior_tag?: string }> = {};
 
-  const questions: ReportQuestion[] = qRows.map((q) => ({
-    id: String(q.id),
-    kp_code: q.kpCode ?? null,
-    module: undefined,
-    literacy: Array.isArray(q.literacyCodes) ? q.literacyCodes[0] : undefined,
-    expected_time_sec: q.expectedTimeSec ?? 60,
-    difficulty_est: q.difficultyEst ?? 0,
-    parallel_group_id: q.parallelGroupId ?? null,
-    variant_of: q.variantOf != null ? String(q.variantOf) : null,
-    status: q.status ?? 'active',
-    is_anchor: !!q.isAnchor,
-    is_warmup: !!q.isWarmup,
-  }));
-
-  // 知识点依赖
-  const kpRows: any[] = await (prisma as any).kpDependencies.findMany();
-  const kpDeps = new Map<string, KpDep>();
-  for (const k of kpRows) {
-    kpDeps.set(k.kpCode, {
-      prerequisite_ids: Array.isArray(k.prerequisiteIds) ? k.prerequisiteIds : [],
-    });
-  }
-
-  // 方法卡：通过题目 ec_mapping 关联 kp_code
-  const ecToKps = new Map<string, Set<string>>();
   for (const q of qRows) {
-    const kps = q.kpCode;
-    const ecs: string[] = Array.isArray(q.ecMapping) ? q.ecMapping : [];
-    for (const ec of ecs) {
-      if (!ecToKps.has(ec)) ecToKps.set(ec, new Set());
-      if (kps) ecToKps.get(ec)!.add(kps);
+    const questionId = `${q.skuCode}-D${q.dayTag}-Q${String(q.seqNo).padStart(2, '0')}`;
+    const qId = String(q.id);
+    const records = recordRows.filter((r: any) => {
+      const rid = String(r.questionId ?? r.question_id);
+      return rid === qId;
+    });
+
+    if (records.length === 0) {
+      studentAnswers[questionId] = null;
+      continue;
+    }
+
+    if (q.qType === 'step') {
+      const stepAnswers: Array<{ seq: number; answer: string }> = [];
+      for (const r of records) {
+        const ans = r.studentAnswer ?? r.student_answer;
+        const seq = r.stepSeq ?? r.step_seq ?? 1;
+        if (ans !== null && ans !== undefined) {
+          stepAnswers.push({ seq: Number(seq), answer: String(ans) });
+        }
+      }
+      studentAnswers[questionId] = stepAnswers.length > 0 ? stepAnswers : null;
+      const totalTime = records.reduce((sum: number, r: any) => sum + (r.timeSpentMs ?? r.time_spent_ms ?? 0), 0);
+      const totalModify = records.reduce((sum: number, r: any) => sum + (r.modifyCount ?? r.modify_count ?? 0), 0);
+      const behaviorTags = records.flatMap((r: any) => Array.isArray(r.behaviorTag) ? r.behaviorTag : (r.behavior_tag ? [r.behavior_tag] : []));
+      behaviorData[questionId] = { time_spent_ms: totalTime, modify_count: totalModify, behavior_tag: behaviorTags[0] };
+    } else {
+      const r = records[0];
+      const ans = r.studentAnswer ?? r.student_answer;
+      studentAnswers[questionId] = ans !== null && ans !== undefined ? String(ans) : null;
+      behaviorData[questionId] = {
+        time_spent_ms: r.timeSpentMs ?? r.time_spent_ms ?? 0,
+        modify_count: r.modifyCount ?? r.modify_count ?? 0,
+        behavior_tag: Array.isArray(r.behaviorTag) ? r.behaviorTag[0] : (r.behaviorTag ?? r.behavior_tag ?? undefined),
+      };
     }
   }
-  const mcRows: any[] = await (prisma as any).methodCards.findMany();
-  const methodCards: MethodCard[] = mcRows.map((m) => ({
-    id: m.ecCode,
-    kp_codes: ecToKps.has(m.ecCode)
-      ? [...(ecToKps.get(m.ecCode) ?? [])]
-      : [],
-    title: m.methodName ?? m.ecCode,
-  }));
 
-  const sessions = completedSessions.map((s) => ({ id: s.id }));
-
-  const draft = buildReport(
-    String(bigintId),
-    sessions,
-    records,
-    questions,
-    kpDeps,
-    methodCards,
-  );
+  // ===== 执行五层流水线 =====
+  const pipelineResult = await runPipeline({
+    questions: qRows,
+    studentAnswers,
+    behaviorData,
+    reportMeta: {
+      student_name: student.nickname || '学生',
+      grade: gradeLabel,
+      test_date: new Date().toISOString().split('T')[0],
+      sku_code: skuCode,
+      sku_label: skuLabel,
+    },
+  });
 
   function generateViewToken(): string {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -473,60 +463,78 @@ async function generateReport(
   }
   const viewToken = generateViewToken();
 
-  const totalScore = draft?.total_score ?? undefined;
-  const adaptiveLevel = draft?.adaptive_level ?? undefined;
-  const moduleMastery = draft?.module_mastery ?? undefined;
-  const literacyRadar = draft?.literacy_radar ?? undefined;
-  const ecProfile = draft?.ec_profile ?? undefined;
-  const confidenceFlags = draft?.confidence_flags ?? undefined;
-  const plan4week = draft?.plan_4week ?? undefined;
-  const actionChecklist = draft?.action_checklist ?? undefined;
+  // ===== 映射流水线输出到数据库字段 =====
+  const { summary_table, generated_report, is_invalid } = pipelineResult;
 
-  const hasStructuredFields = 
-    totalScore !== undefined ||
-    adaptiveLevel !== undefined ||
-    moduleMastery !== undefined ||
-    literacyRadar !== undefined ||
-    ecProfile !== undefined ||
-    confidenceFlags !== undefined ||
-    plan4week !== undefined ||
-    actionChecklist !== undefined;
+  const literacyRadar = Object.entries(summary_table.radar_chart).map(([dim, data]: [string, any]) => ({
+    literacy: dim,
+    score: data.score,
+    level: data.level,
+    question_count: data.question_count,
+    valid: data.valid,
+  }));
 
-  // 🔴 关键修复：hasStructuredFields为真时必须显式写null，
-  // 否则旧记录的degradedTexts残留值会在report/page.tsx第201行被优先读取，
-  // 导致雷达图/模块掌握度显示上一次报告的旧缓存数据（零作答场景误显示）
-  const degradedTextsValue = hasStructuredFields ? null : draft;
+  const moduleMastery = summary_table.error_frequency_by_kp.map((kp: any) => ({
+    module: kp.kp_name,
+    kp_code: kp.kp_code,
+    error_count: kp.error_count,
+    total_count: kp.total_count,
+    error_rate: Math.round(kp.error_rate * 100),
+  }));
+
+  const ecProfile = {
+    primary: summary_table.error_frequency_by_label[0] || null,
+    distribution: summary_table.error_frequency_by_label,
+  };
+
+  const plan4week = generated_report.four_week_plan;
+
+  const actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => ({
+    kp_code: kp.kp_code,
+    name: kp.name,
+    severity: kp.severity,
+    action: `针对${kp.name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%）`,
+  }));
+
+  const degradedTextsValue = is_invalid ? [{
+    type: 'invalid_response',
+    text: generated_report.error_analysis,
+  }] : null;
 
   const baseCreateData: any = {
     studentId: bigintId,
     skuCode: skuCode,
     status: 'draft',
     viewToken: viewToken,
+    totalScore: summary_table.total_score,
+    adaptiveLevel: summary_table.grade_level,
+    moduleMastery: moduleMastery,
+    literacyRadar: literacyRadar,
+    ecProfile: ecProfile,
+    confidenceFlags: is_invalid ? ['invalid_response'] : [],
+    plan4week: plan4week,
+    actionChecklist: actionChecklist,
+    degradedTexts: degradedTextsValue,
+    degraded_texts: degradedTextsValue,
+    narrativeText: generated_report.error_analysis,
   };
-  if (totalScore !== undefined) baseCreateData.totalScore = totalScore;
-  if (adaptiveLevel !== undefined) baseCreateData.adaptiveLevel = adaptiveLevel;
-  if (moduleMastery !== undefined) baseCreateData.moduleMastery = moduleMastery;
-  if (literacyRadar !== undefined) baseCreateData.literacyRadar = literacyRadar;
-  if (ecProfile !== undefined) baseCreateData.ecProfile = ecProfile;
-  if (confidenceFlags !== undefined) baseCreateData.confidenceFlags = confidenceFlags;
-  if (plan4week !== undefined) baseCreateData.plan4week = plan4week;
-  if (actionChecklist !== undefined) baseCreateData.actionChecklist = actionChecklist;
-  // degradedTexts显式写入（可能为null，用于覆盖旧报告缓存）
-  baseCreateData.degradedTexts = degradedTextsValue;
-  // degraded_texts（驼峰命名版）同样写入，覆盖旧命名的残留
-  baseCreateData.degraded_texts = degradedTextsValue;
-  // narrative文本存入独立字段（便于report页读取最新内容而不是旧缓存）
-  if (draft?.narrative_text) baseCreateData.narrativeText = draft.narrative_text;
 
   const baseUpdateData: any = { ...baseCreateData, updatedAt: new Date() };
   delete baseUpdateData.viewToken;
-  // update也必须显式清空degradedTexts，防止旧缓存残留
-  baseUpdateData.degradedTexts = degradedTextsValue;
-  baseUpdateData.degraded_texts = degradedTextsValue;
 
   await (prisma as any).reportDrafts.upsert({
     where: { studentId: bigintId, skuCode: skuCode },
     create: baseCreateData,
     update: baseUpdateData,
+  });
+
+  console.log('[session/submit] 五层流水线报告生成完成:', {
+    total_score: summary_table.total_score,
+    grade_level: summary_table.grade_level,
+    is_invalid,
+    radar_dimensions: Object.keys(summary_table.radar_chart).length,
+    weak_kps: summary_table.weak_knowledge_points.length,
+    plan_weeks: plan4week.length,
+    method: generated_report.generation_method,
   });
 }
