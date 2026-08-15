@@ -1,0 +1,256 @@
+{
+  "sku": "S3-01七年级数学(七升八)",
+  "import_batch": "BATCH-20260815-001",
+  "total_count": 41,
+  "success_count": 41,
+  "fail_count": 0,
+  "import_time": "2026-08-15T11:14:00+08:00",
+  "import_results": [
+    {
+      "question_id": "S3-01-D1-01",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-01"
+    },
+    {
+      "question_id": "S3-01-D1-02",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-02"
+    },
+    {
+      "question_id": "S3-01-D1-03",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-03"
+    },
+    {
+      "question_id": "S3-01-D1-04",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-04"
+    },
+    {
+      "question_id": "S3-01-D1-05",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-05"
+    },
+    {
+      "question_id": "S3-01-D1-06",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-06"
+    },
+    {
+      "question_id": "S3-01-D1-07",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-07"
+    },
+    {
+      "question_id": "S3-01-D1-08",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-08"
+    },
+    {
+      "question_id": "S3-01-D1-09",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-09"
+    },
+    {
+      "question_id": "S3-01-D1-10",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-10"
+    },
+    {
+      "question_id": "S3-01-D1-11",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-11"
+    },
+    {
+      "question_id": "S3-01-D1-12",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-12"
+    },
+    {
+      "question_id": "S3-01-D1-13",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-13"
+    },
+    {
+      "question_id": "S3-01-D1-14",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-14"
+    },
+    {
+      "question_id": "S3-01-D1-15",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D1-15"
+    },
+    {
+      "question_id": "S3-01-D2-01",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-01"
+    },
+    {
+      "question_id": "S3-01-D2-02",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-02"
+    },
+    {
+      "question_id": "S3-01-D2-03",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-03"
+    },
+    {
+      "question_id": "S3-01-D2-04",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-04"
+    },
+    {
+      "question_id": "S3-01-D2-05",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-05"
+    },
+    {
+      "question_id": "S3-01-D2-06",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-06"
+    },
+    {
+      "question_id": "S3-01-D2-07",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-07"
+    },
+    {
+      "question_id": "S3-01-D2-08",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-08"
+    },
+    {
+      "question_id": "S3-01-D2-09",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-09"
+    },
+    {
+      "question_id": "S3-01-D2-10",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-10"
+    },
+    {
+      "question_id": "S3-01-D2-11",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-11"
+    },
+    {
+      "question_id": "S3-01-D2-12",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-12"
+    },
+    {
+      "question_id": "S3-01-D2-13",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-13"
+    },
+    {
+      "question_id": "S3-01-D2-14",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-14"
+    },
+    {
+      "question_id": "S3-01-D2-15",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D2-15"
+    },
+    {
+      "question_id": "S3-01-D3-01",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-01"
+    },
+    {
+      "question_id": "S3-01-D3-02",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-02"
+    },
+    {
+      "question_id": "S3-01-D3-03",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-03"
+    },
+    {
+      "question_id": "S3-01-D3-04",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-04"
+    },
+    {
+      "question_id": "S3-01-D3-05",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-05"
+    },
+    {
+      "question_id": "S3-01-D3-06",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-06"
+    },
+    {
+      "question_id": "S3-01-D3-07",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-07"
+    },
+    {
+      "question_id": "S3-01-D3-08",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-08"
+    },
+    {
+      "question_id": "S3-01-D3-09",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-09"
+    },
+    {
+      "question_id": "S3-01-D3-10",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-10"
+    },
+    {
+      "question_id": "S3-01-D3-11",
+      "import_status": "success",
+      "imported_at": "2026-08-15T11:14:00+08:00",
+      "codex_id": "CDX-S3-01-D3-11"
+    }
+  ]
+}

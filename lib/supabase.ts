@@ -355,12 +355,15 @@ class PrismaTableClient {
   }
 
   async upsert(options: any): Promise<any> {
-    let where: Record<string, any> = {};
-
+    // 展平 where 条件，支持复合唯一键如 { skuCode_dayTag_seqNo: { skuCode, dayTag, seqNo } }
+    const where: Record<string, any> = {};
     if (options.where) {
       for (const [key, value] of Object.entries(options.where)) {
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-          Object.assign(where, value);
+          // 复合键：展开嵌套对象
+          for (const [subKey, subValue] of Object.entries(value)) {
+            where[subKey] = subValue;
+          }
         } else {
           where[key] = value;
         }

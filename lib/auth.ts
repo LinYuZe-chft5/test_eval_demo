@@ -16,6 +16,16 @@ export async function getOrCreateStudentByAccessCode(accessCode: string) {
 
   const accessCodeId = accessCodeRecord.id;
   const skuCode = accessCodeRecord.skuCode;
+  const identity = accessCodeRecord.identity || 'grade7';
+  const nickname = accessCodeRecord.nickname || '学生';
+
+  // 根据 identity 确定年级
+  const gradeMap: Record<string, string> = {
+    grade7: '七年级',
+    grade8: '八年级',
+    grade9: '九年级',
+  };
+  const grade = gradeMap[identity] || '七年级';
 
   let student = await (prisma as any).students.findUnique({
     where: { accessCodeId: accessCodeId },
@@ -26,8 +36,8 @@ export async function getOrCreateStudentByAccessCode(accessCode: string) {
       data: {
         accessCodeId: accessCodeId,
         skuCode: skuCode,
-        nickname: '学生',
-        grade: '七年级',
+        nickname: nickname,
+        grade: grade,
       },
     });
   }

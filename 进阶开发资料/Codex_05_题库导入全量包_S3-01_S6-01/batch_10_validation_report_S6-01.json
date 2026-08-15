@@ -1,0 +1,55 @@
+{
+  "batch_size": 10,
+  "sku": "S6-01",
+  "rule_results": [
+    {
+      "rule_id": "R1",
+      "rule_name": "question_id格式",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R2",
+      "rule_name": "q_type合法值",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R3",
+      "rule_name": "stem非空",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R4",
+      "rule_name": "correct_answer非空",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R5",
+      "rule_name": "choice恰4选项且错因完整",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R6",
+      "rule_name": "kp_code在依赖表",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R7",
+      "rule_name": "difficulty_est范围",
+      "status": "通过",
+      "failed_questions": []
+    },
+    {
+      "rule_id": "R8",
+      "rule_name": "expected_time_sec>0",
+      "status": "通过",
+      "failed_questions": []
+    }
+  ],
+  "overall_status": "通过"
+}

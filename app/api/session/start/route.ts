@@ -2,16 +2,22 @@
  * app/api/session/start/route.ts
  * POST /api/session/start —— 开始诊断会话
  *
- * 输入: { access_code: string, day: 1|2|3 }
- * 逻辑: 创建 session 记录，返回题目列表（按 day_tag 和 seq_no 排序）
+ * 输入: { identity: 'grade7'|'grade8'|'grade9', access_code: string, day: 1|2|3 }
+ * 逻辑:
+ *   1. 验证身份和访问码
+ *   2. 创建 session 记录，返回对应身份的题目列表
  * 输出: { session_id, questions: [...], time_limit_min }
- *
- * 返回给前端的题目已剔除答案等敏感字段。
  */
 import { NextResponse } from 'next/server';
 import { verifyAccessCode, createSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { getDayTimeLimitMin } from '@/domain/config/rules';
+import {
+  getSkuByIdentity,
+  isValidIdentity,
+  validateAccessCodeFormat,
+  type Identity,
+} from '@/lib/identity';
 
 interface ClientOption {
   key: string;
@@ -33,17 +39,39 @@ interface ClientQuestion {
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));
-    const code = body?.access_code;
-    const day = Number(body?.day);
+    const { identity, access_code, day } = body;
+    const dayNum = Number(day);
 
-    if (!code || ![1, 2, 3].includes(day)) {
+    // 1. 验证身份
+    if (!identity || !isValidIdentity(identity)) {
       return NextResponse.json(
-        { ok: false, error: '参数错误：需要 access_code 与 day(1|2|3)' },
+        { ok: false, error: '无效的身份选择' },
         { status: 400 },
       );
     }
 
-    const ac = await verifyAccessCode(code);
+    // 2. 验证访问码格式
+    const codeValidation = validateAccessCodeFormat(access_code);
+    if (!codeValidation.valid) {
+      return NextResponse.json(
+        { ok: false, error: codeValidation.error },
+        { status: 400 },
+      );
+    }
+
+    // 3. 验证日期
+    if (![1, 2, 3].includes(dayNum)) {
+      return NextResponse.json(
+        { ok: false, error: '参数错误：day 应为 1|2|3' },
+        { status: 400 },
+      );
+    }
+
+    const trimmedCode = access_code.trim().toUpperCase();
+    const expectedSku = getSkuByIdentity(identity as Identity);
+
+    // 4. 验证访问码
+    const ac = await verifyAccessCode(trimmedCode);
     if (!ac) {
       return NextResponse.json(
         { ok: false, error: '访问码无效或已过期' },
@@ -51,10 +79,18 @@ export async function POST(req: Request) {
       );
     }
 
-    const dayTag = day as 1 | 2 | 3;
+    // 5. 验证 identity 与 sku_code 匹配
+    if (ac.skuCode && ac.skuCode !== expectedSku) {
+      return NextResponse.json(
+        { ok: false, error: '访问码与身份不匹配，请重新选择身份' },
+        { status: 403 },
+      );
+    }
+
+    const dayTag = dayNum as 1 | 2 | 3;
     const timeLimitMin = getDayTimeLimitMin(dayTag);
 
-    // 创建会话
+    // 6. 创建会话
     const session = await createSession({
       accessCode: ac.code,
       skuCode: ac.skuCode,
@@ -63,7 +99,7 @@ export async function POST(req: Request) {
       timeLimitMin,
     });
 
-    // 取题（按 seq_no 升序）
+    // 7. 获取题目（按 seq_no 升序）
     const rows: any[] = await (prisma as any).questions.findMany({
       where: { skuCode: ac.skuCode, dayTag, status: 'active' },
       orderBy: { seqNo: 'asc' },
@@ -88,6 +124,8 @@ export async function POST(req: Request) {
         session_id: String(session.id),
         questions,
         time_limit_min: timeLimitMin,
+        sku_code: ac.skuCode,
+        identity: identity,
       },
     });
   } catch (err) {

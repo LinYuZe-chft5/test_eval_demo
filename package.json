@@ -14,6 +14,7 @@
     "seed:all": "tsx scripts/seed_questions.ts && tsx scripts/seed_blueprints.ts && tsx scripts/seed_kp_dependencies.ts && tsx scripts/seed_method_cards.ts",
     "seed:s3_s6": "tsx scripts/seed_s3_s6.ts",
     "convert:s3_s6": "node scripts/convert_s3_s6_seed.js",
+    "test:api": "tsx scripts/test_api.ts",
     "gen-codes": "tsx scripts/gen_access_codes.ts",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
