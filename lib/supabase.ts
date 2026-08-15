@@ -242,6 +242,26 @@ class PrismaTableClient {
     optionOrders: 'option_orders',
     credibilityFlag: 'credibility_flag',
     deviceInfo: 'device_info',
+    behaviorTag: 'behavior_tag',
+    ecCode: 'ec_recommended',
+    ecFinal: 'ec_final',
+    selfMark: 'self_mark',
+    answerEvents: 'answer_events',
+    invalidInput: 'invalid_input',
+    probeResult: 'probe_result',
+    answerText: 'answer_text',
+    stepScores: 'step_scores',
+    modifyCount: 'modify_count',
+    deleteRewriteCount: 'delete_rewrite_count',
+    timeSpentMs: 'time_spent_ms',
+    firstActionMs: 'first_action_ms',
+    revisitCount: 'revisit_count',
+    hesitateFlag: 'hesitate_flag',
+    isProbe: 'is_probe',
+    probeFor: 'probe_for',
+    scoreObtained: 'score_obtained',
+    studentAnswer: 'student_answer',
+    stepSeq: 'step_seq',
   };
 
   constructor(table: string) {
@@ -256,14 +276,47 @@ class PrismaTableClient {
     return str.replace(/([A-Z])/g, '_$1').toLowerCase();
   }
 
+  // PostgreSQL 数组字段列表（需特殊格式处理）
+  // 这些字段在 DDL 中定义为 VARCHAR(n)[] 或 TEXT[] 等数组类型
+  private static readonly PG_ARRAY_FIELDS: Set<string> = new Set([
+    'behavior_tag',
+    'ec_recommended',
+    'ec_final',
+    'option_path',
+    'self_mark',
+    'confidence_flags',
+  ]);
+
+  /**
+   * 将数组转换为 PostgreSQL 数组字面量格式
+   * 例如: ["normal_correct"] → '{"normal_correct"}'
+   * PostgREST 需要此格式才能正确写入 PG 数组字段
+   */
+  private toPgArrayLiteral(arr: string[]): string {
+    if (!arr || arr.length === 0) return '';
+    const escaped = arr.map(s => `"${String(s).replace(/"/g, '\\"')}"`).join(',');
+    return `{${escaped}}`;
+  }
+
   private keysToSnakeCase(obj: any): any {
     if (obj === null || obj === undefined) return obj;
     if (obj instanceof Date) return obj.toISOString();
-    if (Array.isArray(obj)) return obj.map(item => this.keysToSnakeCase(item));
+    if (Array.isArray(obj)) {
+      // 注意：这里的数组可能是普通数组（如选项列表），也可能是 PG 数组字段
+      // 我们先递归处理每个元素，然后在 create/update 时再转换 PG 数组字段
+      return obj.map(item => this.keysToSnakeCase(item));
+    }
     if (typeof obj === 'object') {
       const result: Record<string, any> = {};
       for (const [key, value] of Object.entries(obj)) {
-        result[this.toSnakeCase(key)] = this.keysToSnakeCase(value);
+        const snakeKey = this.toSnakeCase(key);
+        // 检查是否为 PG 数组字段
+        if (PrismaTableClient.PG_ARRAY_FIELDS.has(snakeKey) && Array.isArray(value)) {
+          // 转换为 PostgreSQL 数组字面量格式
+          result[snakeKey] = this.toPgArrayLiteral(value as string[]);
+        } else {
+          result[snakeKey] = this.keysToSnakeCase(value);
+        }
       }
       return result;
     }
@@ -287,13 +340,38 @@ class PrismaTableClient {
     return str.replace(/_([a-zA-Z0-9])/g, (_, c) => String(c).toUpperCase());
   }
 
+  /**
+   * 解析 PostgreSQL 数组字面量格式为 JSON 数组
+   * 例如: '{"normal_correct","fast_wrong"}' → ["normal_correct", "fast_wrong"]
+   */
+  private parsePgArrayLiteral(value: string): string[] {
+    if (!value || !value.startsWith('{')) return [value];
+    try {
+      // 将 PG 数组格式转换为 JSON 数组
+      // {"a","b"} → ["a","b"]
+      const jsonStr = value.replace(/\{/, '[').replace(/\}/, ']');
+      return JSON.parse(jsonStr);
+    } catch {
+      // 如果解析失败，尝试手动解析
+      const inner = value.slice(1, -1);
+      if (!inner.trim()) return [];
+      return inner.split(',').map(s => s.replace(/^"|"$/g, '').replace(/\\"/g, '"'));
+    }
+  }
+
   private keysToCamelCase(obj: any): any {
     if (obj === null || obj === undefined) return obj;
     if (Array.isArray(obj)) return obj.map(item => this.keysToCamelCase(item));
     if (typeof obj === 'object') {
       const result: Record<string, any> = {};
       for (const [key, value] of Object.entries(obj)) {
-        result[this.toCamelCase(key)] = this.keysToCamelCase(value);
+        const camelKey = this.toCamelCase(key);
+        // 检查是否为 PG 数组字段（读取时转换回数组格式）
+        if (typeof value === 'string' && PrismaTableClient.PG_ARRAY_FIELDS.has(key)) {
+          result[camelKey] = this.parsePgArrayLiteral(value);
+        } else {
+          result[camelKey] = this.keysToCamelCase(value);
+        }
       }
       return result;
     }

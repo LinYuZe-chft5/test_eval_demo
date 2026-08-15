@@ -247,6 +247,8 @@ export async function POST(req: Request) {
       }
 
       // 存储作答记录
+      // 注意：behavior_tag 是 VARCHAR(32)[] 数组字段，需包装为数组
+      //       ec_recommended / ec_final 也是 VARCHAR(8)[] 数组字段
       try {
         await (prisma as any).records.create({
           data: {
@@ -260,8 +262,9 @@ export async function POST(req: Request) {
             timeSpentMs: record.time_spent_ms ?? 0,
             modifyCount: record.modify_count ?? 0,
             deleteRewriteCount: 0,
-            behaviorTag: record.behavior_tag,
-            ecCode: record.ec_code,
+            behaviorTag: record.behavior_tag ? [record.behavior_tag] : null,
+            ecCode: ecCode ? [ecCode] : null,
+            ecFinal: ecCode ? [ecCode] : null,
             selfMark: selfMark,
             answerEvents: events,
             invalidInput: record.invalid_input ?? false,
