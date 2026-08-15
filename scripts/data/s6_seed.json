@@ -1,0 +1,2429 @@
+[
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 1,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$x^2-5x+6=0$ 的解是（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$x_1=2,x_2=3$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$x_1=-2,x_2=-3$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$x_1=1,x_2=6$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "$x_1=-1,x_2=-6$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "因式分解法：$x^2-5x+6=(x-2)(x-3)=0$，$x-2=0$ 或 $x-3=0$，$x_1=2,x_2=3$。检验：$2^2-5\\times2+6=4-10+6=0$ ✓，$3^2-5\\times3+6=9-15+6=0$ ✓。",
+    "kp_code": "KP-23.01",
+    "kp_related": "KP-09.03",
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.88,
+    "discrimination_est": null,
+    "expected_time_sec": 30,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "十字相乘\"积为常数项、和为一次项系数\"：对 $x^2+bx+c$，先列出 $c$ 的所有因数对，再找和为 $b$ 的那对。做10道一元二次方程因式分解题。",
+    "variant_stem": "$x^2-7x+12=0$ 的解为______",
+    "variant_answer": "$x_1=3,x_2=4$",
+    "status": "active",
+    "stem_hash": "0938d1ed83d5bf9c64422fe6e13f8ec5f2543b31480c12ac74dd6c8924fab257"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 2,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "用配方法解 $x^2+6x-1=0$，配方后正确的是（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(x+3)^2=10$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$(x+3)^2=8$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "C",
+        "text": "$(x+6)^2=37$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$(x+3)^2=1$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "配方步骤：$x^2+6x-1=0$ → $x^2+6x=1$ → $x^2+6x+9=1+9$ → $(x+3)^2=10$。配方时两边同时加一次项系数一半的平方 $(\\frac{6}{2})^2=9$。",
+    "kp_code": "KP-23.01",
+    "kp_related": "KP-23.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": null,
+    "expected_time_sec": 50,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "配方\"三步口诀\"：一移（常数项移右边）、二配（两边同加一次项系数一半的平方）、三写（写成完全平方）。做5道配方题，每步写清楚。",
+    "variant_stem": "用配方法解 $x^2-4x+1=0$，配方后为______",
+    "variant_answer": "$(x-2)^2=3$",
+    "status": "active",
+    "stem_hash": "450d18fae066c7c2679791d92f16035311e37ebbb908f00f715d5cd33a7f41b2"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 3,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$x^2-2x+k=0$ 有两个不等实根，则 $k$ 的范围是（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$k<1$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$k>1$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$k\\le1$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$k\\ge1$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "判别式 $\\Delta=b^2-4ac=(-2)^2-4\\times1\\times k=4-4k$。有两个不等实根 $\\Leftrightarrow \\Delta>0$，即 $4-4k>0$，$k<1$。注意：不等实根对应 $\\Delta>0$（严格大于），等根对应 $\\Delta=0$，无实根对应 $\\Delta<0$。",
+    "kp_code": "KP-23.02",
+    "kp_related": "KP-23.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": null,
+    "expected_time_sec": 50,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "判别式\"三态对照卡\"：$\\Delta>0$→两不等实根；$\\Delta=0$→两相等实根；$\\Delta<0$→无实根。做5道\"已知根的情况求参数\"的题，每道先写判别式再判断。",
+    "variant_stem": "$x^2+4x+m=0$ 无实根，则 $m$ 的范围是______",
+    "variant_answer": "$m>4$",
+    "status": "active",
+    "stem_hash": "9ba7e2310ec43f3a6b2faa23898f8d99ab95831e728dbb34896c04d8f18ca146"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 4,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "若 $x_1,x_2$ 是方程 $x^2-3x+2=0$ 的两根，则 $x_1+x_2-x_1x_2=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$-5$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "B",
+        "text": "$1$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$5$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "D",
+        "text": "$-1$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "韦达定理：$x_1+x_2=-\\frac{b}{a}=3$，$x_1x_2=\\frac{c}{a}=2$。所以 $x_1+x_2-x_1x_2=3-2=1$。",
+    "kp_code": "KP-23.02",
+    "kp_related": "KP-23.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.8,
+    "discrimination_est": null,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "韦达定理\"口诀\"：和为 $-\\frac{b}{a}$，积为 $\\frac{c}{a}$。做5道韦达定理题，每道先写公式再代入。",
+    "variant_stem": "若 $x_1,x_2$ 是 $x^2+5x-3=0$ 的两根，则 $x_1+x_2+x_1x_2=$______",
+    "variant_answer": "$-8$",
+    "status": "active",
+    "stem_hash": "96bfe5905819a5a4775ffafe3a43df35b0de8a34879d2975ba67d2931f0fd3b8"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 5,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$y=x^2-4x+3$ 与 $x$ 轴交点是（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(0,3)$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "B",
+        "text": "$(1,0)$ 和 $(3,0)$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$(-1,0)$ 和 $(-3,0)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$(2,0)$",
+        "ec_code": "EC-C1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "与 $x$ 轴交点即 $y=0$：$x^2-4x+3=0$，$(x-1)(x-3)=0$，$x_1=1,x_2=3$。交点为 $(1,0)$ 和 $(3,0)$。A是 $y$ 轴交点；C符号全反；D是顶点横坐标。",
+    "kp_code": "KP-24.01",
+    "kp_related": "KP-23.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K2"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": null,
+    "expected_time_sec": 35,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "\"轴交点\"对比：$x$ 轴交点→令 $y=0$ 解方程；$y$ 轴交点→令 $x=0$ 求 $y$。做5道求抛物线与坐标轴交点的题。",
+    "variant_stem": "$y=x^2-2x-8$ 与 $x$ 轴交点为______",
+    "variant_answer": "$(4,0)$ 和 $(-2,0)$",
+    "status": "active",
+    "stem_hash": "92b4af92e873ae3e17f744425de87912eb4d1983132415d75371c346d90dab46"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 6,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$y=-(x-2)^2+3$ 的顶点坐标是（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(-2,3)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$(2,3)$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$(2,-3)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$(-2,-3)$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "顶点式 $y=a(x-h)^2+k$ 的顶点为 $(h,k)$。$y=-(x-2)^2+3$ 中 $h=2,k=3$，顶点 $(2,3)$。注意：$h$ 的符号与括号内相反，$(x-2)$ 对应 $h=2$ 而非 $-2$。",
+    "kp_code": "KP-24.02",
+    "kp_related": "KP-24.01",
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.82,
+    "discrimination_est": null,
+    "expected_time_sec": 30,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "顶点式\"括号内是 $x-h$，顶点横坐标是 $h$\"：对比 $y=(x-2)^2$ 顶点 $(2,0)$ 与 $y=(x+2)^2$ 顶点 $(-2,0)$。做5道顶点式读顶点题。",
+    "variant_stem": "$y=2(x+1)^2-5$ 的顶点坐标为______",
+    "variant_answer": "$(-1,-5)$",
+    "status": "active",
+    "stem_hash": "1b82385b2703b6522b599515b7c2b907f8ab17ee0f3b46459c963d04fbad4c8e"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 7,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$y=\\frac{6}{x}$ 经过点（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(2,-3)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$(-2,3)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$(1,6)$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$(3,-2)$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "反比例函数 $y=\\frac{k}{x}$ 上的点满足 $xy=k$。$k=6$，检验各选项：A $2\\times(-3)=-6\\neq6$；B $(-2)\\times3=-6\\neq6$；C $1\\times6=6$ ✓；D $3\\times(-2)=-6\\neq6$。",
+    "kp_code": "KP-25.01",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.88,
+    "discrimination_est": null,
+    "expected_time_sec": 25,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "反比例函数\"横纵坐标积为 $k$\"：任一点 $(x,y)$ 满足 $xy=k$。做5道\"判断点是否在反比例函数图象上\"的题。",
+    "variant_stem": "$y=-\\frac{8}{x}$ 经过点（　　）  \nA. $(2,4)$　B. $(-2,4)$　C. $(1,8)$　D. $(4,2)$",
+    "variant_answer": "B",
+    "status": "active",
+    "stem_hash": "f66b30755c122507b4f0ea9892a24b9ec84c70e2a48affb6097f50cc67c717cf"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 8,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，点A、B在反比例函数 $y=\\frac{k}{x}$ 的图象上，$\\triangle AOB$ 的面积为6，则 $k=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$3$",
+        "ec_code": "EC-M2"
+      },
+      {
+        "key": "B",
+        "text": "$6$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$-6$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$\\pm6$",
+        "ec_code": "EC-C3"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "反比例函数 $k$ 的几何意义：图象上任一点与坐标轴围成的矩形面积为 $|k|$。$\\triangle AOB$ 由两个直角三角形组成（或过A、B作坐标轴垂线），每个三角形面积为 $\\frac{|k|}{2}$，总面积为 $|k|$。由 $|k|=6$，且图象在第一象限（$k>0$），得 $k=6$。",
+    "kp_code": "KP-25.02",
+    "kp_related": "KP-25.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": null,
+    "expected_time_sec": 70,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "$k$ 的几何意义\"矩形法\"：过双曲线上任一点作 $x$ 轴、$y$ 轴垂线，围成矩形面积为 $|k|$。画图验证 $k=6$ 时矩形面积为6。做3道\"已知面积求 $k$\"的题。",
+    "variant_stem": "反比例函数 $y=\\frac{k}{x}$ 在第一象限，点P在图象上，$PA\\perp x$ 轴，$\\triangle POA$ 面积为4，则 $k=$______",
+    "variant_answer": "$8$",
+    "status": "active",
+    "stem_hash": "1d87a9f595e70009f8e8d5bb7880f70f6451897b5f62e6bb6337fcc6ac7a8656"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 9,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$\\sin30^{\\circ}=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$\\frac{1}{2}$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$\\frac{\\sqrt{3}}{2}$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "C",
+        "text": "$\\frac{\\sqrt{2}}{2}$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$1$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "特殊角三角函数值：$\\sin30^{\\circ}=\\frac{1}{2}$，$\\cos30^{\\circ}=\\frac{\\sqrt{3}}{2}$，$\\tan30^{\\circ}=\\frac{\\sqrt{3}}{3}$。",
+    "kp_code": "KP-29.01",
+    "kp_related": null,
+    "cognitive_level": "L1",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.9,
+    "discrimination_est": null,
+    "expected_time_sec": 20,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "特殊角\"三角板记忆法\"：$30^{\\circ}$ 对边最短为1（斜边2），故 $\\sin30^{\\circ}=\\frac{1}{2}$。制作特殊角三角函数值表，每天默写1遍。",
+    "variant_stem": "$\\cos60^{\\circ}=$______",
+    "variant_answer": "$\\frac{1}{2}$",
+    "status": "active",
+    "stem_hash": "262a04206b48a4d29c9050fbf32a1226c93ef7d1876a9c6149f7207a4b63aa74"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 10,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$\\cos60^{\\circ}+\\sin30^{\\circ}-\\tan45^{\\circ}=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$0$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$1$",
+        "ec_code": "EC-M1"
+      },
+      {
+        "key": "C",
+        "text": "$\\frac{1}{2}$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$\\frac{3}{2}$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "$\\cos60^{\\circ}=\\frac{1}{2}$，$\\sin30^{\\circ}=\\frac{1}{2}$，$\\tan45^{\\circ}=1$。原式 $=\\frac{1}{2}+\\frac{1}{2}-1=0$。",
+    "kp_code": "KP-29.02",
+    "kp_related": "KP-29.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": null,
+    "expected_time_sec": 35,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "特殊角综合计算\"先列表后代入\"：把每个三角函数值写在草稿纸上，再代入计算。做10道特殊角混合运算题。",
+    "variant_stem": "$\\sin^245^{\\circ}+\\cos^245^{\\circ}=$______",
+    "variant_answer": "$1$",
+    "status": "active",
+    "stem_hash": "768d0274b68880325a24fc6eb25fb8561fdbf25e28ff447c5316f1e2a10dfddd"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 11,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "在 $Rt\\triangle ABC$ 中，$\\angle C=90^{\\circ},BC=3,AC=4$，则 $\\sin A=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$\\frac{3}{4}$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "B",
+        "text": "$\\frac{3}{5}$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$\\frac{4}{5}$",
+        "ec_code": "EC-K1"
+      },
+      {
+        "key": "D",
+        "text": "$\\frac{4}{3}$",
+        "ec_code": "EC-K1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "先求斜边 $AB=\\sqrt{BC^2+AC^2}=\\sqrt{9+16}=5$。$\\sin A=\\frac{\\text{对边}}{\\text{斜边}}=\\frac{BC}{AB}=\\frac{3}{5}$。注意：$\\angle A$ 的对边是 $BC$（与 $A$ 相对的边），邻边是 $AC$。",
+    "kp_code": "KP-30.01",
+    "kp_related": "KP-29.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.82,
+    "discrimination_est": null,
+    "expected_time_sec": 45,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "\"对邻斜\"口诀：$\\sin=\\frac{\\text{对}}{\\text{斜}}$，$\\cos=\\frac{\\text{邻}}{\\text{斜}}$，$\\tan=\\frac{\\text{对}}{\\text{邻}}$。在图中标出 $\\angle A$，用不同颜色标对边（红）、邻边（蓝）、斜边（绿）。做5道\"已知两直角边求三角函数值\"的题。",
+    "variant_stem": "$Rt\\triangle ABC$ 中，$\\angle C=90^{\\circ},AB=10,BC=6$，则 $\\cos A=$______",
+    "variant_answer": "$\\frac{4}{5}$",
+    "status": "active",
+    "stem_hash": "e5309a697de9e9c14189f9c4de9fc4cfae463ac8457f967a24e64865251dbd92"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 12,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$AB$ 是弦，$OC\\perp AB,AB=8,OC=3$，则半径为（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$3$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "B",
+        "text": "$4$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "C",
+        "text": "$5$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$8$",
+        "ec_code": "EC-C1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "垂径定理：垂直于弦的直径平分弦。$OC\\perp AB$，所以 $AC=\\frac{AB}{2}=4$。在 $Rt\\triangle OCA$ 中，$OA=\\sqrt{AC^2+OC^2}=\\sqrt{16+9}=5$。半径 $OA=5$。",
+    "kp_code": "KP-28.01",
+    "kp_related": "KP-28.02",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.8,
+    "discrimination_est": null,
+    "expected_time_sec": 50,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "垂径定理\"知二求三\"：弦长、弦心距、半径三个量中知道两个可求第三个。画圆标出弦、弦心距、半径，用直角三角形勾股定理连接。做3道垂径定理计算题。",
+    "variant_stem": "圆中弦 $AB=12$，弦心距 $d=5$，则半径为______",
+    "variant_answer": "$13$",
+    "status": "active",
+    "stem_hash": "6391775d48d7b4a9f57a47bb5c77485a2ba8a7780a705b747f9f608006ac0fa5"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 13,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$\\angle ACB=50^{\\circ}$，则圆心角 $\\angle AOB=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$25^{\\circ}$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$50^{\\circ}$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$100^{\\circ}$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$130^{\\circ}$",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "圆周角定理：同弧所对圆心角等于圆周角的2倍。$\\angle ACB$ 是圆周角，$\\angle AOB$ 是圆心角，都对弧 $AB$，所以 $\\angle AOB=2\\angle ACB=2\\times50^{\\circ}=100^{\\circ}$。",
+    "kp_code": "KP-28.02",
+    "kp_related": "KP-28.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": null,
+    "expected_time_sec": 30,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "圆周角定理\"2倍关系\"：圆心角是大角（顶点在圆心），圆周角是小角（顶点在圆周），大角=2×小角。画图对比同弧所对的圆心角和圆周角。做5道圆心角与圆周角互求题。",
+    "variant_stem": "圆心角 $\\angle AOB=80^{\\circ}$，则圆周角 $\\angle ACB=$______",
+    "variant_answer": "$40^{\\circ}$",
+    "status": "active",
+    "stem_hash": "c5089b52c43b017b03bcaf667a2c71ac146ac67a9cfa38c4d2b61aa37f86bd13"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 14,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "袋中有红球3个、白球2个，任意摸出一个球，摸到红球的概率是______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$\\frac{3}{5}$（或 $0.6$）",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": "个"
+    },
+    "score": 4,
+    "solution": "古典概型：$P(\\text{红球})=\\frac{\\text{红球个数}}{\\text{总球数}}=\\frac{3}{3+2}=\\frac{3}{5}$。",
+    "kp_code": "KP-31.01",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-M1",
+      "EC-K1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.9,
+    "discrimination_est": null,
+    "expected_time_sec": 25,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "古典概型\"数清楚\"：先数总个数，再数目标个数，比值即为概率。做5道简单概率题。",
+    "variant_stem": "袋中有黄球4个、蓝球6个，摸到黄球的概率为______",
+    "variant_answer": "$\\frac{2}{5}$",
+    "status": "active",
+    "stem_hash": "5158b3c28c5a9001a10d057c74e80b27fd905458c3c8cee6e704b76536446c2e"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 15,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "同时掷两枚硬币，都为正面的概率是______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$\\frac{1}{4}$（或 $0.25$）",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 4,
+    "solution": "列举法：所有可能结果（正正、正反、反正、反反）共4种，都为正面只有1种，$P=\\frac{1}{4}$。注意：\"正反\"与\"反正\"是两种不同结果。",
+    "kp_code": "KP-31.02",
+    "kp_related": "KP-31.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": null,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "列举法\"树状图/列表\"：两枚硬币用列表法，行表示第一枚（正/反），列表示第二枚（正/反），共4格。做5道\"两次试验\"概率题，每道都用列表法。",
+    "variant_stem": "同时掷两枚骰子，点数之和为7的概率为______",
+    "variant_answer": "$\\frac{1}{6}$",
+    "status": "active",
+    "stem_hash": "f1300fa167545dcf7f8b297b6f2fd1853ebc434bcb0e83028cabcd4f7fede48f"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 16,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "数据 $3,5,2,5,7,5$ 的众数是______，中位数是______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "众数 $=5$；中位数 $=5$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 3,
+    "solution": "众数：出现次数最多的数。5出现3次，最多，众数为5。中位数：先排序 $2,3,5,5,5,7$，共6个数，中位数为第3、4个数的平均数：$\\frac{5+5}{2}=5$。",
+    "kp_code": "KP-32.01",
+    "kp_related": null,
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1"
+    ],
+    "difficulty_est": 0.85,
+    "discrimination_est": null,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "中位数\"先排序再找中间\"：强调必须先从小到大排列。众数\"数出现次数\"：用 tally marks（正字法）计数。做5道众数+中位数综合题。",
+    "variant_stem": "数据 $2,8,5,8,6$ 的众数是______，中位数是______",
+    "variant_answer": "$8$；$6$",
+    "status": "active",
+    "stem_hash": "ea42b4015b49dd00a9c0ebf9e2eef48bff39ac11b4b535e429c7cd38478e93a3"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 1,
+    "seq_no": 17,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "抛物线 $y=x^2-3x+2$ 与坐标轴交于A、B、C，则 $\\triangle ABC$ 的面积为______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$1$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 3,
+    "solution": "与 $x$ 轴交点：$y=0$ 时 $x^2-3x+2=0$，$(x-1)(x-2)=0$，$A(1,0),B(2,0)$（或反过来）。与 $y$ 轴交点：$x=0$ 时 $y=2$，$C(0,2)$。$\\triangle ABC$ 以 $AB$ 为底，$AB=2-1=1$；高为 $C$ 到 $x$ 轴的距离，即 $|y_C|=2$。面积 $=\\frac{1}{2}\\times1\\times2=1$。",
+    "kp_code": "KP-24.03",
+    "kp_related": "KP-24.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C1",
+      "EC-K1",
+      "EC-M1",
+      "EC-C3"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": null,
+    "expected_time_sec": 80,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "\"坐标轴交点\"全面找：$x$ 轴交点令 $y=0$，$y$ 轴交点令 $x=0$。画图标出三点，观察三角形底和高。做3道\"抛物线与坐标轴围成面积\"的题。",
+    "variant_stem": "$y=x^2-5x+6$ 与坐标轴交于A、B、C，则 $\\triangle ABC$ 面积为______",
+    "variant_answer": "$3$",
+    "status": "active",
+    "stem_hash": "37f2c341f25a9d92d58fd055cd713eb5559d15edfe63fd4ec23934dc5d40139e"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 1,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "原价200元，连续两次降价后变为162元，若平均每次降价率为 $x$，则可列方程（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$200(1-x)^2=162$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$200(1-2x)=162$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$200(1-x)=162$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "D",
+        "text": "$200-200x^2=162$",
+        "ec_code": "EC-M4"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "第一次降价后：$200(1-x)$；第二次降价后：$200(1-x)(1-x)=200(1-x)^2$。两次降价后为162元，$200(1-x)^2=162$。B是\"两次共降 $2x$\"（错误）；C是只降一次；D是降价额直接减，无意义。",
+    "kp_code": "KP-23.03",
+    "kp_related": "KP-23.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C1",
+      "EC-M4"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": null,
+    "expected_time_sec": 50,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "增长率\"复利口诀\"：原量 $\\times(1\\pm\\text{率})^{\\text{次数}}=$ 现量。对比\"一次增长\"与\"两次增长\"的算式差异。做5道增长率/降低率应用题。",
+    "variant_stem": "某厂一月份产值10万元，第一季度共33.1万元，若月增长率为 $x$，则方程为______",
+    "variant_answer": "$10+10(1+x)+10(1+x)^2=33.1$",
+    "status": "active",
+    "stem_hash": "a6ea42f27e7fa6c7ed1ce6c6296a1fc096e34861a004e899726b4b3f2e30f9c0"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 2,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "20cm铁丝围成面积24cm²的矩形，设一边为 $x$ cm，则可列方程（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$x(20-x)=24$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$x(10-x)=24$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$x(20-2x)=24$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$2x(10-x)=24$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "周长20cm，一边为 $x$，则邻边为 $\\frac{20-2x}{2}=10-x$。面积 $=x(10-x)=24$。A中 $20-x$ 未除以2，不是邻边；C中 $20-2x$ 是两倍的邻边；D是周长表达式。",
+    "kp_code": "KP-23.03",
+    "kp_related": "KP-P.3",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M4",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": null,
+    "expected_time_sec": 60,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "几何建模\"先画图再列式\"：画矩形标出一边 $x$，根据周长标出邻边 $10-x$，再写面积 $x(10-x)$。做3道\"周长固定求面积\"的题。",
+    "variant_stem": "用30cm铁丝围成面积为50cm²的矩形，设一边为 $x$，列方程为______",
+    "variant_answer": "$x(15-x)=50$",
+    "status": "active",
+    "stem_hash": "091c52d9bed640c9449fdad497ea4b4cacbd3cba3bd79c570f20892f30038bdf"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 3,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "进价40元，售价60元时售20件，每降1元多售2件。设降价 $x$ 元，则总利润 $y=$（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(20-x)(20+2x)$",
+        "ec_code": null
+      },
+      {
+        "key": "B",
+        "text": "$(20-x)(20+x)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$(60-x)(20+2x)$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$(20-x)(20+2x)-40$",
+        "ec_code": "EC-K2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "A",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "降价 $x$ 元后：单件利润 $=(60-x)-40=20-x$（元）；销量 $=20+2x$（件）。总利润 $=$ 单件利润 $\\times$ 销量 $=(20-x)(20+2x)$。B销量错；C用售价而非利润；D多减了40。",
+    "kp_code": "KP-24.04",
+    "kp_related": "KP-24.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-K2"
+    ],
+    "difficulty_est": 0.65,
+    "discrimination_est": null,
+    "expected_time_sec": 80,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "利润问题\"三量表\"：售价、进价、单件利润、销量、总利润。每道题先填表再列式。做3道\"降价促销\"利润题。",
+    "variant_stem": "进价30元，售价50元时售40件，每涨1元少售1件。设涨价 $x$ 元，总利润 $y=$______",
+    "variant_answer": "$(20+x)(40-x)$",
+    "status": "active",
+    "stem_hash": "2568237581244b7e2927f3372a9ea61172572a9a1c2d9545e1212bf65149deb2"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 4,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "二次函数图象开口向下，对称轴在 $y$ 轴左侧，与 $y$ 轴正半轴相交，与 $x$ 轴有两个交点。一定成立的是（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$a>0,b>0$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "B",
+        "text": "$b>0,c<0$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "C",
+        "text": "$a<0,c<0$",
+        "ec_code": "EC-K2"
+      },
+      {
+        "key": "D",
+        "text": "$b^2-4ac>0$",
+        "ec_code": null
+      }
+    ],
+    "steps": null,
+    "correct_answer": "D",
+    "answer_spec": null,
+    "score": 2,
+    "solution": "开口向下 $\\Rightarrow a<0$；对称轴在 $y$ 轴左侧 $\\Rightarrow -\\frac{b}{2a}<0$，$a<0$ 则 $b<0$；与 $y$ 轴正半轴相交 $\\Rightarrow c>0$；与 $x$ 轴有两个交点 $\\Rightarrow \\Delta=b^2-4ac>0$。A错（$a<0$）；B错（$c>0$）；C错（$c>0$）；D对。",
+    "kp_code": "KP-24.05",
+    "kp_related": "KP-24.02",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K2"
+    ],
+    "difficulty_est": 0.58,
+    "discrimination_est": null,
+    "expected_time_sec": 90,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "二次函数系数\"图象特征对应表\"：开口方向$\\leftrightarrow a$、对称轴位置$\\leftrightarrow -\\frac{b}{2a}$、$y$ 轴交点$\\leftrightarrow c$、$x$ 轴交点个数$\\leftrightarrow \\Delta$。做5道\"已知图象特征判断系数符号\"的题。",
+    "variant_stem": "抛物线开口向上，对称轴在 $y$ 轴右侧，与 $y$ 轴负半轴相交，则 $a$______0，$b$______0，$c$______0（填$>$或$<$）",
+    "variant_answer": "$>$；$<$；$<$",
+    "status": "active",
+    "stem_hash": "02b85ebdeef16d15d215bc6ca556e570dd5a21199365cbbfca850ecfdd614b0c"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 5,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$DE\\parallel BC,AD=3,DB=2,DE=6$，则 $BC=$______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$10$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 3,
+    "solution": "$DE\\parallel BC$ $\\Rightarrow$ $\\triangle ADE\\sim\\triangle ABC$（AA相似，公共角$\\angle A$，$\\angle ADE=\\angle ABC$）。相似比 $=\\frac{AD}{AB}=\\frac{3}{3+2}=\\frac{3}{5}$。$\\frac{DE}{BC}=\\frac{3}{5}$，$\\frac{6}{BC}=\\frac{3}{5}$，$BC=10$。",
+    "kp_code": "KP-26.02",
+    "kp_related": "KP-26.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-M1",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.68,
+    "discrimination_est": null,
+    "expected_time_sec": 70,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "相似三角形\"对应边成比例\"：先写相似声明 $\\triangle ADE\\sim\\triangle ABC$，再写对应边比例 $\\frac{AD}{AB}=\\frac{AE}{AC}=\\frac{DE}{BC}$，最后代入。做3道\"A字型\"相似题。",
+    "variant_stem": "$DE\\parallel BC,AD=4,AB=10,BC=15$，则 $DE=$______",
+    "variant_answer": "$6$",
+    "status": "active",
+    "stem_hash": "17dc146c63d29d81bdb9433ae7348dc4b5836c46c1a85b9ced96445a38fcee42"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 6,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$PA$ 切 $\\odot O$ 于A，$PO$ 交圆于B，$\\angle P=30^{\\circ},OA=2$，则 $PB=$______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$2$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 3,
+    "solution": "切线性质：$OA\\perp PA$（切线垂直于过切点的半径）。在 $Rt\\triangle OAP$ 中，$\\angle P=30^{\\circ}$，$OA=2$ 是 $30^{\\circ}$ 所对直角边，斜边 $OP=2OA=4$。$PB=OP-OB=4-2=2$（$OB=OA=2$ 是半径）。",
+    "kp_code": "KP-28.04",
+    "kp_related": "KP-28.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2",
+      "EC-C1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.62,
+    "discrimination_est": null,
+    "expected_time_sec": 80,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "切线问题\"连半径得垂直\"：看到切线立即连切点与圆心，得到直角三角形。在 $Rt\\triangle$ 中找特殊角（$30^{\\circ},45^{\\circ},60^{\\circ}$），用边角关系。做3道\"切线+特殊角\"题。",
+    "variant_stem": "$PA$ 切 $\\odot O$ 于A，$\\angle P=45^{\\circ},OA=3$，则 $OP=$______",
+    "variant_answer": "$3\\sqrt{2}$",
+    "status": "active",
+    "stem_hash": "d8f86b93fec5a3facbc6e918db65775d227926b405b667d6f34c95620389cd1d"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 7,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "$\\sin^230^{\\circ}+\\sin45^{\\circ}\\cdot\\cos45^{\\circ}+\\cos^230^{\\circ}=$______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$\\frac{3}{2}$（或 $1.5$）",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": "秒"
+    },
+    "score": 3,
+    "solution": "$\\sin30^{\\circ}=\\frac{1}{2}$，$\\sin45^{\\circ}=\\cos45^{\\circ}=\\frac{\\sqrt{2}}{2}$。原式 $=(\\frac{1}{2})^2+\\frac{\\sqrt{2}}{2}\\cdot\\frac{\\sqrt{2}}{2}+(\\frac{\\sqrt{3}}{2})^2=\\frac{1}{4}+\\frac{2}{4}+\\frac{3}{4}=\\frac{6}{4}=\\frac{3}{2}$。注意：$\\sin^2\\alpha+\\cos^2\\alpha=1$，所以前项+后项 $=1$，中间项 $=\\frac{1}{2}$，总和 $=\\frac{3}{2}$。",
+    "kp_code": "KP-29.03",
+    "kp_related": "KP-29.02",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.55,
+    "discrimination_est": null,
+    "expected_time_sec": 100,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "三角函数综合\"先列表后代入\"：把每个三角函数值写在草稿纸上，再代入。记住 $\\sin^2\\alpha+\\cos^2\\alpha=1$ 可简化计算。做5道含 $\\sin^2+\\cos^2$ 的题。",
+    "variant_stem": "$\\sin^260^{\\circ}+\\cos^260^{\\circ}-\\tan45^{\\circ}=$______",
+    "variant_answer": "$0$",
+    "status": "active",
+    "stem_hash": "e993d6b70d6564993626fef9266e10052fbc2645c824f8e9594bbfe427ae9157"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 8,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "位似图形中，若对应线段比为 $2:3$，则面积比为______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$4:9$（或 $\\frac{4}{9}$）",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 3,
+    "solution": "位似图形是特殊的相似图形。相似图形面积比等于相似比（对应线段比）的平方。$(2:3)^2=4:9$。",
+    "kp_code": "KP-27.01",
+    "kp_related": "KP-26.02",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.75,
+    "discrimination_est": null,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "相似\"线段比→面积比→体积比\"：线段比是一次比，面积比是二次比（平方），体积比是三次比（立方）。做3道\"已知相似比求面积比\"的题。",
+    "variant_stem": "两个相似三角形对应高之比为 $3:5$，则面积比为______",
+    "variant_answer": "$9:25$",
+    "status": "active",
+    "stem_hash": "a9d40cb03a0ae3ef4274c1538259bd64073970cf79171c81ccf196704dc7e675"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 9,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图是某班学生每日锻炼时长的条形图和扇形图。已知\"$\\le0.5$小时\"占20%，对应20人；由扇形图可见\"$\\ge1$小时\"占40%。  \n（1）求全班总人数；  \n（2）求\"$\\ge1$小时\"的人数；  \n（3）若全校有1200名学生，估计其中\"$\\ge1$小时\"的学生人数。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "总人数 $=20\\div20\\%=100$",
+        "answer": "100",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 2,
+        "prompt": "\"$\\ge1$小时\"人数 $=100\\times40\\%=40$",
+        "answer": "40",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 3,
+        "prompt": "估计人数 $=1200\\times40\\%=480$",
+        "answer": "480",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      }
+    ],
+    "correct_answer": "（1）100人；（2）40人；（3）480人",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": "人"
+    },
+    "score": 5,
+    "solution": "（1）部分量$\\div$对应百分比$=$总量：$20\\div20\\%=100$（人）。  \n（2）总量$\\times$百分比$=$部分量：$100\\times40\\%=40$（人）。  \n（3）用样本百分比估计总体：$1200\\times40\\%=480$（人）。",
+    "kp_code": "KP-32.02",
+    "kp_related": "KP-32.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-M1",
+      "EC-K1",
+      "EC-C1",
+      "EC-M3"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": null,
+    "expected_time_sec": 120,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "统计图表\"三量关系\"：部分量$=$总量$\\times$百分比，总量$=$部分量$\\div$百分比。做3道\"已知两量求第三量\"的统计题。",
+    "variant_stem": "某调查中\"喜欢篮球\"占30%，对应60人；\"喜欢足球\"占25%。若全校2000人，估计喜欢足球的有______人",
+    "variant_answer": "$500$",
+    "status": "active",
+    "stem_hash": "06a4fd86759b6ae44a27abae7a4a1fc2b0281179496a751f0f8ba0de3070915e"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 10,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "抛物线 $y=x^2+bx+c$ 经过 $(1,0)$ 和 $(3,0)$。  \n（1）求 $b,c$；  \n（2）若 $x_1<x_2<1$，比较 $y_1$ 与 $y_2$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "$\\begin{cases}1+b+c=0\\\\9+3b+c=0\\end{cases}$",
+        "answer": "0\\end{cases}",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 2,
+        "prompt": "$b=-4,c=3$",
+        "answer": "3",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 3,
+        "prompt": "对称轴 $x=2$，$x<1$ 时 $y$ 随 $x$ 增大而减小",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 4,
+        "prompt": "$x_1<x_2<1$ $\\Rightarrow$ $y_1>y_2$",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      }
+    ],
+    "correct_answer": "（1）$b=-4,c=3$；（2）$y_1>y_2$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 5,
+    "solution": "（1）代入 $(1,0)$：$1+b+c=0$；代入 $(3,0)$：$9+3b+c=0$。两式相减：$8+2b=0$，$b=-4$。代入得 $c=3$。  \n（2）$y=x^2-4x+3=(x-2)^2-1$，对称轴 $x=2$，开口向上。当 $x<2$ 时，$y$ 随 $x$ 增大而减小。$x_1<x_2<1<2$，所以 $y_1>y_2$。",
+    "kp_code": "KP-24.06",
+    "kp_related": "KP-24.02",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K2",
+      "EC-C3"
+    ],
+    "difficulty_est": 0.62,
+    "discrimination_est": null,
+    "expected_time_sec": 150,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "二次函数单调性\"对称轴分两侧\"：开口向上，左减右增；开口向下，左增右减。画图标出 $x_1,x_2$ 位置，观察函数值高低。做3道\"已知两点位置比较函数值\"的题。",
+    "variant_stem": "$y=x^2+bx+c$ 过 $(-1,0)$ 和 $(2,0)$，若 $x_1>x_2>2$，比较 $y_1$ 与 $y_2$",
+    "variant_answer": "$y_1>y_2$",
+    "status": "active",
+    "stem_hash": "7e6510fecba2141e7e8e37a5e08f74294d8186c91aae8e5dce7c328da66b0d67"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 11,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "商品进价40元，售价60元时售20件，每涨1元少售2件。  \n（1）求利润 $y$ 与涨价 $x$ 的函数关系式；  \n（2）售价为多少时利润最大？最大利润是多少？",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "$60+x-40=20+x$",
+        "answer": "20+x",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 2,
+        "prompt": "$20-2x$",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 3,
+        "prompt": "$y=(20+x)(20-2x)=-2x^2+20x+400$",
+        "answer": "-2x^2+20x+400",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 4,
+        "prompt": "$x=5$（或对称轴/配方）",
+        "answer": "5$（或对称轴/配方）",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 5,
+        "prompt": "售价65元，最大利润450元",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      }
+    ],
+    "correct_answer": "（1）$y=-2x^2+20x+400$（或等价形式）；（2）售价65元，最大利润450元",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": "元"
+    },
+    "score": 5,
+    "solution": "（1）涨价 $x$ 元后：售价 $=60+x$，单件利润 $=60+x-40=20+x$；销量 $=20-2x$。$y=(20+x)(20-2x)=400-40x+20x-2x^2=-2x^2+20x+400$。  \n（2）$y=-2x^2+20x+400=-2(x^2-10x)+400=-2(x-5)^2+450$。开口向下，顶点 $(5,450)$。$x=5$ 时利润最大，售价 $=60+5=65$（元），最大利润 $=450$（元）。",
+    "kp_code": "KP-24.04",
+    "kp_related": "KP-24.02",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-M4",
+      "EC-M2",
+      "EC-K2",
+      "EC-C4"
+    ],
+    "difficulty_est": 0.52,
+    "discrimination_est": null,
+    "expected_time_sec": 180,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "二次函数应用\"建模四步\"：①设变量②找数量关系③列函数式④求最值（配方/公式）。强调\"答什么求什么\"，$x$ 是涨价，售价 $=60+x$。做3道\"涨价/降价求最值\"的题。",
+    "variant_stem": "进价50元，售价80元时售30件，每降1元多售3件。求利润最大时的售价和最大利润",
+    "variant_answer": "售价70元，最大利润1200元",
+    "status": "active",
+    "stem_hash": "f221500943a5d326c82a4b2801c85d71e79d09bfb4b6335f57fb2a78394782a4"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 2,
+    "seq_no": 12,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$AB$ 是直径，$C$ 在圆上，$CD\\perp AB$ 于D，$AC=4,BC=3$。  \n（1）求 $AB$；  \n（2）求 $CD$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "$\\angle ACB=90^{\\circ}$",
+        "answer": "90^{\\circ}",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 2,
+        "prompt": "$AB=\\sqrt{4^2+3^2}=5$",
+        "answer": "5",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 3,
+        "prompt": "$\\frac{1}{2}AC\\cdot BC=\\frac{1}{2}AB\\cdot CD$",
+        "answer": "\\frac{1}{2}AB\\cdot CD",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 4,
+        "prompt": "$CD=\\frac{12}{5}$",
+        "answer": "\\frac{12}{5}",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      }
+    ],
+    "correct_answer": "（1）$5$；（2）$\\frac{12}{5}$（或 $2.4$）",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 5,
+    "solution": "（1）$\\because AB$ 是直径，$\\therefore \\angle ACB=90^{\\circ}$（直径所对圆周角是直角）。在 $Rt\\triangle ACB$ 中，$AB=\\sqrt{AC^2+BC^2}=\\sqrt{16+9}=5$。  \n（2）面积法：$S_{\\triangle ACB}=\\frac{1}{2}AC\\cdot BC=\\frac{1}{2}\\times4\\times3=6$。又 $S_{\\triangle ACB}=\\frac{1}{2}AB\\cdot CD=\\frac{1}{2}\\times5\\times CD$。$\\therefore \\frac{5}{2}CD=6$，$CD=\\frac{12}{5}$。",
+    "kp_code": "KP-28.03",
+    "kp_related": "KP-28.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.6,
+    "discrimination_est": null,
+    "expected_time_sec": 150,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "圆中直角\"直径所对圆周角\"：看到直径找直角，看到直角想直径。斜边上的高\"面积法\"：$\\frac{1}{2}ab=\\frac{1}{2}ch$。做3道\"直径+直角三角形+斜边高\"的综合题。",
+    "variant_stem": "$AB$ 是直径，$C$ 在圆上，$AC=6,BC=8$，$CD\\perp AB$，求 $CD$",
+    "variant_answer": "$\\frac{24}{5}$",
+    "status": "active",
+    "stem_hash": "41cfe1fa1e4091409dde2a4c70bc54fa9ea8dbf6e578fd6c08f175d8f5353dfe"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 1,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "抛物线 $y=x^2-2x-3$ 上是否存在点P，使 $\\triangle ABP$ 的面积为8？若存在，则这样的点P有（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$1$ 个",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "B",
+        "text": "$2$ 个",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "C",
+        "text": "$3$ 个",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$4$ 个",
+        "ec_code": "EC-M1"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 3,
+    "solution": "先求 $A,B$（与 $x$ 轴交点）：$x^2-2x-3=0$，$(x-3)(x+1)=0$，$A(-1,0),B(3,0)$，$AB=4$。$\\triangle ABP$ 面积 $=\\frac{1}{2}\\times AB\\times|y_P|=\\frac{1}{2}\\times4\\times|y_P|=2|y_P|=8$，$|y_P|=4$。  \n联立 $y=x^2-2x-3$ 与 $y=4$：$x^2-2x-7=0$，$\\Delta=4+28=32>0$，两解。  \n联立 $y=x^2-2x-3$ 与 $y=-4$：$x^2-2x+1=0$，$(x-1)^2=0$，一解。  \n共 $2+1=3$ 个点。",
+    "kp_code": "KP-24.07",
+    "kp_related": "KP-24.03",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C3",
+      "EC-K2",
+      "EC-M1",
+      "EC-K1"
+    ],
+    "difficulty_est": 0.45,
+    "discrimination_est": null,
+    "expected_time_sec": 120,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "二次函数动点\"面积法三步\"：①求底边（与 $x$ 轴交点距离）②由面积求高（$|y|$）③联立方程求点。注意 $y$ 可正可负，$|y|$ 相同对应两个 $y$ 值。做3道\"已知面积求点坐标\"的题。",
+    "variant_stem": "抛物线 $y=x^2-4x+3$ 上是否存在点P使 $\\triangle ABP$ 面积为6？若存在，有几个？",
+    "variant_answer": "存在，2个",
+    "status": "active",
+    "stem_hash": "b433ae96f089e2bf53bc6e5958384543d2a24db0d378e567f7001f900d0aa9bf"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 2,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$AB$ 是直径，$C$ 在圆上，$CD$ 切 $\\odot O$ 于C，$AD\\perp CD$，$\\angle A=30^{\\circ},CD=2\\sqrt{3}$，则半径为（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$2$",
+        "ec_code": "EC-M2"
+      },
+      {
+        "key": "B",
+        "text": "$2\\sqrt{3}$",
+        "ec_code": "EC-C1"
+      },
+      {
+        "key": "C",
+        "text": "$4$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$4\\sqrt{3}$",
+        "ec_code": "EC-M2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 3,
+    "solution": "连接 $OC$。$\\because CD$ 是切线，$\\therefore OC\\perp CD$。又 $AD\\perp CD$，$\\therefore OC\\parallel AD$。在 $Rt\\triangle ACD$ 中，$\\angle A=30^{\\circ}$，$\\sin30^{\\circ}=\\frac{CD}{AC}$，$AC=\\frac{CD}{\\sin30^{\\circ}}=\\frac{2\\sqrt{3}}{\\frac{1}{2}}=4\\sqrt{3}$。$\\because AB$ 是直径，$\\therefore \\angle ACB=90^{\\circ}$。在 $Rt\\triangle ACB$ 中，$\\cos30^{\\circ}=\\frac{AC}{AB}$，$AB=\\frac{4\\sqrt{3}}{\\frac{\\sqrt{3}}{2}}=8$，半径 $=\\frac{AB}{2}=4$。",
+    "kp_code": "KP-28.05",
+    "kp_related": "KP-28.04",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M4",
+      "EC-M1"
+    ],
+    "difficulty_est": 0.42,
+    "discrimination_est": null,
+    "expected_time_sec": 120,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "圆与三角函数综合\"连半径、找直角\"：看到切线连半径得垂直，看到直径找圆周角得直角。在图中标出所有直角和已知角，再选合适的直角三角形。做3道\"切线+直径+特殊角\"的综合题。",
+    "variant_stem": "$AB$ 是直径，$C$ 在圆上，$CD$ 切 $\\odot O$ 于C，$AD\\perp CD$，$\\angle A=30^{\\circ},CD=\\sqrt{3}$，则半径为（　　）\nA. $2$　　B. $2\\sqrt{3}$　　C. $4$　　D. $4\\sqrt{3}$",
+    "variant_answer": "A",
+    "status": "active",
+    "stem_hash": "0af8ad480f81f3f262bf7228da19577a2ef442ef9d2a25a5fe5b183840f40e11"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 3,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "在 $Rt\\triangle ABC$ 中，$\\angle C=90^{\\circ},\\angle A=30^{\\circ},BC=2$。以C为圆心、$CB$ 为半径作圆，交 $AB$ 于D，交 $AC$ 于E，则图中阴影部分的面积为（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$\\frac{\\pi}{3}-\\frac{\\sqrt{3}}{2}$",
+        "ec_code": "EC-M2"
+      },
+      {
+        "key": "B",
+        "text": "$\\frac{2\\pi}{3}-\\sqrt{3}$",
+        "ec_code": null
+      },
+      {
+        "key": "C",
+        "text": "$\\frac{\\pi}{2}-1$",
+        "ec_code": "EC-M2"
+      },
+      {
+        "key": "D",
+        "text": "$\\frac{4\\pi}{3}-2\\sqrt{3}$",
+        "ec_code": "EC-M2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "B",
+    "answer_spec": null,
+    "score": 3,
+    "solution": "阴影面积 $=$ 扇形 $BCD$ 面积 $-\\triangle BCD$ 面积。$\\angle B=60^{\\circ}$（$\\triangle ABC$ 中 $\\angle C=90^{\\circ},\\angle A=30^{\\circ}$）。$CB=CD=2$（半径），$\\triangle BCD$ 是等边三角形（$\\angle B=60^{\\circ}$，两腰相等）。扇形圆心角 $=60^{\\circ}=\\frac{\\pi}{3}$，面积 $=\\frac{60}{360}\\pi\\times2^2=\\frac{2\\pi}{3}$。等边三角形面积 $=\\frac{\\sqrt{3}}{4}\\times2^2=\\sqrt{3}$。阴影 $=\\frac{2\\pi}{3}-\\sqrt{3}$。",
+    "kp_code": "KP-29.04",
+    "kp_related": "KP-28.06",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2",
+      "EC-M4"
+    ],
+    "difficulty_est": 0.38,
+    "discrimination_est": null,
+    "expected_time_sec": 150,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "阴影面积\"割补法\"：阴影 $=$ 规则图形 $-$ 规则图形。先识别阴影由哪两个规则图形相减得到，再分别求面积。做3道\"扇形-三角形\"阴影题。",
+    "variant_stem": "在 $Rt\\triangle ABC$ 中，$\\angle C=90^{\\circ},\\angle A=30^{\\circ},BC=4$。以C为圆心、$CB$ 为半径作圆，交 $AB$ 于D，交 $AC$ 于E，则图中阴影部分的面积为______",
+    "variant_answer": "$\\frac{8\\pi}{3}-4\\sqrt{3}$",
+    "status": "active",
+    "stem_hash": "726f6fd53c8d2e5d246b37b51d596b4008d8e2a0866795baf5b865b4f96b33c8"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 4,
+    "q_type": "choice",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "点 $A(1,0)$ 以原点为位似中心放大2倍，则对应点 $A'$ 的坐标为（　　）",
+    "image_url": null,
+    "options": [
+      {
+        "key": "A",
+        "text": "$(2,0)$",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "B",
+        "text": "$(-2,0)$",
+        "ec_code": "EC-C3"
+      },
+      {
+        "key": "C",
+        "text": "$(2,0)$ 或 $(-2,0)$",
+        "ec_code": null
+      },
+      {
+        "key": "D",
+        "text": "$(4,0)$",
+        "ec_code": "EC-M2"
+      }
+    ],
+    "steps": null,
+    "correct_answer": "C",
+    "answer_spec": null,
+    "score": 3,
+    "solution": "位似变换：以原点为位似中心，相似比为 $k$ 时，对应点坐标为原坐标 $\\times k$ 或原坐标 $\\times(-k)$（同侧或异侧）。放大2倍，$A(1,0)$ 对应 $(2,0)$ 或 $(-2,0)$。",
+    "kp_code": "KP-27.01",
+    "kp_related": "KP-26.02",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-03"
+    ],
+    "ec_mapping": [
+      "EC-C3",
+      "EC-K1",
+      "EC-M2"
+    ],
+    "difficulty_est": 0.72,
+    "discrimination_est": null,
+    "expected_time_sec": 50,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "位似坐标\"两种可能\"：以原点为位似中心，坐标 $=$ 原坐标 $\\times k$（同侧）或 $\\times(-k)$（异侧）。画图展示同侧和异侧两种情况。做3道\"求位似对应点坐标\"的题。",
+    "variant_stem": "$B(2,3)$ 以原点为位似中心缩小 $\\frac{1}{2}$，则 $B'$ 的坐标为______",
+    "variant_answer": "$(1,\\frac{3}{2})$ 或 $(-1,-\\frac{3}{2})$",
+    "status": "active",
+    "stem_hash": "28751d4a67e9fb73ba3d42b22de6b5939332ba8f57064ba59fc664adb6f7201f"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 5,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "圆锥底面半径为 3cm，母线长为 5cm，则侧面积为______。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$15\\pi$（cm²）",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": false,
+      "unit": "cm²"
+    },
+    "score": 4,
+    "solution": "圆锥侧面积公式：$S_{\\text{侧}}=\\pi rl$，$r=3$，$l=5$，$S=\\pi\\times3\\times5=15\\pi$（cm²）。注意与全面积区分：全面积 $=\\pi rl+\\pi r^2=15\\pi+9\\pi=24\\pi$。",
+    "kp_code": "KP-28.06",
+    "kp_related": "KP-28.01",
+    "cognitive_level": "L2",
+    "literacy_codes": [
+      "YS-02"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-M1",
+      "EC-C1"
+    ],
+    "difficulty_est": 0.78,
+    "discrimination_est": null,
+    "expected_time_sec": 40,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "圆锥侧面积\"展开图记忆\"：侧面展开是扇形，扇形弧长 $=$ 底面周长 $2\\pi r$，扇形半径 $=$ 母线 $l$，$S=\\frac{1}{2}\\times\\text{弧长}\\times\\text{半径}=\\pi rl$。对比记忆圆柱侧面积 $=2\\pi rh$。做3道圆锥侧面积题。",
+    "variant_stem": "圆锥底面半径4cm，母线6cm，侧面积为______",
+    "variant_answer": "$24\\pi$",
+    "status": "active",
+    "stem_hash": "cb0472954bc3fe5c0c9b508680a8eabad7f675727c2326f90a161516febdf328"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 6,
+    "q_type": "fill",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "商品进价40元，售价 $x$ 元时售 $(200-2x)$ 件，则利润 $y=$______；当售价为______元时利润最大。",
+    "image_url": null,
+    "options": null,
+    "steps": null,
+    "correct_answer": "$y=-2x^2+280x-8000$（或等价形式）；$70$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": "元"
+    },
+    "score": 4,
+    "solution": "单件利润 $=x-40$，销量 $=200-2x$。$y=(x-40)(200-2x)=200x-2x^2-8000+80x=-2x^2+280x-8000$。配方：$y=-2(x^2-140x)-8000=-2(x-70)^2+9800-8000=-2(x-70)^2+1800$。开口向下，$x=70$ 时利润最大。",
+    "kp_code": "KP-24.04",
+    "kp_related": "KP-24.02",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-07"
+    ],
+    "ec_mapping": [
+      "EC-M4",
+      "EC-M2",
+      "EC-K2",
+      "EC-C4"
+    ],
+    "difficulty_est": 0.55,
+    "discrimination_est": null,
+    "expected_time_sec": 100,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "\"售价 $x$\"型利润问题：单件利润 $=x-$ 进价，总利润 $=(x-$ 进价$)\\times$销量。注意与\"涨价 $x$\"型区分。做3道\"售价 $x$\"型的题。",
+    "variant_stem": "进价30元，售价 $x$ 元时售 $(150-3x)$ 件，利润最大时售价为______",
+    "variant_answer": "$40$",
+    "status": "active",
+    "stem_hash": "12a8564b8405816a7f5bf4d7d00e9a004729926af2a41e57d4ddd04f424ea7dd"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 7,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$AB$ 是直径，$C$ 在圆上，$CD$ 切 $\\odot O$ 于C，$AD\\perp CD$ 交圆于E。  \n（1）求证：$AC$ 平分 $\\angle DAB$；  \n（2）若 $CD=6,AD=8$，求直径。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "连接 $OC$",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 2,
+        "prompt": "$OC\\perp CD$",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 3,
+        "prompt": "$OC\\parallel AD$（都垂直于 $CD$）",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 4,
+        "prompt": "$\\angle OCA=\\angle OAC=\\angle CAD$",
+        "answer": "\\angle CAD",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 5,
+        "prompt": "$AC$ 平分 $\\angle DAB$",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 6,
+        "prompt": "$AC=\\sqrt{6^2+8^2}=10$",
+        "answer": "10",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 7,
+        "prompt": "$\\triangle ACD\\sim\\triangle ABC$",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 8,
+        "prompt": "$\\frac{AD}{AC}=\\frac{AC}{AB}$，$AB=12.5$",
+        "answer": "12.5",
+        "answer_spec": {
+          "accept_forms": [
+            "decimal"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      }
+    ],
+    "correct_answer": "（1）证明见解析；（2）$12.5$（或 $\\frac{25}{2}$）",
+    "answer_spec": {
+      "accept_forms": [
+        "fraction"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": null
+    },
+    "score": 10,
+    "solution": "（1）连接 $OC$。$\\because CD$ 切 $\\odot O$ 于C，$\\therefore OC\\perp CD$。又 $AD\\perp CD$，$\\therefore OC\\parallel AD$，$\\angle OCA=\\angle CAD$（内错角）。$\\because OA=OC$，$\\therefore \\angle OAC=\\angle OCA$。$\\therefore \\angle OAC=\\angle CAD$，即 $AC$ 平分 $\\angle DAB$。  \n（2）在 $Rt\\triangle ACD$ 中，$AC=\\sqrt{CD^2+AD^2}=\\sqrt{36+64}=10$。$\\because AB$ 是直径，$\\therefore \\angle ACB=90^{\\circ}$。又 $\\angle CAD=\\angle CAB$（已证），$\\angle ADC=\\angle ACB=90^{\\circ}$，$\\therefore \\triangle ACD\\sim\\triangle ABC$（AA）。$\\therefore \\frac{AD}{AC}=\\frac{AC}{AB}$，$\\frac{8}{10}=\\frac{10}{AB}$，$AB=\\frac{100}{8}=12.5$。",
+    "kp_code": "KP-28.03",
+    "kp_related": "KP-28.04",
+    "cognitive_level": "L4",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2",
+      "EC-M1",
+      "EC-M4"
+    ],
+    "difficulty_est": 0.38,
+    "discrimination_est": null,
+    "expected_time_sec": 300,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "圆的综合证明\"三步模板\"：①见切线连半径得垂直②找等腰（半径相等）③找平行或相似。第(2)问\"直径所对圆周角为直角\"是找相似的突破口。做2道\"切线+相似\"的圆综合题。",
+    "variant_stem": "$AB$ 是直径，$C$ 在圆上，$CD$ 切 $\\odot O$ 于C，$AD\\perp CD$ 交圆于E。（1）求证：$AC$ 平分 $\\angle DAB$；（2）若 $CD=3,AD=4$，求直径。",
+    "variant_answer": "（1）证明见解析；（2）$\\frac{25}{4}$（或 $6.25$）",
+    "status": "active",
+    "stem_hash": "dc3819157d62b553487832864d8703e88143c7fc7b15bea20e897a81a2a73280"
+  },
+  {
+    "sku_code": "S6-01",
+    "subject": "math",
+    "day_tag": 3,
+    "seq_no": 8,
+    "q_type": "step",
+    "is_warmup": false,
+    "is_anchor": false,
+    "stem": "如图，$\\triangle ABC$ 中，点D在 $BC$ 上，$\\angle BAD=\\angle C,AB=6,BD=4$。  \n（1）求证：$\\triangle ABD\\sim\\triangle CBA$；  \n（2）求 $BC$。",
+    "image_url": null,
+    "options": null,
+    "steps": [
+      {
+        "seq": 1,
+        "prompt": "$\\angle ABD=\\angle CBA$",
+        "answer": "\\angle CBA",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 2,
+        "prompt": "$\\angle BAD=\\angle C$",
+        "answer": "\\angle C",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      },
+      {
+        "seq": 3,
+        "prompt": "$\\triangle ABD\\sim\\triangle CBA$（AA）",
+        "answer": "",
+        "answer_spec": {
+          "accept_forms": [
+            "expression"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 1,
+        "ec_mapping": []
+      },
+      {
+        "seq": 4,
+        "prompt": "$\\frac{BD}{BA}=\\frac{BA}{BC}$",
+        "answer": "\\frac{BA}{BC}",
+        "answer_spec": {
+          "accept_forms": [
+            "fraction"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 3,
+        "ec_mapping": []
+      },
+      {
+        "seq": 5,
+        "prompt": "$BC=9$",
+        "answer": "9",
+        "answer_spec": {
+          "accept_forms": [
+            "integer"
+          ],
+          "decimal_tolerance": 0.01,
+          "allow_pi": true,
+          "unit": null
+        },
+        "score": 2,
+        "ec_mapping": []
+      }
+    ],
+    "correct_answer": "（1）证明见解析；（2）$9$",
+    "answer_spec": {
+      "accept_forms": [
+        "expression"
+      ],
+      "decimal_tolerance": 0.01,
+      "allow_pi": true,
+      "unit": "m"
+    },
+    "score": 10,
+    "solution": "（1）$\\because$ 点D在 $BC$ 上，$\\therefore \\angle ABD=\\angle CBA$（公共角）。又 $\\angle BAD=\\angle C$（已知），$\\therefore \\triangle ABD\\sim\\triangle CBA$（两角对应相等，AA）。  \n（2）由相似得 $\\frac{BD}{BA}=\\frac{BA}{BC}$（对应边成比例）。$\\frac{4}{6}=\\frac{6}{BC}$，$4\\cdot BC=36$，$BC=9$。",
+    "kp_code": "KP-26.02",
+    "kp_related": "KP-26.01",
+    "cognitive_level": "L3",
+    "literacy_codes": [
+      "YS-05"
+    ],
+    "ec_mapping": [
+      "EC-K1",
+      "EC-K2",
+      "EC-M1",
+      "EC-M4"
+    ],
+    "difficulty_est": 0.55,
+    "discrimination_est": null,
+    "expected_time_sec": 180,
+    "pairing_id": null,
+    "parallel_group_id": null,
+    "variant_of": null,
+    "improvement_tip": "相似证明\"找两角\"：一个公共角（或已知角），一个已知角（或平行推出的角）。写比例时严格按顶点对应顺序：$\\triangle ABD\\sim\\triangle CBA$ 则 $\\frac{AB}{CB}=\\frac{BD}{BA}=\\frac{AD}{CA}$。做3道\"公共角+已知角\"的相似证明题。",
+    "variant_stem": "$\\triangle ABC$ 中，D在 $BC$ 上，$\\angle CAD=\\angle B,AC=8,CD=4$，求 $BC$",
+    "variant_answer": "$16$",
+    "status": "active",
+    "stem_hash": "918343957b019f382d88c66cfa884cfae16cd8030fe96c38788ee5d6cf327585"
+  }
+]
