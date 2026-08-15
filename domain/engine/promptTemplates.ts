@@ -6,6 +6,14 @@
  * Layer 5: 报告生成Prompt
  */
 
+// ===== 系统提示词常量（供callLLM第二参数使用 & 测试脚本引用） =====
+
+export const GRADE_SYSTEM_PROMPT =
+  '你是一名严谨的初中数学阅卷教师。请严格按照评分规则判分，错因只能从给定标签池中选取，最终只输出标准JSON格式，禁止任何解释文字。';
+
+export const REPORT_SYSTEM_PROMPT =
+  '你是一名资深数学教育诊断分析师。请基于学情统计结果生成个性化诊断文案，杜绝泛化话术，最终只输出标准JSON格式。';
+
 // ===== Layer 2: 单题LLM阅卷Prompt =====
 
 export function buildGradingPrompt(params: {

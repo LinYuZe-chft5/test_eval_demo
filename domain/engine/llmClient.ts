@@ -25,9 +25,19 @@ const DEFAULT_TIMEOUT_MS = 30000; // 30秒超时
 const MAX_RETRIES = 1;
 
 function getLLMConfig() {
-  const apiUrl = process.env.LLM_API_URL || '';
+  let apiUrl = process.env.LLM_API_URL || '';
   const apiKey = process.env.LLM_API_KEY || '';
   const model = process.env.LLM_MODEL || 'gpt-4o-mini';
+
+  // 自动补全：如果 URL 是 base URL（不含 /chat/completions 结尾），自动拼接路径
+  // 兼容写法：
+  //   https://ddshub.cc/v1           → https://ddshub.cc/v1/chat/completions
+  //   https://ddshub.cc/v1/          → https://ddshub.cc/v1/chat/completions
+  //   https://ddshub.cc/v1/chat/completions → 保持不变
+  if (apiUrl && !apiUrl.endsWith('/chat/completions')) {
+    const trimmed = apiUrl.endsWith('/') ? apiUrl.slice(0, -1) : apiUrl;
+    apiUrl = `${trimmed}/chat/completions`;
+  }
 
   return { apiUrl, apiKey, model };
 }
