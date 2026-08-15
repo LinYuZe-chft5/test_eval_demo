@@ -10,7 +10,7 @@
  * 输出: { valid, student_id?, sku_code?, identity?, days_available?, completed_days? }
  */
 import { NextResponse } from 'next/server';
-import { verifyAccessCode } from '@/lib/auth';
+import { verifyAccessCode, getCompletedSessions } from '@/lib/auth';
 import {
   getSkuByIdentity,
   isValidIdentity,
@@ -97,23 +97,4 @@ function getIdentityLabel(identity: string): string {
     grade9: '初三',
   };
   return labels[identity] || identity;
-}
-
-async function getCompletedSessions(accessCode: string) {
-  const { prisma } = await import('@/lib/prisma');
-  const record = await (prisma as any).accessCodes.findUnique({
-    where: { code: accessCode },
-  });
-  if (!record) return [];
-
-  const student = await (prisma as any).students.findUnique({
-    where: { accessCodeId: record.id },
-  });
-  if (!student) return [];
-
-  const studentId = typeof student.id === 'string' ? BigInt(student.id) : Number(student.id);
-  return (prisma as any).sessions.findMany({
-    where: { studentId, status: 'submitted' },
-    orderBy: { dayTag: 'asc' },
-  });
 }
