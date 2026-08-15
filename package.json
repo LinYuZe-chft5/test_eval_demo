@@ -17,6 +17,7 @@
     "fix:latex": "tsx scripts/fix_latex_data.ts",
     "fix:steps": "tsx scripts/fix_step_prompts.ts",
     "fix:all-data": "npm run fix:latex && npm run fix:steps",
+    "reimport:all": "node scripts/reimport_all_data.cjs",
     "reimport:s3_s6": "npm run fix:all-data && npm run seed:s3_s6",
     "test:api": "tsx scripts/test_api.ts",
     "gen-codes": "tsx scripts/gen_access_codes.ts",
