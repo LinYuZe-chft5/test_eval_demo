@@ -13,12 +13,65 @@
  *   - ?status=in.(v1,v2,v3)
  */
 
-import 'dotenv/config';
+import fs from 'fs';
+import path from 'path';
+
+// 手动加载 .env 文件（兼容 Next.js 和独立脚本环境）
+function loadEnvFile(): void {
+  const envPaths = [
+    path.resolve(process.cwd(), '.env'),
+    path.resolve(process.cwd(), '.env.local'),
+    path.resolve(process.cwd(), '.env.development'),
+  ];
+  
+  for (const envPath of envPaths) {
+    try {
+      if (fs.existsSync(envPath)) {
+        const content = fs.readFileSync(envPath, 'utf8');
+        const lines = content.split('\n');
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          // 跳过注释和空行
+          if (!trimmedLine || trimmedLine.startsWith('#')) continue;
+          
+          const equalIndex = trimmedLine.indexOf('=');
+          if (equalIndex === -1) continue;
+          
+          const key = trimmedLine.substring(0, equalIndex).trim();
+          let value = trimmedLine.substring(equalIndex + 1).trim();
+          
+          // 移除引号
+          if ((value.startsWith('"') && value.endsWith('"')) || 
+              (value.startsWith("'") && value.endsWith("'"))) {
+            value = value.substring(1, value.length - 1);
+          }
+          
+          // 只在未设置时添加
+          if (!process.env[key]) {
+            process.env[key] = value;
+          }
+        }
+        console.log(`[supabase] 已加载环境变量: ${envPath}`);
+        return;
+      }
+    } catch (err) {
+      console.warn(`[supabase] 无法读取 ${envPath}:`, err);
+    }
+  }
+  console.warn('[supabase] 未找到 .env 文件，依赖系统环境变量');
+}
+
+loadEnvFile();
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-const API_BASE = `${SUPABASE_URL}/rest/v1`;
+if (!SUPABASE_URL) {
+  console.error('[supabase] 环境变量缺失: NEXT_PUBLIC_SUPABASE_URL 或 SUPABASE_URL 未设置');
+  console.error('[supabase] 当前进程环境变量包含:', Object.keys(process.env).filter(k => k.includes('SUPABASE')));
+}
+
+const API_BASE = SUPABASE_URL ? `${SUPABASE_URL}/rest/v1` : '';
 
 async function request<T = any>(
   path: string,
@@ -26,7 +79,29 @@ async function request<T = any>(
   body?: any,
   extraHeaders: Record<string, string> = {}
 ): Promise<T> {
+  // 检查配置
+  if (!API_BASE) {
+    throw new Error('数据库连接配置缺失：请在服务器环境变量中设置 NEXT_PUBLIC_SUPABASE_URL 和 SUPABASE_SERVICE_ROLE_KEY');
+  }
+
+  if (!SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('服务密钥缺失：请在服务器环境变量中设置 SUPABASE_SERVICE_ROLE_KEY');
+  }
+
   const url = `${API_BASE}${path}`;
+  
+  // 调试日志（开发环境）
+  if (process.env.NODE_ENV === 'development') {
+    console.log('[supabase] request:', {
+      method,
+      url: url,
+      hasBody: !!body,
+      env: {
+        hasUrl: !!SUPABASE_URL,
+        hasKey: !!SUPABASE_SERVICE_ROLE_KEY,
+      },
+    });
+  }
 
   const headers: Record<string, string> = {
     'apikey': SUPABASE_SERVICE_ROLE_KEY,
@@ -36,19 +111,43 @@ async function request<T = any>(
     ...extraHeaders,
   };
 
-  const response = await fetch(url, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  try {
+    const response = await fetch(url, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Supabase API Error (${response.status}): ${errorText}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`[supabase] API错误 (${response.status}):`, errorText);
+      
+      if (response.status === 404) {
+        // 404 通常表示资源不存在
+        throw new Error('访问码不存在或已被删除');
+      } else if (response.status === 409) {
+        // 409 冲突
+        throw new Error('数据冲突：访问码可能已被注册');
+      } else if (response.status === 401 || response.status === 403) {
+        throw new Error('权限错误：请检查服务密钥配置');
+      } else {
+        throw new Error(`数据库操作失败 (${response.status})`);
+      }
+    }
+
+    const text = await response.text();
+    return text ? JSON.parse(text) as T : {} as T;
+  } catch (fetchErr: any) {
+    // 网络错误或URL错误
+    if (fetchErr.code === 'ERR_INVALID_URL' || fetchErr.message?.includes('Invalid URL')) {
+      console.error('[supabase] URL格式错误:', url);
+      throw new Error('服务器配置错误：数据库连接地址格式不正确');
+    } else if (fetchErr.message?.includes('fetch')) {
+      console.error('[supabase] 网络请求失败:', fetchErr.message);
+      throw new Error('网络连接失败：无法连接到数据库服务器，请检查网络');
+    }
+    throw fetchErr;
   }
-
-  const text = await response.text();
-  return text ? JSON.parse(text) as T : {} as T;
 }
 
 class PrismaTableClient {
@@ -204,12 +303,19 @@ class PrismaTableClient {
   /**
    * 构建 PostgREST 查询字符串
    * 关键：filter 格式为 ?column=operator.value
+   * 注意：不要编码 = 和 .，因为它们是 PostgREST filter 格式的关键字符
    */
   private buildQuery(params: Record<string, string>): string {
     const parts: string[] = [];
     for (const [key, value] of Object.entries(params)) {
       if (value === undefined || value === null) continue;
-      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+      // 只编码 key 和 value 中的特殊字符，保留 = 和 .
+      // key 是列名，通常不需要编码，但以防万一
+      const encodedKey = key.replace(/[^a-zA-Z0-9_]/g, (c) => encodeURIComponent(c));
+      // value 是 filter 值，如 "eq.123456"，需要保留 = 和 .
+      // 但要编码空格和其他特殊字符
+      const encodedValue = value.replace(/\s+/g, '%20');
+      parts.push(`${encodedKey}=${encodedValue}`);
     }
     return parts.length ? `?${parts.join('&')}` : '';
   }

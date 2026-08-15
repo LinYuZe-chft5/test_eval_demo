@@ -81,11 +81,25 @@ export async function POST(req: Request) {
         nickname: record.nickname ?? null,
       },
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error('[access/verify] error:', err);
+    const errorMessage = err?.message || '服务器内部错误';
+    
+    // 根据错误类型返回不同的错误消息
+    let statusCode = 500;
+    if (errorMessage.includes('不存在') || errorMessage.includes('未找到')) {
+      statusCode = 404;
+    } else if (errorMessage.includes('冲突') || errorMessage.includes('已被注册')) {
+      statusCode = 409;
+    } else if (errorMessage.includes('配置错误') || errorMessage.includes('连接地址')) {
+      statusCode = 503;
+    } else if (errorMessage.includes('网络连接')) {
+      statusCode = 502;
+    }
+    
     return NextResponse.json(
-      { ok: false, error: '服务器错误' },
-      { status: 500 },
+      { ok: false, error: errorMessage },
+      { status: statusCode },
     );
   }
 }
