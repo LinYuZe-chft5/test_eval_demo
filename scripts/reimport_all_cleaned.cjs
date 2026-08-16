@@ -196,13 +196,14 @@ function transformRow(q, sku) {
 }
 
 async function insertBatchViaRPC(rows) {
-  // 使用 RPC 函数实现真正的 UPSERT（PostgREST HTTP 的 Upsert 不支持唯一约束冲突）
+  // 使用 RPC 函数实现真正的 UPSERT
+  // 参数名必须与 SQL 函数定义一致：questions_data, p_sku_code
   if (rows.length === 0) return;
   const url = `${API}/rpc/batch_upsert_questions`;
   
   const body = {
     questions_data: rows,
-    sku_code: rows[0]?.sku_code || null,
+    p_sku_code: rows[0]?.sku_code || null,  // 注意：参数名是 p_sku_code
   };
   
   const r = await fetch(url, {
@@ -214,22 +215,18 @@ async function insertBatchViaRPC(rows) {
     const txt = await r.text();
     console.error(`  ❌ RPC 导入失败: ${r.status} ${txt.slice(0, 800)}`);
     
-    // 如果 RPC 不存在（404），提示用户先创建
     if (r.status === 404) {
       console.error(`  💡 请先在 Supabase SQL Editor 执行 scripts/create_upsert_rpc.sql`);
     }
     throw new Error(`Import failed ${r.status}`);
   }
   
-  // 解析返回结果
+  // RPC 返回 INT，直接显示计数
   try {
-    const result = await r.json();
-    if (Array.isArray(result) && result.length > 0) {
-      const { inserted_count, updated_count } = result[0];
-      process.stdout.write(`  (新增${inserted_count} 更新${updated_count})`);
-    }
+    const count = await r.json();
+    process.stdout.write(`  (已处理 ${count} 题)`);
   } catch {
-    // 忽略解析错误
+    process.stdout.write(`  (已处理)`);
   }
 }
 
