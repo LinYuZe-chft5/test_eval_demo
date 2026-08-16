@@ -22,6 +22,8 @@
     "test:llm": "tsx scripts/test_llm_connection.ts",
     "diagnose:env": "tsx scripts/diagnose_env.ts",
     "generate:env": "tsx scripts/generate_env.ts",
+    "clean:latex": "tsx scripts/clean_latex_seeds.ts",
+    "reimport:cleaned": "node scripts/reimport_all_cleaned.cjs",
     "reimport:s3_s6": "npm run fix:all-data && npm run seed:s3_s6",
     "test:api": "tsx scripts/test_api.ts",
     "gen-codes": "tsx scripts/gen_access_codes.ts",

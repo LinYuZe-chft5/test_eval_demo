@@ -68,50 +68,94 @@ interface Props {
   onSelfMark?: (mark: string | null) => void;
 }
 
-// ===== LaTeX 反斜杠修复 =====
-// 注意：此函数必须在处理数学模式($...$)时谨慎使用，
-// 避免短命令（如'le', 'to'）被错误匹配长命令（如'triangle'）的子串
-function fixLatexBackslashes(text: string): string {
-  if (!text) return text;
-  let result = text;
+// ===== LaTeX 命令 → Unicode 映射 =====
+// 用于：数学模式外的纯文本区域（不经过KaTeX渲染）
+// 直接显示Unicode符号，避免看到 \times 这样的乱码
+const LATEX_CMD_TO_UNICODE: Array<[RegExp, string]> = [
+  [/\\times/g, '×'],
+  [/\\div/g, '÷'],
+  [/\\pm/g, '±'],
+  [/\\mp/g, '∓'],
+  [/\\leqq?/g, '≤'],
+  [/\\geqq?/g, '≥'],
+  [/\\neq/g, '≠'],
+  [/\\ne/g, '≠'],
+  [/\\cdot/g, '·'],
+  [/\\circ/g, '°'],
+  [/\\infty/g, '∞'],
+  [/\\angle/g, '∠'],
+  [/\\perp/g, '⊥'],
+  [/\\parallel/g, '∥'],
+  [/\\odot/g, '⊙'],
+  [/\\triangle/g, '△'],
+  [/\\Delta/g, 'Δ'],
+  [/\\Leftrightarrow/g, '⇔'],
+  [/\\Leftrightarrow/g, '⇔'],
+  [/\\leftrightarrow/g, '↔'],
+  [/\\Rightarrow/g, '⇒'],
+  [/\\rightarrow/g, '→'],
+  [/\\Leftarrow/g, '⇐'],
+  [/\\leftarrow/g, '←'],
+  [/\\alpha/g, 'α'],
+  [/\\beta/g, 'β'],
+  [/\\gamma/g, 'γ'],
+  [/\\delta/g, 'δ'],
+  [/\\theta/g, 'θ'],
+  [/\\pi/g, 'π'],
+  [/\\sqrt/g, '√'],
+  [/\\sim/g, '∼'],
+  [/\\approx/g, '≈'],
+  [/\\because/g, '∵'],
+  [/\\therefore/g, '∴'],
+  [/\\subseteqq?/g, '⊆'],
+  [/\\supseteqq?/g, '⊇'],
+  [/\\subset/g, '⊂'],
+  [/\\supset/g, '⊃'],
+  [/\\cap/g, '∩'],
+  [/\\cup/g, '∪'],
+  [/\\notin/g, '∉'],
+  [/\\in/g, '∈'],
+  [/\\forall/g, '∀'],
+  [/\\exists/g, '∃'],
+  [/\\oplus/g, '⊕'],
+  [/\\ominus/g, '⊖'],
+  [/\\otimes/g, '⊗'],
+  [/\\text\{/g, ''],
+  [/\\mathrm\{/g, ''],
+  [/\\\\/g, '\n'],
+  [/\\,/g, ''],
+  [/\\;/g, ''],
+  [/\\;/g, ''],
+];
 
-  // 0. 先处理：反斜杠+命令名 直接转换为 Unicode 符号
-  // 这一步解决数据库中存储的 \times 等命令在 JS 字符串中被转义的问题
-  // 注意：必须在步骤1（Unicode→LaTeX）之前执行，避免循环替换
-  result = result.replace(/\\times/g, '×');
-  result = result.replace(/\\div/g, '÷');
-  result = result.replace(/\\pm/g, '±');
-  result = result.replace(/\\leq/g, '≤');
-  result = result.replace(/\\geq/g, '≥');
-  result = result.replace(/\\neq/g, '≠');
-  result = result.replace(/\\cdot/g, '·');
-  result = result.replace(/\\circ/g, '°');
-  result = result.replace(/\\infty/g, '∞');
-  result = result.replace(/\\angle/g, '∠');
-  result = result.replace(/\\perp/g, '⊥');
-  result = result.replace(/\\parallel/g, '∥');
-  result = result.replace(/\\odot/g, '⊙');
-  result = result.replace(/\\triangle/g, '△');
-  result = result.replace(/\\alpha/g, 'α');
-  result = result.replace(/\\beta/g, 'β');
-  result = result.replace(/\\gamma/g, 'γ');
-  result = result.replace(/\\delta/g, 'δ');
-  result = result.replace(/\\theta/g, 'θ');
-  result = result.replace(/\\pi/g, 'π');
-  result = result.replace(/\\Delta/g, 'Δ');
-  result = result.replace(/\\Leftrightarrow/g, '⇔');
-  result = result.replace(/\\frac/g, '∕');
-  result = result.replace(/\\sqrt/g, '√');
-  result = result.replace(/\\overline/g, '‾');
-  result = result.replace(/\\vec/g, '→');
-  result = result.replace(/\\sim/g, '∼');
-  result = result.replace(/\\approx/g, '≈');
+/**
+ * 把一段纯文本（不含数学模式 $...$）中的 LaTeX 命令转换为 Unicode 符号。
+ * 用于处理选项、题干中文本区域，这些内容不会经过 KaTeX 渲染。
+ */
+function latexCmdsToUnicode(text: string): string {
+  let out = text;
+  for (const [regex, repl] of LATEX_CMD_TO_UNICODE) {
+    out = out.replace(regex, repl);
+  }
+  // 清理剩余的未配对 { }
+  out = out.replace(/[{}]/g, '');
+  return out;
+}
 
-  // 1. Unicode 数学符号 → LaTeX 命令（仅在数学模式 $...$ 内才会被使用）
-  // 这里只做安全的字符替换，用于在 $...$ 模式内正确渲染
+/**
+ * 把数学模式内（$...$ 或 $$...$$）的 LaTeX 命令规范化：
+ * - Unicode → LaTeX 命令（保证 KaTeX 能识别）
+ * - $后跟无反斜杠的命令 → 补上反斜杠
+ * 数学模式区域由调用方（MathText）负责切分后传入。
+ */
+function normalizeMathMode(math: string): string {
+  let result = math;
+
+  // Unicode → LaTeX 命令（安全一对一替换）
   result = result.replace(/×/g, '\\times');
   result = result.replace(/÷/g, '\\div');
   result = result.replace(/±/g, '\\pm');
+  result = result.replace(/∓/g, '\\mp');
   result = result.replace(/≤/g, '\\leq');
   result = result.replace(/≥/g, '\\geq');
   result = result.replace(/≠/g, '\\neq');
@@ -123,16 +167,24 @@ function fixLatexBackslashes(text: string): string {
   result = result.replace(/∥/g, '\\parallel');
   result = result.replace(/⊙/g, '\\odot');
   result = result.replace(/△/g, '\\triangle');
+  result = result.replace(/Δ/g, '\\Delta');
   result = result.replace(/α/g, '\\alpha');
   result = result.replace(/β/g, '\\beta');
   result = result.replace(/γ/g, '\\gamma');
   result = result.replace(/δ/g, '\\delta');
   result = result.replace(/θ/g, '\\theta');
   result = result.replace(/π/g, '\\pi');
+  result = result.replace(/∵/g, '\\because');
+  result = result.replace(/∴/g, '\\therefore');
+  result = result.replace(/√/g, '\\sqrt');
+  result = result.replace(/∼/g, '\\sim');
+  result = result.replace(/≈/g, '\\approx');
+  result = result.replace(/⇔/g, '\\Leftrightarrow');
+  result = result.replace(/↔/g, '\\leftrightarrow');
+  result = result.replace(/⇒/g, '\\Rightarrow');
+  result = result.replace(/→/g, '\\rightarrow');
 
-  // 2. 安全修复：$后面缺少反斜杠的命令
-  // 只匹配 $ 后面直接跟命令名的情况，不会产生子串匹配问题
-  // 按命令长度降序排列，避免短命令先匹配
+  // $后跟命令补反斜杠（按长度排序避免短命令先匹配）
   const DOLLAR_COMMANDS = [
     'triangle', 'angle', 'parallel', 'perp', 'odot',
     'sqrt', 'frac', 'times', 'div', 'cdot',
@@ -148,27 +200,22 @@ function fixLatexBackslashes(text: string): string {
     'mapsto', 'leftarrow', 'rightarrow',
     'odot', 'otimes', 'oplus',
     'quad', 'qquad',
-  ];
-  
-  // 按长度降序排序，确保长命令先匹配
-  DOLLAR_COMMANDS.sort((a, b) => b.length - a.length);
-  
+    'because', 'therefore',
+  ].sort((a, b) => b.length - a.length);
+
   for (const cmd of DOLLAR_COMMANDS) {
-    // 只匹配 $ 后面跟命令名，且命令名后面跟 {、[、空格、数字、标点 或 结尾
-    // 使用 \b 单词边界确保不会匹配子串
     const escapedCmd = cmd.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`\\$${escapedCmd}(?=[{\\s0-9,.;!?]|$)`, 'g');
     result = result.replace(regex, `$\\${cmd}`);
   }
 
-  // 3. 安全修复：^ 或 _ 后面缺少反斜杠的命令
+  // ^ 或 _ 后跟命令补反斜杠
   const SUPER_SUB_COMMANDS = ['times', 'div', 'cdot', 'frac', 'sqrt', 'pm'];
   for (const cmd of SUPER_SUB_COMMANDS) {
-    // ^cmd 模式
-    const regexSuper = new RegExp(`\\^${cmd}(?=[{\\s0-9]|$)`, 'g');
+    const escapedCmd = cmd.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regexSuper = new RegExp(`\\^${escapedCmd}(?=[{\\s0-9]|$)`, 'g');
     result = result.replace(regexSuper, `^\\${cmd}`);
-    // _cmd 模式
-    const regexSub = new RegExp(`_${cmd}(?=[{\\s0-9]|$)`, 'g');
+    const regexSub = new RegExp(`_${escapedCmd}(?=[{\\s0-9]|$)`, 'g');
     result = result.replace(regexSub, `_\\${cmd}`);
   }
 
@@ -176,12 +223,16 @@ function fixLatexBackslashes(text: string): string {
 }
 
 // ===== 数学公式文本渲染 =====
-/** 将含 $$...$$ 与 $...$ 的文本切分为段并渲染。 */
+/** 
+ * 将含 $$...$$ 与 $...$ 的文本切分为段并渲染。
+ * 关键区分：
+ * - 数学模式内（$...$）：交给 KaTeX，用 normalizeMathMode() 规范化命令
+ * - 数学模式外（纯文本）：不经过KaTeX，直接把 \times 等命令转换为 Unicode 符号显示
+ */
 export function MathText({ text }: { text: string }) {
   if (!text) return null;
-  const fixedText = fixLatexBackslashes(text);
   const parts: React.ReactNode[] = [];
-  let rest = String(fixedText);
+  let rest = String(text);
   let key = 0;
 
   while (rest.length > 0) {
@@ -193,15 +244,22 @@ export function MathText({ text }: { text: string }) {
     const inlineIdx = inline ? rest.indexOf(inline[0]) : -1;
 
     if (block && (inlineIdx === -1 || blockIdx <= inlineIdx)) {
-      if (blockIdx > 0) parts.push(<span key={key++}>{rest.slice(0, blockIdx)}</span>);
-      parts.push(<BlockMath key={key++} math={block[1]} />);
+      if (blockIdx > 0) {
+        // 块前面的纯文本区域 → 用 latexCmdsToUnicode（不经过KaTeX渲染）
+        parts.push(<span key={key++}>{latexCmdsToUnicode(rest.slice(0, blockIdx))}</span>);
+      }
+      parts.push(<BlockMath key={key++} math={normalizeMathMode(block[1])} />);
       rest = rest.slice(blockIdx + block[0].length);
     } else if (inline) {
-      if (inlineIdx > 0) parts.push(<span key={key++}>{rest.slice(0, inlineIdx)}</span>);
-      parts.push(<InlineMath key={key++} math={inline[1]} />);
+      if (inlineIdx > 0) {
+        // 行内公式前面的纯文本区域 → 用 latexCmdsToUnicode
+        parts.push(<span key={key++}>{latexCmdsToUnicode(rest.slice(0, inlineIdx))}</span>);
+      }
+      parts.push(<InlineMath key={key++} math={normalizeMathMode(inline[1])} />);
       rest = rest.slice(inlineIdx + inline[0].length);
     } else {
-      parts.push(<span key={key++}>{rest}</span>);
+      // 剩余纯文本 → latexCmdsToUnicode
+      parts.push(<span key={key++}>{latexCmdsToUnicode(rest)}</span>);
       rest = '';
     }
   }
