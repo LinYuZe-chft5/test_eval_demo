@@ -1,30 +1,29 @@
 -- ============================================================
--- 在 Supabase SQL Editor 执行此脚本
+-- 在 Supabase SQL Editor 执行此脚本（覆盖之前的版本）
 -- 创建批量导入题库的 RPC 函数
+-- 参数：只传 questions_data JSONB 数组
 -- ============================================================
 
 CREATE OR REPLACE FUNCTION public.batch_upsert_questions(
-  questions_data JSONB,
-  p_sku_code TEXT DEFAULT NULL
+  questions_data JSONB
 )
 RETURNS INT
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 DECLARE
-  v_rows JSONB;
+  v_item JSONB;
   v_sku TEXT;
   v_day SMALLINT;
   v_seq SMALLINT;
-  v_item JSONB;
   v_count INT := 0;
 BEGIN
   -- 遍历每个题目
   FOR v_item IN
     SELECT jsonb_array_elements(questions_data) AS item
   LOOP
-    -- 提取关键字段
-    v_sku := COALESCE(v_item->>'sku_code', p_sku, 'UNKNOWN');
+    -- 从数据中提取关键字段
+    v_sku := COALESCE(v_item->>'sku_code', 'UNKNOWN');
     v_day := COALESCE((v_item->>'day_tag')::SMALLINT, 1);
     v_seq := COALESCE((v_item->>'seq_no')::SMALLINT, 1);
 

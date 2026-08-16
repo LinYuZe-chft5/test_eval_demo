@@ -197,13 +197,12 @@ function transformRow(q, sku) {
 
 async function insertBatchViaRPC(rows) {
   // 使用 RPC 函数实现真正的 UPSERT
-  // 参数名必须与 SQL 函数定义一致：questions_data, p_sku_code
+  // 只传 questions_data，避免 PostgREST 解析下划线参数名的问题
   if (rows.length === 0) return;
   const url = `${API}/rpc/batch_upsert_questions`;
   
   const body = {
     questions_data: rows,
-    p_sku_code: rows[0]?.sku_code || null,  // 注意：参数名是 p_sku_code
   };
   
   const r = await fetch(url, {
