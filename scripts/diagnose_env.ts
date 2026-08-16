@@ -9,8 +9,17 @@
 
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
 
 const cwd = process.cwd();
+
+// 先加载 .env 文件到 process.env
+const envResult = dotenv.config({ path: path.join(cwd, '.env') });
+if (envResult.error) {
+  console.warn('[WARN] dotenv 加载失败:', envResult.error.message);
+} else {
+  console.log('[INFO] .env 已通过 dotenv 加载到 process.env');
+}
 console.log('='.repeat(60));
 console.log('环境变量诊断脚本');
 console.log('='.repeat(60));
@@ -49,15 +58,19 @@ if (foundEnvFile) {
     for (const key of requiredKeys) {
       const regex = new RegExp(`^${key}=(.*)$`, 'm');
       const match = content.match(regex);
-      if (match && match[1].trim()) {
-        const value = match[1].trim().replace(/^"|"$/g, '').replace(/^'|'$/g, '');
-        if (value.length > 10) {
+      if (match) {
+        const rawValue = match[1].trim();
+        const value = rawValue.replace(/^"|"$/g, '').replace(/^'|'$/g, '');
+        // 检查是否为空值（空字符串或只有引号）
+        if (!value || value === '""' || value === "''") {
+          console.log(`  ❌ ${key} 值为空！请填入有效值`);
+        } else if (value.length > 10) {
           console.log(`  ✅ ${key} = ${value.slice(0, 10)}...${value.slice(-4)} (长度: ${value.length})`);
         } else {
           console.log(`  ✅ ${key} = ${value}`);
         }
       } else {
-        console.log(`  ❌ ${key} 未设置或为空`);
+        console.log(`  ❌ ${key} 未找到`);
       }
     }
   } catch (err: any) {
