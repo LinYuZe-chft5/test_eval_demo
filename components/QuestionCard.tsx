@@ -75,8 +75,40 @@ function fixLatexBackslashes(text: string): string {
   if (!text) return text;
   let result = text;
 
-  // 1. Unicode 数学符号 → LaTeX 命令
-  // 这些是安全的一对一替换，不会产生副作用
+  // 0. 先处理：反斜杠+命令名 直接转换为 Unicode 符号
+  // 这一步解决数据库中存储的 \times 等命令在 JS 字符串中被转义的问题
+  // 注意：必须在步骤1（Unicode→LaTeX）之前执行，避免循环替换
+  result = result.replace(/\\times/g, '×');
+  result = result.replace(/\\div/g, '÷');
+  result = result.replace(/\\pm/g, '±');
+  result = result.replace(/\\leq/g, '≤');
+  result = result.replace(/\\geq/g, '≥');
+  result = result.replace(/\\neq/g, '≠');
+  result = result.replace(/\\cdot/g, '·');
+  result = result.replace(/\\circ/g, '°');
+  result = result.replace(/\\infty/g, '∞');
+  result = result.replace(/\\angle/g, '∠');
+  result = result.replace(/\\perp/g, '⊥');
+  result = result.replace(/\\parallel/g, '∥');
+  result = result.replace(/\\odot/g, '⊙');
+  result = result.replace(/\\triangle/g, '△');
+  result = result.replace(/\\alpha/g, 'α');
+  result = result.replace(/\\beta/g, 'β');
+  result = result.replace(/\\gamma/g, 'γ');
+  result = result.replace(/\\delta/g, 'δ');
+  result = result.replace(/\\theta/g, 'θ');
+  result = result.replace(/\\pi/g, 'π');
+  result = result.replace(/\\Delta/g, 'Δ');
+  result = result.replace(/\\Leftrightarrow/g, '⇔');
+  result = result.replace(/\\frac/g, '∕');
+  result = result.replace(/\\sqrt/g, '√');
+  result = result.replace(/\\overline/g, '‾');
+  result = result.replace(/\\vec/g, '→');
+  result = result.replace(/\\sim/g, '∼');
+  result = result.replace(/\\approx/g, '≈');
+
+  // 1. Unicode 数学符号 → LaTeX 命令（仅在数学模式 $...$ 内才会被使用）
+  // 这里只做安全的字符替换，用于在 $...$ 模式内正确渲染
   result = result.replace(/×/g, '\\times');
   result = result.replace(/÷/g, '\\div');
   result = result.replace(/±/g, '\\pm');
