@@ -84,22 +84,43 @@ export async function POST(req: Request) {
   } catch (err: any) {
     console.error('[access/verify] error:', err);
     const errorMessage = err?.message || '服务器内部错误';
+    const errorName = err?.name || '';
     
-    // 根据错误类型返回不同的错误消息
-    let statusCode = 500;
-    if (errorMessage.includes('不存在') || errorMessage.includes('未找到')) {
-      statusCode = 404;
-    } else if (errorMessage.includes('冲突') || errorMessage.includes('已被注册')) {
-      statusCode = 409;
-    } else if (errorMessage.includes('配置错误') || errorMessage.includes('连接地址')) {
-      statusCode = 503;
-    } else if (errorMessage.includes('网络连接')) {
-      statusCode = 502;
+    // 捕获数据库配置错误 - 返回友好提示
+    if (errorName === 'SupabaseConfigError' || 
+        errorMessage.includes('数据库连接配置缺失') ||
+        errorMessage.includes('SUPABASE_URL未设置') ||
+        errorMessage.includes('SUPABASE_SERVICE_ROLE_KEY未设置')) {
+      console.error('[access/verify] 数据库配置错误，请检查 .env 文件');
+      return NextResponse.json(
+        { 
+          ok: false, 
+          error: '系统正在维护中，请稍后再试'  // 给用户显示友好消息
+        },
+        { status: 503 },
+      );
     }
     
+    // 网络连接错误
+    if (errorMessage.includes('网络连接') || errorMessage.includes('fetch') || errorMessage.includes('ECONNREFUSED')) {
+      return NextResponse.json(
+        { ok: false, error: '网络连接失败，请检查网络后重试' },
+        { status: 502 },
+      );
+    }
+    
+    // 数据库查询错误（如访问码不存在等）
+    if (errorMessage.includes('不存在') || errorMessage.includes('未找到') || errorMessage.includes('404')) {
+      return NextResponse.json(
+        { ok: false, error: '访问码无效或已过期' },
+        { status: 404 },
+      );
+    }
+    
+    // 未知错误 - 返回通用提示
     return NextResponse.json(
-      { ok: false, error: errorMessage },
-      { status: statusCode },
+      { ok: false, error: '服务器内部错误，请稍后重试' },
+      { status: 500 },
     );
   }
 }

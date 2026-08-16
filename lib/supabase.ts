@@ -17,18 +17,37 @@ import fs from 'fs';
 import path from 'path';
 
 // 手动加载 .env 文件（兼容 Next.js 和独立脚本环境）
+// 支持多种路径查找，确保在不同运行环境下都能正确加载
 function loadEnvFile(): void {
+  const cwd = process.cwd();
+  
+  // 扩展搜索路径列表，覆盖不同运行场景
   const envPaths = [
-    path.resolve(process.cwd(), '.env'),
-    path.resolve(process.cwd(), '.env.local'),
-    path.resolve(process.cwd(), '.env.development'),
+    path.resolve(cwd, '.env'),
+    path.resolve(cwd, '.env.local'),
+    path.resolve(cwd, '.env.development'),
+    // Next.js 可能使用的其他路径
+    path.resolve(cwd, '.env.production'),
   ];
+  
+  // 还要检查当前已有的环境变量是否已经包含必要的配置
+  const hasEnvVars = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (hasEnvVars) {
+    console.log('[supabase] 环境变量已存在于系统中，跳过 .env 文件加载');
+    return;
+  }
+  
+  console.log(`[supabase] 当前工作目录: ${cwd}`);
+  console.log(`[supabase] 搜索 .env 文件路径:`, envPaths);
   
   for (const envPath of envPaths) {
     try {
       if (fs.existsSync(envPath)) {
+        console.log(`[supabase] 找到 .env 文件: ${envPath}`);
         const content = fs.readFileSync(envPath, 'utf8');
         const lines = content.split('\n');
+        let loadedCount = 0;
+        
         for (const line of lines) {
           const trimmedLine = line.trim();
           // 跳过注释和空行
@@ -46,32 +65,74 @@ function loadEnvFile(): void {
             value = value.substring(1, value.length - 1);
           }
           
-          // 只在未设置时添加
+          // 只在未设置时添加（避免覆盖系统环境变量）
           if (!process.env[key]) {
             process.env[key] = value;
+            loadedCount++;
           }
         }
-        console.log(`[supabase] 已加载环境变量: ${envPath}`);
+        console.log(`[supabase] 已从 ${envPath} 加载 ${loadedCount} 个环境变量`);
         return;
       }
     } catch (err) {
       console.warn(`[supabase] 无法读取 ${envPath}:`, err);
     }
   }
-  console.warn('[supabase] 未找到 .env 文件，依赖系统环境变量');
+  
+  // 如果没有找到 .env 文件，但系统环境变量已存在，则继续
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL) {
+    console.log('[supabase] 未找到 .env 文件，但系统环境变量已配置，继续使用系统环境变量');
+  } else {
+    console.warn('[supabase] ⚠️ 未找到 .env 文件，且系统环境变量也未配置！');
+    console.warn('[supabase] 请确保 .env 文件存在于项目根目录，或在 Vercel/部署平台配置环境变量');
+  }
 }
 
-loadEnvFile();
+// 使用 Symbol 标记环境变量是否已初始化
+let envInitialized = false;
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-if (!SUPABASE_URL) {
-  console.error('[supabase] 环境变量缺失: NEXT_PUBLIC_SUPABASE_URL 或 SUPABASE_URL 未设置');
-  console.error('[supabase] 当前进程环境变量包含:', Object.keys(process.env).filter(k => k.includes('SUPABASE')));
+function ensureEnvLoaded(): void {
+  if (!envInitialized) {
+    loadEnvFile();
+    envInitialized = true;
+  }
 }
 
-const API_BASE = SUPABASE_URL ? `${SUPABASE_URL}/rest/v1` : '';
+// 初始化时加载一次
+ensureEnvLoaded();
+
+function getSupabaseConfig() {
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
+  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  return { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY };
+}
+
+// 延迟检查：只有在实际请求时才验证配置
+function validateConfig(): { valid: boolean; error?: string } {
+  const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig();
+  
+  if (!SUPABASE_URL) {
+    return { 
+      valid: false, 
+      error: '数据库连接配置缺失（SUPABASE_URL未设置）。请在 .env 文件中配置 NEXT_PUBLIC_SUPABASE_URL' 
+    };
+  }
+  if (!SUPABASE_SERVICE_ROLE_KEY) {
+    return { 
+      valid: false, 
+      error: '数据库连接配置缺失（SUPABASE_SERVICE_ROLE_KEY未设置）。请在 .env 文件中配置 SUPABASE_SERVICE_ROLE_KEY' 
+    };
+  }
+  return { valid: true };
+}
+
+// 错误类型定义，用于区分不同的错误场景
+export class SupabaseConfigError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'SupabaseConfigError';
+  }
+}
 
 async function request<T = any>(
   path: string,
@@ -79,14 +140,18 @@ async function request<T = any>(
   body?: any,
   extraHeaders: Record<string, string> = {}
 ): Promise<T> {
+  // 确保环境变量已加载
+  ensureEnvLoaded();
+  
   // 检查配置
-  if (!API_BASE) {
-    throw new Error('数据库连接配置缺失：请在服务器环境变量中设置 NEXT_PUBLIC_SUPABASE_URL 和 SUPABASE_SERVICE_ROLE_KEY');
+  const configCheck = validateConfig();
+  if (!configCheck.valid) {
+    // 抛出特定类型的错误，让调用方可以捕获并返回友好提示
+    throw new SupabaseConfigError(configCheck.error || '数据库配置缺失');
   }
 
-  if (!SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error('服务密钥缺失：请在服务器环境变量中设置 SUPABASE_SERVICE_ROLE_KEY');
-  }
+  const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig();
+  const API_BASE = `${SUPABASE_URL}/rest/v1`;
 
   const url = `${API_BASE}${path}`;
   
