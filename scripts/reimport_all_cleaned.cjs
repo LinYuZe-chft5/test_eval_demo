@@ -50,10 +50,39 @@ function sha256(s) {
 }
 
 async function deleteQuestions(skuCode) {
+  // 先查询当前数量
+  const countUrl = `${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}&limit=0`;
+  const countR = await fetch(countUrl, {
+    headers: { ...HEADERS, Prefer: 'count=exact' },
+  });
+  const existing = parseInt(countR.headers.get('content-range')?.split('/')[1] || '0');
+  console.log(`  当前 ${skuCode} 已有 ${existing} 题`);
+  
+  if (existing === 0) {
+    console.log(`  无需删除`);
+    return;
+  }
+  
+  // 删除
   const url = `${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}`;
   const r = await fetch(url, { method: 'DELETE', headers: HEADERS });
   console.log(`  DEL ${skuCode} → ${r.status}`);
   if (![200, 204].includes(r.status)) throw new Error(`DELETE ${skuCode}: ${r.status} ${await r.text()}`);
+  
+  // 验证删除生效：等待直到数量为0
+  for (let attempt = 0; attempt < 10; attempt++) {
+    await delay(300);
+    const verifyR = await fetch(countUrl, {
+      headers: { ...HEADERS, Prefer: 'count=exact' },
+    });
+    const remaining = parseInt(verifyR.headers.get('content-range')?.split('/')[1] || '999');
+    if (remaining === 0) {
+      console.log(`  ✅ 已清空`);
+      return;
+    }
+    console.log(`  ⏳ 等待删除生效... (剩余 ${remaining} 题)`);
+  }
+  throw new Error(`删除超时：${skuCode} 仍有数据`);
 }
 
 /**
