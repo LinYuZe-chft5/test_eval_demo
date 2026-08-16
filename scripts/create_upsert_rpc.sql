@@ -1,89 +1,73 @@
 -- ============================================================
 -- 在 Supabase SQL Editor 执行此脚本
 -- 创建批量导入题库的 RPC 函数
--- 支持 UPSERT：冲突时自动更新
 -- ============================================================
 
 CREATE OR REPLACE FUNCTION public.batch_upsert_questions(
   questions_data JSONB,
-  sku_code TEXT DEFAULT NULL
+  p_sku_code TEXT DEFAULT NULL
 )
-RETURNS TABLE(
-  inserted_count INT,
-  updated_count INT
-)
+RETURNS INT
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
 DECLARE
-  v_inserted INT := 0;
-  v_updated INT := 0;
-  v_question JSONB;
-  v_id BIGINT;
+  v_rows JSONB;
+  v_sku TEXT;
+  v_day SMALLINT;
+  v_seq SMALLINT;
+  v_item JSONB;
+  v_count INT := 0;
 BEGIN
-  -- 创建临时表
-  CREATE TEMP TABLE IF NOT EXISTS tmp_questions (
-    id BIGSERIAL,
-    data JSONB NOT NULL
-  ) ON COMMIT DROP;
-
-  -- 插入数据到临时表
-  INSERT INTO tmp_questions (data)
-  SELECT jsonb_array_elements(questions_data);
-
-  -- 逐行 UPSERT
-  FOR v_question IN
-    SELECT data FROM tmp_questions ORDER BY id
+  -- 遍历每个题目
+  FOR v_item IN
+    SELECT jsonb_array_elements(questions_data) AS item
   LOOP
-    -- UPSERT：冲突时更新
+    -- 提取关键字段
+    v_sku := COALESCE(v_item->>'sku_code', p_sku, 'UNKNOWN');
+    v_day := COALESCE((v_item->>'day_tag')::SMALLINT, 1);
+    v_seq := COALESCE((v_item->>'seq_no')::SMALLINT, 1);
+
+    -- UPSERT：插入或更新
     INSERT INTO questions (
       sku_code, subject, day_tag, seq_no, q_type,
       is_warmup, is_anchor,
       stem, image_url, options, steps, correct_answer, answer_spec, score, solution,
       kp_code, kp_related, cognitive_level, literacy_codes, ec_mapping,
-      difficulty_est, discrimination_est, expected_time_sec,
-      pairing_id, parallel_group_id, variant_of,
+      difficulty_est, expected_time_sec,
       improvement_tip, variant_stem, variant_answer,
-      status, exposure_count, measured_p, measured_d,
-      stem_hash, version, reviewer
+      status, exposure_count, stem_hash, version
     )
     VALUES (
-      COALESCE(v_question->>'sku_code', sku_code),
-      COALESCE(v_question->>'subject', 'math'),
-      COALESCE((v_question->>'day_tag')::SMALLINT, 1),
-      COALESCE((v_question->>'seq_no')::SMALLINT, 1),
-      COALESCE(v_question->>'q_type', 'choice'),
-      COALESCE((v_question->>'is_warmup')::BOOLEAN, FALSE),
-      COALESCE((v_question->>'is_anchor')::BOOLEAN, FALSE),
-      COALESCE(v_question->>'stem', ''),
-      v_question->>'image_url',
-      v_question->'options',
-      v_question->'steps',
-      v_question->>'correct_answer',
-      v_question->'answer_spec',
-      COALESCE((v_question->>'score')::NUMERIC, 1),
-      COALESCE(v_question->>'solution', v_question->>'stem', ''),
-      COALESCE(v_question->>'kp_code', 'KP-unknown'),
-      v_question->>'kp_related',
-      COALESCE(v_question->>'cognitive_level', 'L2'),
-      COALESCE(v_question->'literacy_codes', ARRAY['S1']::VARCHAR(32)[]),
-      COALESCE(v_question->'ec_mapping', ARRAY[]::VARCHAR(8)[]),
-      COALESCE((v_question->>'difficulty_est')::NUMERIC, 0.5),
-      (v_question->>'discrimination_est')::NUMERIC,
-      COALESCE((v_question->>'expected_time_sec')::INT, 300),
-      v_question->>'pairing_id',
-      v_question->>'parallel_group_id',
-      NULL::BIGINT,
-      v_question->>'improvement_tip',
-      v_question->>'variant_stem',
-      v_question->>'variant_answer',
+      v_sku,
+      COALESCE(v_item->>'subject', 'math'),
+      v_day,
+      v_seq,
+      COALESCE(v_item->>'q_type', 'choice'),
+      COALESCE((v_item->>'is_warmup')::BOOLEAN, FALSE),
+      COALESCE((v_item->>'is_anchor')::BOOLEAN, FALSE),
+      COALESCE(v_item->>'stem', ''),
+      v_item->>'image_url',
+      v_item->'options',
+      v_item->'steps',
+      v_item->>'correct_answer',
+      v_item->'answer_spec',
+      COALESCE((v_item->>'score')::NUMERIC, 1),
+      COALESCE(v_item->>'solution', ''),
+      COALESCE(v_item->>'kp_code', 'KP-unknown'),
+      v_item->>'kp_related',
+      COALESCE(v_item->>'cognitive_level', 'L2'),
+      COALESCE(v_item->'literacy_codes', ARRAY['S1']::VARCHAR(32)[]),
+      COALESCE(v_item->'ec_mapping', ARRAY[]::VARCHAR(8)[]),
+      COALESCE((v_item->>'difficulty_est')::NUMERIC, 0.5),
+      COALESCE((v_item->>'expected_time_sec')::INT, 300),
+      v_item->>'improvement_tip',
+      v_item->>'variant_stem',
+      v_item->>'variant_answer',
       'active',
       0,
-      (v_question->>'measured_p')::NUMERIC,
-      (v_question->>'measured_d')::NUMERIC,
-      COALESCE(v_question->>'stem_hash', ''),
-      COALESCE(v_question->>'version', 'v1.0'),
-      v_question->>'reviewer'
+      COALESCE(v_item->>'stem_hash', ''),
+      COALESCE(v_item->>'version', 'v1.0')
     )
     ON CONFLICT (sku_code, day_tag, seq_no)
     DO UPDATE SET
@@ -106,25 +90,11 @@ BEGIN
       variant_answer = EXCLUDED.variant_answer,
       stem_hash = EXCLUDED.stem_hash,
       version = EXCLUDED.version,
-      updated_at = NOW()
-    RETURNING id INTO v_id;
+      updated_at = NOW();
 
-    IF v_id IS NOT NULL THEN
-      v_inserted := v_inserted + 1;
-    END IF;
+    v_count := v_count + 1;
   END LOOP;
 
-  -- 返回结果
-  inserted_count := v_inserted;
-  updated_count := v_updated;
-  RETURN;
-
-  -- 清理
-  DROP TABLE IF EXISTS tmp_questions;
+  RETURN v_count;
 END;
 $$;
-
--- 授予执行权限给匿名角色（如果需要公开访问）
--- GRANT EXECUTE ON FUNCTION public.batch_upsert_questions(JSONB, TEXT) TO anon;
--- GRANT EXECUTE ON FUNCTION public.batch_upsert_questions(JSONB, TEXT) TO authenticated;
--- GRANT EXECUTE ON FUNCTION public.batch_upsert_questions(JSONB, TEXT) TO service_role;
