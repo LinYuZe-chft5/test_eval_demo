@@ -1,18 +1,23 @@
 #!/usr/bin/env node
 /**
  * scripts/reimport_all_cleaned.cjs
- * 
- * 重新导入清洗后的题库到 Supabase
- * 
- * 步骤：
- *  1. 通过 PostgREST REST API 删除旧的 questions
- *  2. 批量导入 scripts/data/cleaned/*.json
- * 
- * 用法：node scripts/reimport_all_cleaned.cjs
+ *
+ * 清洗后题库全量重导入（S1/S3/S6）
+ * 数据库字段与源JSON字段映射：
+ *   JSON字段 → DB字段
+ *   day → day_tag
+ *   seq_in_day → seq_no
+ *   knowledge_points[0] → kp_code
+ *   knowledge_points[1] → kp_related
+ *   error_label_pool → ec_mapping
+ *   difficulty → difficulty_est
+ *   time_limit → expected_time_sec
+ *   stem → stem (auto sha256 → stem_hash)
  */
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 require('dotenv').config({ path: path.join(process.cwd(), '.env') });
 
 const DATA_DIR = path.join(process.cwd(), 'scripts', 'data', 'cleaned');
@@ -40,6 +45,10 @@ const FILES = [
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+function sha256(s) {
+  return crypto.createHash('sha256').update(s || '').digest('hex');
+}
+
 async function deleteQuestions(skuCode) {
   const url = `${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}`;
   const r = await fetch(url, { method: 'DELETE', headers: HEADERS });
@@ -47,48 +56,56 @@ async function deleteQuestions(skuCode) {
   if (![200, 204].includes(r.status)) throw new Error(`DELETE ${skuCode}: ${r.status} ${await r.text()}`);
 }
 
-// 将 camelCase JSON 字段转换为 snake_case DB 列 + 数组字面值处理
-const SNAKE_MAP = {
-  id: 'id', sku_code: 'sku_code', q_type: 'q_type', day: 'day',
-  seq_in_day: 'seq_in_day', stem: 'stem', options: 'options',
-  steps: 'steps', correct_answer: 'correct_answer', answer_spec: 'answer_spec',
-  score: 'score', error_label_pool: 'error_label_pool',
-  ec_code_primary: 'ec_code_primary', ec_code_secondary: 'ec_code_secondary',
-  knowledge_points: 'knowledge_points', method_cards: 'method_cards',
-  difficulty: 'difficulty', is_warmup: 'is_warmup', is_anchor: 'is_anchor',
-  image_url: 'image_url', solution: 'solution', improvement_tip: 'improvement_tip',
-  variant_stem: 'variant_stem', variant_answer: 'variant_answer',
-  time_limit: 'time_limit', score_spec: 'score_spec', prob_for: 'prob_for',
-  radar_tags: 'radar_tags', kp_deps: 'kp_deps',
-};
+/**
+ * 字段映射：源 JSON → 数据库列
+ */
+function transformRow(q, sku) {
+  const knowledgePoints = Array.isArray(q.knowledge_points) ? q.knowledge_points : [];
+  const errorLabels = Array.isArray(q.error_label_pool) ? q.error_label_pool : [];
 
-const PG_ARRAY_FIELDS = new Set([
-  'error_label_pool', 'ec_code_primary', 'ec_code_secondary',
-  'knowledge_points', 'method_cards', 'options', 'steps',
-  'kp_deps', 'radar_tags',
-]);
+  const row = {
+    sku_code: sku,
+    subject: q.subject || 'math',
+    day_tag: q.day ?? 1,
+    seq_no: q.seq_in_day ?? 1,
+    q_type: q.q_type || 'choice',
+    is_warmup: !!q.is_warmup,
+    is_anchor: !!q.is_anchor,
 
-function toSnake(obj) {
-  const out = {};
-  for (const [k, v] of Object.entries(obj)) {
-    const col = SNAKE_MAP[k] ?? k;
-    if (v === undefined) continue;
-    if (v === null || v === '' || (Array.isArray(v) && v.length === 0)) {
-      out[col] = null;
-      continue;
-    }
-    if (PG_ARRAY_FIELDS.has(col)) {
-      if (Array.isArray(v)) {
-        // JSON数组字段：PostgREST直接接受JSON数组即可（类型为jsonb）
-        out[col] = v;
-      } else {
-        out[col] = v;
-      }
-    } else {
-      out[col] = v;
-    }
-  }
-  return out;
+    stem: q.stem || '',
+    image_url: q.image_url || null,
+    options: Array.isArray(q.options) ? q.options : null,
+    steps: Array.isArray(q.steps) ? q.steps : null,
+    correct_answer: q.correct_answer || null,
+    answer_spec: q.answer_spec || null,
+    score: q.score || 1,
+    solution: q.solution || q.stem || '',
+
+    kp_code: knowledgePoints[0] || 'KP-unknown',
+    kp_related: knowledgePoints[1] || null,
+    cognitive_level: q.cognitive_level || 'L2',
+    literacy_codes: Array.isArray(q.literacy_codes) ? q.literacy_codes : ['S1'],
+    ec_mapping: errorLabels,
+    difficulty_est: q.difficulty || 0.5,
+    discrimination_est: null,
+    expected_time_sec: q.time_limit || 300,
+    pairing_id: q.pairing_id || null,
+    parallel_group_id: q.parallel_group_id || null,
+    variant_of: null,
+    improvement_tip: q.improvement_tip || null,
+    variant_stem: q.variant_stem || null,
+    variant_answer: q.variant_answer || null,
+
+    status: 'active',
+    exposure_count: 0,
+    measured_p: null,
+    measured_d: null,
+    stem_hash: sha256(q.stem || ''),
+    version: 'v1.0',
+    reviewer: null,
+  };
+
+  return row;
 }
 
 async function insertBatch(rows) {
@@ -101,22 +118,23 @@ async function insertBatch(rows) {
   });
   if (![200, 201].includes(r.status)) {
     const txt = await r.text();
-    console.error(`  ❌ POST questions 失败: ${r.status} ${txt.slice(0, 500)}`);
+    console.error(`  ❌ POST questions 失败: ${r.status} ${txt.slice(0, 800)}`);
     throw new Error(`Import failed ${r.status}`);
   }
 }
 
 async function importFile({ file, sku }) {
   console.log(`\n📦 导入 ${file} (SKU=${sku}) ...`);
-  const raw = JSON.parse(fs.readFileSync(path.join(DATA_DIR, file), 'utf8'));
+  const filePath = path.join(DATA_DIR, file);
+  if (!fs.existsSync(filePath)) {
+    console.log(`  ⚠️ 文件不存在，跳过: ${filePath}`);
+    return;
+  }
+  const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   const questions = raw.questions ?? (Array.isArray(raw) ? raw : []);
   console.log(`  共 ${questions.length} 题`);
 
-  const transformed = questions.map(q => {
-    const row = toSnake(q);
-    if (!row.sku_code) row.sku_code = sku;
-    return row;
-  });
+  const transformed = questions.map(q => transformRow(q, sku));
 
   // 分批导入，每批 25 条
   const BATCH = 25;
