@@ -195,26 +195,41 @@ function transformRow(q, sku) {
   return row;
 }
 
-async function insertBatchUpsert(rows) {
-  // 使用 Upsert：如果 (sku_code, day_tag, seq_no) 冲突则更新
+async function insertBatchViaRPC(rows) {
+  // 使用 RPC 函数实现真正的 UPSERT（PostgREST HTTP 的 Upsert 不支持唯一约束冲突）
   if (rows.length === 0) return;
-  const url = `${API}/questions`;
+  const url = `${API}/rpc/batch_upsert_questions`;
   
-  // 添加 Prefer header 让 PostgREST 处理冲突
-  const upsertHeaders = {
-    ...HEADERS,
-    'Prefer': 'return=minimal,resolution=merge-duplicates',
+  const body = {
+    questions_data: rows,
+    sku_code: rows[0]?.sku_code || null,
   };
   
   const r = await fetch(url, {
     method: 'POST',
-    headers: upsertHeaders,
-    body: JSON.stringify(rows),
+    headers: HEADERS,
+    body: JSON.stringify(body),
   });
   if (![200, 201].includes(r.status)) {
     const txt = await r.text();
-    console.error(`  ❌ POST questions 失败: ${r.status} ${txt.slice(0, 800)}`);
+    console.error(`  ❌ RPC 导入失败: ${r.status} ${txt.slice(0, 800)}`);
+    
+    // 如果 RPC 不存在（404），提示用户先创建
+    if (r.status === 404) {
+      console.error(`  💡 请先在 Supabase SQL Editor 执行 scripts/create_upsert_rpc.sql`);
+    }
     throw new Error(`Import failed ${r.status}`);
+  }
+  
+  // 解析返回结果
+  try {
+    const result = await r.json();
+    if (Array.isArray(result) && result.length > 0) {
+      const { inserted_count, updated_count } = result[0];
+      process.stdout.write(`  (新增${inserted_count} 更新${updated_count})`);
+    }
+  } catch {
+    // 忽略解析错误
   }
 }
 
@@ -231,11 +246,11 @@ async function importFile({ file, sku }) {
 
   const transformed = questions.map(q => transformRow(q, sku));
 
-  // 分批导入，每批 25 条（使用 Upsert 避免重复键冲突）
+  // 分批导入，每批 25 条（使用 RPC UPSERT 避免重复键冲突）
   const BATCH = 25;
   for (let i = 0; i < transformed.length; i += BATCH) {
     const batch = transformed.slice(i, i + BATCH);
-    await insertBatchUpsert(batch);
+    await insertBatchViaRPC(batch);
     process.stdout.write(`  导入 ${Math.min(i + BATCH, transformed.length)}/${transformed.length}\r`);
     await delay(150);
   }
@@ -245,18 +260,10 @@ async function importFile({ file, sku }) {
 async function main() {
   console.log('='.repeat(60));
   console.log('🚀 清洗后题库全量重导入（S1/S3/S6）');
-  console.log('   使用 UPSERT 模式：冲突时自动更新，避免重复键错误');
+  console.log('   使用 RPC UPSERT 模式：冲突时自动更新，无需先清空');
   console.log('='.repeat(60));
 
-  // 先全部清空 questions 表
-  console.log('\n🗑️  清空题库...');
-  const clearUrl = `${API}/questions`;
-  const clearR = await fetch(clearUrl, { method: 'DELETE', headers: HEADERS });
-  console.log(`  DELETE ALL questions → ${clearR.status}`);
-  await delay(1000);
-
   for (const f of FILES) {
-    await deleteQuestionsBySQL(f.sku);
     await importFile(f);
   }
 
