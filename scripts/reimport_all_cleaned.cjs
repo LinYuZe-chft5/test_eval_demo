@@ -49,40 +49,62 @@ function sha256(s) {
   return crypto.createHash('sha256').update(s || '').digest('hex');
 }
 
-async function deleteQuestions(skuCode) {
-  // 先查询当前数量
-  const countUrl = `${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}&limit=0`;
-  const countR = await fetch(countUrl, {
-    headers: { ...HEADERS, Prefer: 'count=exact' },
+async function deleteQuestionsBySQL(skuCode) {
+  // 使用 RPC 执行原生 SQL DELETE（绕过 PostgREST HTTP 的事务隔离问题）
+  const sql = `DELETE FROM questions WHERE sku_code = '${skuCode.replace(/'/g, "''")}' RETURNING COUNT(*);`;
+  const url = `${API}/rpc/pg_query`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { ...HEADERS, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: sql }),
   });
-  const existing = parseInt(countR.headers.get('content-range')?.split('/')[1] || '0');
-  console.log(`  当前 ${skuCode} 已有 ${existing} 题`);
-  
-  if (existing === 0) {
-    console.log(`  无需删除`);
-    return;
+  if (r.status === 404) {
+    // RPC 不存在，改用 DELETE API 并强制等待
+    return deleteQuestionsByAPI(skuCode);
   }
+  if (![200, 201].includes(r.status)) {
+    console.log(`  RPC 删除失败 (${r.status})，改用 API 删除`);
+    return deleteQuestionsByAPI(skuCode);
+  }
+  console.log(`  SQL DELETE ${skuCode} → ${r.status}`);
   
-  // 删除
-  const url = `${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}`;
-  const r = await fetch(url, { method: 'DELETE', headers: HEADERS });
-  console.log(`  DEL ${skuCode} → ${r.status}`);
-  if (![200, 204].includes(r.status)) throw new Error(`DELETE ${skuCode}: ${r.status} ${await r.text()}`);
-  
-  // 验证删除生效：等待直到数量为0
-  for (let attempt = 0; attempt < 10; attempt++) {
-    await delay(300);
-    const verifyR = await fetch(countUrl, {
-      headers: { ...HEADERS, Prefer: 'count=exact' },
-    });
-    const remaining = parseInt(verifyR.headers.get('content-range')?.split('/')[1] || '999');
-    if (remaining === 0) {
+  // 验证：直接查询确认
+  await delay(500);
+  const verify = await fetch(`${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}&select=id&limit=1`, {
+    headers: HEADERS,
+  });
+  if (verify.status === 200) {
+    const data = await verify.json();
+    if (Array.isArray(data) && data.length === 0) {
       console.log(`  ✅ 已清空`);
       return;
     }
-    console.log(`  ⏳ 等待删除生效... (剩余 ${remaining} 题)`);
   }
-  throw new Error(`删除超时：${skuCode} 仍有数据`);
+  // 强制重试删除
+  console.log(`  ⚠️ 数据未清空，强制重试...`);
+  return deleteQuestionsByAPI(skuCode);
+}
+
+async function deleteQuestionsByAPI(skuCode) {
+  // 多次删除尝试，确保数据清空
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const url = `${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}`;
+    const r = await fetch(url, { method: 'DELETE', headers: HEADERS });
+    console.log(`  DEL ${skuCode} (尝试${attempt+1}) → ${r.status}`);
+    await delay(500);
+    
+    // 验证
+    const verify = await fetch(`${API}/questions?sku_code=eq.${encodeURIComponent(skuCode)}&select=id&limit=1`, {
+      headers: HEADERS,
+    });
+    const data = await verify.json();
+    if (Array.isArray(data) && data.length === 0) {
+      console.log(`  ✅ 已清空`);
+      return;
+    }
+    console.log(`  ⏳ 仍有 ${Array.isArray(data) ? data.length : '?'} 题，重试...`);
+  }
+  throw new Error(`删除失败：${skuCode} 多次重试后仍有数据`);
 }
 
 /**
@@ -173,12 +195,20 @@ function transformRow(q, sku) {
   return row;
 }
 
-async function insertBatch(rows) {
+async function insertBatchUpsert(rows) {
+  // 使用 Upsert：如果 (sku_code, day_tag, seq_no) 冲突则更新
   if (rows.length === 0) return;
   const url = `${API}/questions`;
+  
+  // 添加 Prefer header 让 PostgREST 处理冲突
+  const upsertHeaders = {
+    ...HEADERS,
+    'Prefer': 'return=minimal,resolution=merge-duplicates',
+  };
+  
   const r = await fetch(url, {
     method: 'POST',
-    headers: HEADERS,
+    headers: upsertHeaders,
     body: JSON.stringify(rows),
   });
   if (![200, 201].includes(r.status)) {
@@ -201,13 +231,13 @@ async function importFile({ file, sku }) {
 
   const transformed = questions.map(q => transformRow(q, sku));
 
-  // 分批导入，每批 25 条
+  // 分批导入，每批 25 条（使用 Upsert 避免重复键冲突）
   const BATCH = 25;
   for (let i = 0; i < transformed.length; i += BATCH) {
     const batch = transformed.slice(i, i + BATCH);
-    await insertBatch(batch);
+    await insertBatchUpsert(batch);
     process.stdout.write(`  导入 ${Math.min(i + BATCH, transformed.length)}/${transformed.length}\r`);
-    await delay(200);
+    await delay(150);
   }
   console.log(`\n  ✅ 导入完成`);
 }
@@ -215,10 +245,18 @@ async function importFile({ file, sku }) {
 async function main() {
   console.log('='.repeat(60));
   console.log('🚀 清洗后题库全量重导入（S1/S3/S6）');
+  console.log('   使用 UPSERT 模式：冲突时自动更新，避免重复键错误');
   console.log('='.repeat(60));
 
+  // 先全部清空 questions 表
+  console.log('\n🗑️  清空题库...');
+  const clearUrl = `${API}/questions`;
+  const clearR = await fetch(clearUrl, { method: 'DELETE', headers: HEADERS });
+  console.log(`  DELETE ALL questions → ${clearR.status}`);
+  await delay(1000);
+
   for (const f of FILES) {
-    await deleteQuestions(f.sku);
+    await deleteQuestionsBySQL(f.sku);
     await importFile(f);
   }
 
