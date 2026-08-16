@@ -58,10 +58,46 @@ async function deleteQuestions(skuCode) {
 
 /**
  * 字段映射：源 JSON → 数据库列
+ * 兼容两种数据格式：
+ *   新格式: ec_mapping=["EC-M1"], kp_code, kp_related
+ *   旧格式: error_label_pool=[{code,label,desc}], knowledge_points={primary:{code},secondary:{code}}
  */
 function transformRow(q, sku) {
-  const knowledgePoints = Array.isArray(q.knowledge_points) ? q.knowledge_points : [];
-  const errorLabels = Array.isArray(q.error_label_pool) ? q.error_label_pool : [];
+  // 知识点：兼容新旧格式
+  let kpCode = q.kp_code || null;
+  let kpRelated = q.kp_related || null;
+  if (!kpCode && q.knowledge_points) {
+    if (typeof q.knowledge_points === 'object' && q.knowledge_points.primary) {
+      kpCode = q.knowledge_points.primary.code || null;
+    } else if (Array.isArray(q.knowledge_points)) {
+      kpCode = q.knowledge_points[0] || null;
+      kpRelated = q.knowledge_points[1] || null;
+    }
+    if (!kpRelated && q.knowledge_points && q.knowledge_points.secondary) {
+      kpRelated = q.knowledge_points.secondary.code || null;
+    }
+  }
+  
+  // 错因编码：兼容新旧格式
+  let ecMapping = q.ec_mapping || null;
+  if (!ecMapping && q.error_label_pool && Array.isArray(q.error_label_pool)) {
+    ecMapping = q.error_label_pool
+      .map(item => (typeof item === 'object' ? item.code : item))
+      .filter(code => code && code.length <= 8);
+  }
+  
+  // 清理：确保每个 ec_mapping 元素 <= 8 字符
+  if (Array.isArray(ecMapping)) {
+    ecMapping = ecMapping.filter(c => c && String(c).length <= 8);
+  }
+  
+  // cognitive_level 限制 <= 4 字符
+  let cogLevel = q.cognitive_level || 'L2';
+  if (cogLevel.length > 4) cogLevel = cogLevel.slice(0, 4);
+  
+  // literacy_codes：确保每个元素 <= 32 字符
+  let literacyCodes = Array.isArray(q.literacy_codes) ? q.literacy_codes : ['S1'];
+  literacyCodes = literacyCodes.filter(c => String(c).length <= 32);
 
   const row = {
     sku_code: sku,
@@ -81,14 +117,14 @@ function transformRow(q, sku) {
     score: q.score || 1,
     solution: q.solution || q.stem || '',
 
-    kp_code: knowledgePoints[0] || 'KP-unknown',
-    kp_related: knowledgePoints[1] || null,
-    cognitive_level: q.cognitive_level || 'L2',
-    literacy_codes: Array.isArray(q.literacy_codes) ? q.literacy_codes : ['S1'],
-    ec_mapping: errorLabels,
-    difficulty_est: q.difficulty || 0.5,
+    kp_code: kpCode || 'KP-unknown',
+    kp_related: kpRelated,
+    cognitive_level: cogLevel,
+    literacy_codes: literacyCodes,
+    ec_mapping: ecMapping,
+    difficulty_est: q.difficulty || q.difficulty_est || 0.5,
     discrimination_est: null,
-    expected_time_sec: q.time_limit || 300,
+    expected_time_sec: q.time_limit || q.expected_time_sec || 300,
     pairing_id: q.pairing_id || null,
     parallel_group_id: q.parallel_group_id || null,
     variant_of: null,
