@@ -103,8 +103,9 @@ async function main() {
   // 创建新的访问码
   const accessCode = '123456';
   const nickname = '木木';
+  const skuCode = 'S3-01';  // 初二对应的SKU代码
 
-  console.log(`\n[Step 2] 创建访问码: code=${accessCode}, nickname=${nickname}`);
+  console.log(`\n[Step 2] 创建访问码: code=${accessCode}, sku_code=${skuCode}, nickname=${nickname}`);
 
   try {
     const result = await apiRequest(
@@ -112,6 +113,7 @@ async function main() {
       'POST',
       {
         code: accessCode,
+        sku_code: skuCode,
         identity: 'grade8',
         nickname: nickname,
         status: 'active',
