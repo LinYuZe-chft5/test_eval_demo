@@ -32,6 +32,7 @@ import {
   selectProbeQuestion,
 } from '@/domain/engine/probe';
 import { runPipeline } from '@/domain/engine/pipeline';
+import { LITERACY_DEFINITIONS } from '@/domain/engine/ecDefinitions';
 import type { MasteryLevel } from '@/domain/engine/mastery';
 
 interface SubmitAnswer {
@@ -483,9 +484,12 @@ async function generateReport(
   const { summary_table, generated_report, is_invalid } = pipelineResult;
 
   // 报告页期望的 literacyRadar 格式: { [dimension]: { score, level, question_count, valid } }
+  // 使用素养维度中文名称作为键（如 "运算能力" 而不是 "YS-02"）
   const literacyRadar: Record<string, { score: number; level: string; question_count: number; valid: boolean }> = {};
   for (const [dim, data] of Object.entries(summary_table.radar_chart)) {
-    literacyRadar[dim] = {
+    // 将素养维度编码转换为中文名称
+    const dimName = LITERACY_DEFINITIONS[dim]?.name || dim;
+    literacyRadar[dimName] = {
       score: (data as any).score,
       level: (data as any).level,
       question_count: (data as any).question_count,

@@ -168,6 +168,24 @@ function transformRow(q, sku) {
   // literacy_codes：确保每个元素 <= 32 字符
   let literacyCodes = Array.isArray(q.literacy_codes) ? q.literacy_codes : ['S1'];
   literacyCodes = literacyCodes.filter(c => String(c).length <= 32);
+  
+  // radar_dimensions：从题库数据中读取（对象数组格式）
+  let radarDimensions = Array.isArray(q.radar_dimensions) ? q.radar_dimensions : [];
+  
+  // kp_name：知识点中文名称映射
+  const KP_NAME_MAP = {
+    'KP-P.4': '数与式',
+    'KP-P.5': '方程与不等式',
+    'KP-P.6': '函数',
+    'KP-P.7': '图形与几何',
+    'KP-P.8': '统计与概率',
+    'KP-P.9': '综合应用',
+    'KP-07.02': '二元一次方程组',
+    'KP-06.04': '一元二次方程',
+    'KP-08.04': '反比例函数',
+    'KP-12.02': '全等三角形',
+  };
+  const kpName = q.kp_name || KP_NAME_MAP[kpCode] || kpCode;
 
   const row = {
     sku_code: sku,
@@ -190,8 +208,10 @@ function transformRow(q, sku) {
 
     kp_code: kpCode || 'KP-unknown',
     kp_related: kpRelated,
+    kp_name: kpName,
     cognitive_level: cogLevel,
     literacy_codes: literacyCodes,
+    radar_dimensions: radarDimensions,
     ec_mapping: ecMapping,
     difficulty_est: q.difficulty || q.difficulty_est || 0.5,
     discrimination_est: null,

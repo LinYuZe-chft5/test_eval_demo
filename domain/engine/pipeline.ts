@@ -154,12 +154,32 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
   // ===== Layer 3: 聚合统计 =====
   console.log('[Pipeline] Layer 3: 程序聚合统计');
 
+  // 知识点名称映射表（从题库数据中提取的中文名）
+  const KP_NAME_MAP: Record<string, string> = {
+    'KP-P.4': '数与式',
+    'KP-P.5': '方程与不等式',
+    'KP-P.6': '函数',
+    'KP-P.7': '图形与几何',
+    'KP-P.8': '统计与概率',
+    'KP-P.9': '综合应用',
+  };
+
   const questionMetas: QuestionMeta[] = questions.map(q => {
     const questionId = buildQuestionId(q);
     const literacyCodes = q.literacyCodes ?? q.literacy_codes ?? [];
     const radarDims = q.radarDimensions ?? q.radar_dimensions ?? [];
     const kpCode = q.kpCode ?? q.kp_code ?? 'KP-unknown';
-    const kpName = kpCode;
+    // 优先使用数据库中的kp_name字段，然后使用映射表，最后使用kpCode
+    const kpName = q.kpName ?? q.kp_name ?? KP_NAME_MAP[kpCode] ?? kpCode;
+
+    // fallback: 如果radarDimensions为空，使用literacyCodes生成
+    let finalRadarDims = Array.isArray(radarDims) ? radarDims : [];
+    if (finalRadarDims.length === 0 && Array.isArray(literacyCodes) && literacyCodes.length > 0) {
+      finalRadarDims = literacyCodes.map((code: string) => ({
+        dimension: code,
+        weight: 1,
+      }));
+    }
 
     return {
       question_id: questionId,
@@ -167,7 +187,7 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
       score: q.score ?? 0,
       kp_code: kpCode,
       literacy_codes: Array.isArray(literacyCodes) ? literacyCodes : [],
-      radar_dimensions: Array.isArray(radarDims) ? radarDims : [],
+      radar_dimensions: finalRadarDims,
       knowledge_points: {
         primary: { code: kpCode, name: kpName },
         secondary: null,

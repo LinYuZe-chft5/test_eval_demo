@@ -327,6 +327,8 @@ class PrismaTableClient {
     scoreObtained: 'score_obtained',
     studentAnswer: 'student_answer',
     stepSeq: 'step_seq',
+    radarDimensions: 'radar_dimensions',
+    kpName: 'kp_name',
   };
 
   constructor(table: string) {
