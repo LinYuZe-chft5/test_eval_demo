@@ -477,7 +477,7 @@ class PrismaTableClient {
       } else if (Array.isArray(value)) {
         params[key] = `in.(${value.join(',')})`;
       } else if (typeof value === 'object' && value !== null) {
-        // 处理特殊操作符：{ not: 'xxx' } → not.eq.xxx
+        // 处理特殊操作符：{ not: 'xxx' } → not.eq.xxx, { in: [...] } → in.(...)
         if ('not' in value) {
           const notVal = value.not;
           if (notVal === null || notVal === undefined) {
@@ -486,6 +486,18 @@ class PrismaTableClient {
             params[key] = `not.in.(${notVal.join(',')})`;
           } else {
             params[key] = `not.eq.${notVal}`;
+          }
+        } else if ('in' in value) {
+          const inVal = value.in;
+          if (Array.isArray(inVal)) {
+            params[key] = `in.(${inVal.join(',')})`;
+          } else if (typeof inVal === 'number' || typeof inVal === 'string') {
+            params[key] = `in.(${inVal})`;
+          }
+        } else if ('notIn' in value) {
+          const notInVal = value.notIn;
+          if (Array.isArray(notInVal)) {
+            params[key] = `not.in.(${notInVal.join(',')})`;
           }
         }
       } else {

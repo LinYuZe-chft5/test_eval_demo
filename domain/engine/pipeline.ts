@@ -3,6 +3,9 @@
  * 五层串行流水线编排器
  * 
  * 严格顺序执行：Layer1(元数据) → Layer2(单题阅卷) → Layer3(聚合统计) → Layer4(素材组装) → Layer5(LLM文案)
+ * 
+ * 重要：数据库查询结果经过 lib/supabase.ts Prisma Shim 转换，
+ * 所有字段均为 camelCase（如 skuCode, dayTag, seqNo, qType）
  */
 
 import { gradeAllQuestions, type QuestionGradingInput } from './llmGrader';
@@ -12,8 +15,8 @@ import { generateReport, type GeneratedReport } from './reportGenerator';
 import { EC_DEFINITIONS } from './ecDefinitions';
 
 export interface PipelineInput {
-  questions: any[]; // 从数据库查出的题目数据
-  studentAnswers: Record<string, any>; // question_id → student_answer
+  questions: any[];
+  studentAnswers: Record<string, any>;
   behaviorData: Record<string, { time_spent_ms: number; modify_count: number; behavior_tag?: string }>;
   reportMeta: {
     student_name: string;
@@ -33,6 +36,16 @@ export interface PipelineOutput {
 }
 
 /**
+ * 统一题目ID生成（与 submit route 的 generateReport 保持一致）
+ */
+function buildQuestionId(q: any): string {
+  const sku = q.skuCode ?? q.sku_code ?? '';
+  const day = q.dayTag ?? q.day_tag ?? 1;
+  const seq = q.seqNo ?? q.seq_no ?? 1;
+  return `${sku}-D${day}-Q${String(seq).padStart(2, '0')}`;
+}
+
+/**
  * 判断是否为真实有效作答
  */
 function isGenuineResponse(
@@ -43,15 +56,14 @@ function isGenuineResponse(
 ): boolean {
   // a) 做对了
   if (gradingResult.is_correct) return true;
-  // b) 得分>0
+  // b) 得分>0（分步题部分得分也算）
   if (gradingResult.student_score > 0) return true;
   // c) 有修改记录
   if (behavior?.modify_count && behavior.modify_count > 0) return true;
-  // d) 至少思考15秒
-  if (behavior?.time_spent_ms && behavior.time_spent_ms >= 15000) return true;
+  // d) 至少思考5秒（降低阈值，Demo环境无需15秒）
+  if (behavior?.time_spent_ms && behavior.time_spent_ms >= 5000) return true;
   // e) 有输入但答错（有answer且非空）
-  if (studentAnswer !== null && studentAnswer !== undefined && studentAnswer !== '') {
-    // 有实际输入内容
+  if (studentAnswer !== null && studentAnswer !== undefined) {
     if (typeof studentAnswer === 'string' && studentAnswer.trim() !== '') return true;
     if (Array.isArray(studentAnswer) && studentAnswer.length > 0) return true;
     if (typeof studentAnswer === 'object' && Object.keys(studentAnswer).length > 0) return true;
@@ -67,26 +79,42 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
 
   console.log('[Pipeline] Layer 1: 题库元数据已加载', questions.length, '道题');
 
+  // ===== DIAGNOSTIC: 检查数据输入质量 =====
+  const totalStudentsWithAnswers = Object.values(studentAnswers).filter(v => v !== null && v !== undefined && v !== '').length;
+  const totalBehaviors = Object.values(behaviorData).filter(v => v && (v.time_spent_ms > 0 || v.modify_count > 0)).length;
+  console.log(`[Pipeline] DIAGNOSTIC: studentAnswers非空=${totalStudentsWithAnswers}/${Object.keys(studentAnswers).length}, behaviorData有值=${totalBehaviors}/${Object.keys(behaviorData).length}`);
+
+  // 打印前5个题目的答题和行为数据
+  const diagSample = questions.slice(0, 5);
+  for (const q of diagSample) {
+    const qid = buildQuestionId(q);
+    const ans = studentAnswers[qid];
+    const beh = behaviorData[qid];
+    const qType = q.qType ?? q.q_type;
+    const ansStr = ans === null ? 'null' : (typeof ans === 'string' ? `"${ans.slice(0, 30)}"` : Array.isArray(ans) ? `[${ans.length} items]` : JSON.stringify(ans).slice(0, 40));
+    console.log(`[Pipeline] DIAGNOSTIC ${qid}: qType=${qType}, answer=${ansStr}, timeMs=${beh?.time_spent_ms ?? 0}, modCount=${beh?.modify_count ?? 0}`);
+  }
+
   // ===== Layer 2: 单题阅卷 =====
   console.log('[Pipeline] Layer 2: 开始单题阅卷');
 
   const gradingInputs: QuestionGradingInput[] = questions.map(q => {
-    const questionId = `${q.sku_code}-D${q.day_tag}-Q${String(q.seq_no).padStart(2, '0')}`;
+    const questionId = buildQuestionId(q);
     return {
       question_id: questionId,
-      q_type: q.q_type,
+      q_type: q.qType ?? q.q_type,
       stem: q.stem,
-      correct_answer: q.correct_answer,
+      correct_answer: q.correctAnswer ?? q.correct_answer,
       options: q.options,
       steps: q.steps,
-      answer_spec: q.answer_spec,
+      answer_spec: q.answerSpec ?? q.answer_spec,
       score: q.score,
-      kp_code: q.kp_code,
-      ec_mapping: q.ec_mapping || [],
-      literacy_codes: q.literacy_codes || [],
-      error_label_pool: q.error_label_pool || [],
-      scoring_rubric: q.scoring_rubric || { full_score: q.score, rubric_items: [] },
-      grading_mode: q.grading_mode || (q.q_type === 'step' ? 'llm' : 'auto'),
+      kp_code: q.kpCode ?? q.kp_code,
+      ec_mapping: q.ecMapping ?? q.ec_mapping ?? [],
+      literacy_codes: q.literacyCodes ?? q.literacy_codes ?? [],
+      error_label_pool: q.errorLabelPool ?? q.error_label_pool ?? [],
+      scoring_rubric: q.scoringRubric ?? q.scoring_rubric || { full_score: q.score, rubric_items: [] },
+      grading_mode: q.gradingMode ?? q.grading_mode || ((q.qType ?? q.q_type) === 'step' ? 'llm' : 'auto'),
       student_answer: studentAnswers[questionId] ?? studentAnswers[q.id] ?? null,
     };
   });
@@ -97,6 +125,12 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
     '程序判分:', gradingResults.filter(r => r.grading_method === 'auto').length, '道,',
     '降级判分:', gradingResults.filter(r => r.grading_method === 'fallback').length, '道');
 
+  // 打印前5个阅卷结果
+  for (let i = 0; i < Math.min(5, gradingResults.length); i++) {
+    const r = gradingResults[i];
+    console.log(`[Pipeline] GRADED ${r.question_id}: score=${r.student_score}/${r.full_score}, correct=${r.is_correct}, method=${r.grading_method}, errLabels=${r.matched_error_labels?.length ?? 0}`);
+  }
+
   // ===== 判断真实有效作答 =====
   const genuineSet = new Set<string>();
   for (const input of gradingInputs) {
@@ -104,8 +138,15 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
     if (!result) continue;
 
     const behavior = behaviorData[input.question_id];
-    if (isGenuineResponse(input.question_id, input.student_answer, behavior, result)) {
+    const isGenuine = isGenuineResponse(input.question_id, input.student_answer, behavior, result);
+    if (isGenuine) {
       genuineSet.add(input.question_id);
+    }
+    // 诊断：打印前5个非真实作答的原因
+    if (!isGenuine && genuineSet.size < 5) {
+      const ans = input.student_answer;
+      const ansDesc = ans === null ? 'null' : (typeof ans === 'string' && ans === '' ? '空字符串' : Array.isArray(ans) && ans.length === 0 ? '空数组' : '有值');
+      console.log(`[Pipeline] NOT-GENUINE ${input.question_id}: answer=${ansDesc}, score=${result.student_score}, timeMs=${behavior?.time_spent_ms ?? 0}, modCount=${behavior?.modify_count ?? 0}`);
     }
   }
   console.log('[Pipeline] 真实有效作答:', genuineSet.size, '/', questions.length);
@@ -113,18 +154,26 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
   // ===== Layer 3: 聚合统计 =====
   console.log('[Pipeline] Layer 3: 程序聚合统计');
 
-  const questionMetas: QuestionMeta[] = questions.map(q => ({
-    question_id: `${q.sku_code}-D${q.day_tag}-Q${String(q.seq_no).padStart(2, '0')}`,
-    q_type: q.q_type,
-    score: q.score,
-    kp_code: q.kp_code,
-    literacy_codes: q.literacy_codes || [],
-    radar_dimensions: q.radar_dimensions || [],
-    knowledge_points: q.knowledge_points || {
-      primary: { code: q.kp_code, name: q.kp_code },
-      secondary: null,
-    },
-  }));
+  const questionMetas: QuestionMeta[] = questions.map(q => {
+    const questionId = buildQuestionId(q);
+    const literacyCodes = q.literacyCodes ?? q.literacy_codes ?? [];
+    const radarDims = q.radarDimensions ?? q.radar_dimensions ?? [];
+    const kpCode = q.kpCode ?? q.kp_code ?? 'KP-unknown';
+    const kpName = kpCode;
+
+    return {
+      question_id: questionId,
+      q_type: q.qType ?? q.q_type,
+      score: q.score ?? 0,
+      kp_code: kpCode,
+      literacy_codes: Array.isArray(literacyCodes) ? literacyCodes : [],
+      radar_dimensions: Array.isArray(radarDims) ? radarDims : [],
+      knowledge_points: {
+        primary: { code: kpCode, name: kpName },
+        secondary: null,
+      },
+    };
+  });
 
   const summaryTable = aggregate({
     gradingResults,

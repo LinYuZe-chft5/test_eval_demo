@@ -86,16 +86,19 @@ export async function POST(req: Request) {
     const errorMessage = err?.message || '服务器内部错误';
     const errorName = err?.name || '';
     
-    // 捕获数据库配置错误 - 返回友好提示
+    // 捕获数据库配置错误 - 开发环境显示详细信息，生产环境返回友好提示
     if (errorName === 'SupabaseConfigError' || 
         errorMessage.includes('数据库连接配置缺失') ||
         errorMessage.includes('SUPABASE_URL未设置') ||
         errorMessage.includes('SUPABASE_SERVICE_ROLE_KEY未设置')) {
       console.error('[access/verify] 数据库配置错误，请检查 .env 文件');
+      const isDev = process.env.NODE_ENV !== 'production';
       return NextResponse.json(
         { 
           ok: false, 
-          error: '系统正在维护中，请稍后再试'  // 给用户显示友好消息
+          error: isDev
+            ? `[DEV] 配置缺失：${errorMessage}。请在项目根目录创建 .env 文件并配置 NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY`
+            : '系统正在维护中，请稍后再试'
         },
         { status: 503 },
       );

@@ -5,8 +5,8 @@
  * 清洗后题库全量重导入（S1/S3/S6）
  * 数据库字段与源JSON字段映射：
  *   JSON字段 → DB字段
- *   day → day_tag
- *   seq_in_day → seq_no
+ *   day_tag → day_tag   (注意：s3_seed.json 使用 day_tag/seq_no)
+ *   seq_no → seq_no
  *   knowledge_points[0] → kp_code
  *   knowledge_points[1] → kp_related
  *   error_label_pool → ec_mapping
@@ -18,9 +18,28 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-require('dotenv').config({ path: path.join(process.cwd(), '.env') });
 
-const DATA_DIR = path.join(process.cwd(), 'scripts', 'data', 'cleaned');
+// Manual .env loader (avoid dotenv dependency)
+const envPath = path.join(process.cwd(), '.env');
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  envContent.split('\n').forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) return;
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx === -1) return;
+    const key = trimmed.slice(0, eqIdx).trim();
+    let value = trimmed.slice(eqIdx + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    if (!process.env[key]) {
+      process.env[key] = value;
+    }
+  });
+}
+
+const DATA_DIR = path.join(process.cwd(), 'scripts', 'data');
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -153,8 +172,9 @@ function transformRow(q, sku) {
   const row = {
     sku_code: sku,
     subject: q.subject || 'math',
-    day_tag: q.day ?? 1,
-    seq_no: q.seq_in_day ?? 1,
+    // IMPORTANT: seed JSON uses day_tag & seq_no, NOT day & seq_in_day
+    day_tag: q.day_tag ?? q.day ?? 1,
+    seq_no: q.seq_no ?? q.seq_in_day ?? 1,
     q_type: q.q_type || 'choice',
     is_warmup: !!q.is_warmup,
     is_anchor: !!q.is_anchor,

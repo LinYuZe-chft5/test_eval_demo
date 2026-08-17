@@ -407,6 +407,7 @@ async function generateReport(
 
     if (records.length === 0) {
       studentAnswers[questionId] = null;
+      behaviorData[questionId] = { time_spent_ms: 0, modify_count: 0 };
       continue;
     }
 
@@ -435,6 +436,17 @@ async function generateReport(
       };
     }
   }
+
+  // DEBUG: 打印前3个题目的数据映射，便于排查
+  const sampleKeys = Object.keys(studentAnswers).slice(0, 3);
+  for (const k of sampleKeys) {
+    const ans = studentAnswers[k];
+    const beh = behaviorData[k];
+    const ansStr = ans === null ? 'null' : (typeof ans === 'string' ? ans.slice(0, 40) : JSON.stringify(ans).slice(0, 40));
+    console.log(`[Pipeline Debug] ${k}: answer=${ansStr}, time=${beh?.time_spent_ms}ms, modify=${beh?.modify_count}`);
+  }
+  const nonNullAnswers = Object.values(studentAnswers).filter(v => v !== null && v !== undefined && v !== '').length;
+  console.log(`[Pipeline Debug] 非空答案: ${nonNullAnswers}/${Object.keys(studentAnswers).length}`);
 
   // ===== 执行五层流水线 =====
   const pipelineResult = await runPipeline({

@@ -1,9 +1,12 @@
 -- ============================================================
 -- 在 Supabase SQL Editor 执行此脚本（覆盖之前的版本）
 -- 创建批量导入题库的 RPC 函数
--- 参数：只传 questions_data JSONB 数组
 -- ============================================================
 
+-- 先删除旧版本
+DROP FUNCTION IF EXISTS public.batch_upsert_questions(jsonb);
+
+-- 创建新版本
 CREATE OR REPLACE FUNCTION public.batch_upsert_questions(
   questions_data JSONB
 )
@@ -17,17 +20,29 @@ DECLARE
   v_day SMALLINT;
   v_seq SMALLINT;
   v_count INT := 0;
+  v_literacy VARCHAR(32)[];
+  v_ec VARCHAR(8)[];
 BEGIN
-  -- 遍历每个题目
   FOR v_item IN
     SELECT jsonb_array_elements(questions_data) AS item
   LOOP
-    -- 从数据中提取关键字段
     v_sku := COALESCE(v_item->>'sku_code', 'UNKNOWN');
     v_day := COALESCE((v_item->>'day_tag')::SMALLINT, 1);
     v_seq := COALESCE((v_item->>'seq_no')::SMALLINT, 1);
 
-    -- UPSERT：插入或更新
+    -- 处理数组字段（从JSONB转换）
+    IF v_item ? 'literacy_codes' AND v_item->'literacy_codes' IS NOT NULL THEN
+      SELECT ARRAY(SELECT jsonb_array_elements_text(v_item->'literacy_codes')) INTO v_literacy;
+    ELSE
+      v_literacy := ARRAY['S1'];
+    END IF;
+
+    IF v_item ? 'ec_mapping' AND v_item->'ec_mapping' IS NOT NULL THEN
+      SELECT ARRAY(SELECT jsonb_array_elements_text(v_item->'ec_mapping')) INTO v_ec;
+    ELSE
+      v_ec := ARRAY[]::VARCHAR(8)[];
+    END IF;
+
     INSERT INTO questions (
       sku_code, subject, day_tag, seq_no, q_type,
       is_warmup, is_anchor,
@@ -56,8 +71,8 @@ BEGIN
       COALESCE(v_item->>'kp_code', 'KP-unknown'),
       v_item->>'kp_related',
       COALESCE(v_item->>'cognitive_level', 'L2'),
-      COALESCE(v_item->'literacy_codes', ARRAY['S1']::VARCHAR(32)[]),
-      COALESCE(v_item->'ec_mapping', ARRAY[]::VARCHAR(8)[]),
+      v_literacy,
+      v_ec,
       COALESCE((v_item->>'difficulty_est')::NUMERIC, 0.5),
       COALESCE((v_item->>'expected_time_sec')::INT, 300),
       v_item->>'improvement_tip',
