@@ -268,20 +268,35 @@ export async function gradeQuestion(input: QuestionGradingInput): Promise<Questi
 }
 
 /**
- * 批量判分（串行调用，避免并发导致LLM限流）
+ * 批量判分（LLM题并行处理，客观题串行）
+ * 由于llmClient有并发控制（最多3个），可以安全并行
  */
 export async function gradeAllQuestions(inputs: QuestionGradingInput[]): Promise<QuestionGradingResult[]> {
-  const results: QuestionGradingResult[] = [];
+  // 分离需要LLM判分的题和客观题
+  const llmInputs: Array<{ input: QuestionGradingInput; index: number }> = [];
+  const objectiveResults: Array<{ result: QuestionGradingResult; index: number }> = [];
   
-  for (const input of inputs) {
-    const result = await gradeQuestion(input);
-    results.push(result);
-    
-    // LLM判分的题，添加短延迟避免限流
-    if (result.grading_method === 'llm') {
-      await new Promise(r => setTimeout(r, 200));
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    if (input.q_type === 'step' && input.grading_mode === 'llm') {
+      llmInputs.push({ input, index: i });
+    } else {
+      // 客观题直接判分（同步）
+      objectiveResults.push({ result: await gradeQuestion(input), index: i });
     }
   }
   
-  return results;
+  // LLM题并行判分（llmClient内部有并发控制）
+  const llmResults = await Promise.all(
+    llmInputs.map(async ({ input, index }) => {
+      const result = await gradeQuestion(input);
+      return { result, index };
+    })
+  );
+  
+  // 合并结果并按原始顺序排序
+  const allResults = [...objectiveResults, ...llmResults];
+  allResults.sort((a, b) => a.index - b.index);
+  
+  return allResults.map(r => r.result);
 }
