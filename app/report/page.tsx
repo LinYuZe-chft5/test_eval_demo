@@ -74,7 +74,31 @@ const KP_NAME_MAP: Record<string, string> = {
 };
 
 function getKpName(kpCode: string): string {
-  return KP_NAME_MAP[kpCode] || kpCode;
+  if (!kpCode) return '';
+  // 清理可能的前缀（如 "知识点KP-07.06" -> "KP-07.06"）
+  let cleanCode = kpCode.trim();
+  // 移除常见前缀
+  const prefixes = ['知识点', '考点', 'KP：', 'KP:'];
+  for (const prefix of prefixes) {
+    if (cleanCode.startsWith(prefix)) {
+      cleanCode = cleanCode.slice(prefix.length).trim();
+      break;
+    }
+  }
+  // 查找映射表
+  if (KP_NAME_MAP[cleanCode]) return KP_NAME_MAP[cleanCode];
+  // 如果本身就是中文名（不在映射表中），直接返回
+  if (!cleanCode.startsWith('KP-')) return cleanCode;
+  // 找不到映射，返回原代码
+  return cleanCode;
+}
+
+// 替换文本中所有 KP 代码为中文名称
+function replaceKpCodesInText(text: string): string {
+  if (!text) return '';
+  return text.replace(/(知识点|考点)?\s*KP-\d+\.\d+/g, function (match) {
+    return getKpName(match);
+  });
 }
 
 // 错因代码中文描述
@@ -276,8 +300,9 @@ export default async function ReportPage({ searchParams }: PageProps) {
   const masteryEntries = Object.entries(draft.module_mastery ?? {});
   for (let i = 0; i < masteryEntries.length; i++) {
     const [kp, entry] = masteryEntries[i];
-    // 智能提取知识点名称：优先使用 kp_name 字段，然后映射表，最后代码本身
-    const kpName = (entry as any)?.kp_name || getKpName(kp) || kp;
+    // 智能提取知识点名称：统一通过 getKpName 处理，确保前缀清理
+    const rawName = (entry as any)?.kp_name || kp;
+    const kpName = getKpName(rawName);
     const masteryValue = Number((entry as any).mastery_score);
     let level = (entry as any).level as MasteryLevel;
     
@@ -316,7 +341,9 @@ export default async function ReportPage({ searchParams }: PageProps) {
   const radarEmpty = radarData.length === 0;
   const hasSecondaryEc = !!draft.ec_profile?.secondary;
   const hasLowConfNotes = !!(draft.ec_profile?.low_confidence_notes && draft.ec_profile.low_confidence_notes.length > 0);
-  const narrativeRaw = (draft.narrative_text && draft.narrative_text.trim()) ? draft.narrative_text : buildNarrative(draft);
+  const narrativeRaw = (draft.narrative_text && draft.narrative_text.trim()) 
+    ? replaceKpCodesInText(draft.narrative_text) 
+    : buildNarrative(draft);
   const narrativeHtml = renderInlineMath(narrativeRaw);
   const adaptLevel = draft.adaptive_level;
   const adaptColor = ADAPT_COLOR[adaptLevel] ?? 'text-gray-600';
@@ -487,19 +514,12 @@ export default async function ReportPage({ searchParams }: PageProps) {
               let focusKpNames = '';
               if (w.focus_kps && w.focus_kps.length) {
                 focusKpNames = w.focus_kps.map(function (kp: string) { 
-                  // 智能判断是代码还是名称
-                  if (KP_NAME_MAP[kp]) return KP_NAME_MAP[kp];
-                  // 如果看起来像代码（KP-开头），尝试转换
-                  if (kp.startsWith('KP-')) return getKpName(kp);
-                  // 否则直接显示（可能已经是中文名称）
-                  return kp;
-                }).join('、');
+                  // 统一使用 getKpName 函数处理（已支持前缀清理）
+                  return getKpName(kp);
+                }).filter(Boolean).join('、');
               } else if (w.focus_kp) {
                 // 兼容单个 focus_kp 字段
-                const kp = w.focus_kp;
-                if (KP_NAME_MAP[kp]) focusKpNames = KP_NAME_MAP[kp];
-                else if (kp.startsWith('KP-')) focusKpNames = getKpName(kp);
-                else focusKpNames = kp;
+                focusKpNames = getKpName(w.focus_kp);
               }
               
               // 如果仍然为空，使用更具体的默认文案
@@ -512,12 +532,14 @@ export default async function ReportPage({ searchParams }: PageProps) {
               let weeklyContent = '';
               if (w.weekly_content && w.weekly_content.length) {
                 weeklyContent = w.weekly_content.map((c: string) => {
+                  // 替换内容中的 KP 代码为中文名称
+                  let content = replaceKpCodesInText(c);
                   // 如果内容太短或太泛，添加额外说明
-                  if (c.length < 10 && !c.includes('练习')) return c + '，建议配合教材例题加深理解';
-                  return c;
+                  if (content.length < 10 && !content.includes('练习')) return content + '，建议配合教材例题加深理解';
+                  return content;
                 }).join('；');
               } else if (w.content && typeof w.content === 'string') {
-                weeklyContent = w.content;
+                weeklyContent = replaceKpCodesInText(w.content);
               }
               
               // 如果没有训练内容，生成具体建议
@@ -578,10 +600,14 @@ export default async function ReportPage({ searchParams }: PageProps) {
         <Section title="行动清单">
           <ul className="space-y-2 text-sm">
             {draft.action_checklist!.map(function renderAction(a: any, i: number) {
-              // 智能提取知识点名称：优先使用 name 字段，然后映射表，最后代码本身
-              let kpName = a.name || a.kp_name || '';
-              if (!kpName && a.kp_code) {
+              // 智能提取知识点名称：统一通过 getKpName 处理
+              let kpName = '';
+              if (a.kp_code) {
                 kpName = getKpName(a.kp_code);
+              } else if (a.name) {
+                kpName = getKpName(a.name);
+              } else if (a.kp_name) {
+                kpName = getKpName(a.kp_name);
               }
               if (!kpName) {
                 kpName = '薄弱知识点';
@@ -607,7 +633,10 @@ export default async function ReportPage({ searchParams }: PageProps) {
               
               // 智能提取行动建议
               let actionText = a.action || a.suggestion || a.tip || '';
-              if (!actionText) {
+              if (actionText) {
+                // 替换内容中的 KP 代码为中文名称
+                actionText = replaceKpCodesInText(actionText);
+              } else {
                 // 生成默认行动建议
                 const level = a.level || 'yellow';
                 if (level === 'red') {
