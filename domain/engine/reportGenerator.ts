@@ -29,6 +29,12 @@ export interface GeneratedReport {
       reason: string;
     }>;
   }>;
+  action_checklist?: Array<{
+    kp_code: string;
+    name: string;
+    severity: string;
+    action: string;
+  }>;
   generation_method: 'llm' | 'template';
 }
 
@@ -181,20 +187,40 @@ async function generateByLLM(summary: SummaryTable, grade: string): Promise<Gene
   // 调用LLM
   const llmResponse = await callLLM(prompt);
 
+  // 诊断日志：LLM调用结果
+  console.log('[reportGenerator] LLM调用结果:', {
+    success: llmResponse.success,
+    error: llmResponse.error?.substring(0, 100),
+    contentPrefix: llmResponse.content?.substring(0, 200) || '(空)',
+    contentLength: llmResponse.content?.length || 0,
+  });
+
   if (!llmResponse.success) {
+    console.warn('[reportGenerator] LLM调用失败:', llmResponse.error);
     return null;
   }
 
   // 解析返回JSON
   const parsed = extractJSON(llmResponse.content);
 
+  // 诊断日志：JSON解析结果
+  console.log('[reportGenerator] JSON解析结果:', {
+    parsedSuccess: !!parsed,
+    parsedKeys: parsed ? Object.keys(parsed) : [],
+    error_analysis: parsed?.error_analysis?.substring(0, 100) || '(无)',
+    four_week_plan_length: parsed?.four_week_plan?.length || 0,
+    has_action_checklist: !!parsed?.action_checklist,
+  });
+
   if (!parsed) {
+    console.warn('[reportGenerator] JSON解析失败，降级为模板生成');
     return null;
   }
 
   return {
     error_analysis: parsed.error_analysis || '',
     four_week_plan: Array.isArray(parsed.four_week_plan) ? parsed.four_week_plan : [],
+    action_checklist: Array.isArray(parsed.action_checklist) ? parsed.action_checklist : [],
     generation_method: 'llm',
   };
 }
@@ -209,19 +235,28 @@ export async function generateReport(
 ): Promise<GeneratedReport> {
   // 无效答卷直接用模板
   if (isInvalidResponse(summary)) {
-    return generateByTemplate(summary);
+    console.log('[reportGenerator] 无效答卷，使用模板生成');
+    const result = generateByTemplate(summary);
+    return result;
   }
 
   // 尝试LLM生成
   try {
     const llmResult = await generateByLLM(summary, grade);
     if (llmResult) {
+      console.log('[reportGenerator] ✅ LLM生成成功:', {
+        generation_method: llmResult.generation_method,
+        four_week_plan_length: llmResult.four_week_plan.length,
+        action_checklist_length: llmResult.action_checklist?.length || 0,
+        error_analysis: llmResult.error_analysis?.substring(0, 100),
+      });
       return llmResult;
     }
   } catch (err) {
-    console.warn('[reportGenerator] LLM生成失败，降级为模板:', err);
+    console.warn('[reportGenerator] LLM生成异常，降级为模板:', err);
   }
 
   // 降级为模板生成
+  console.log('[reportGenerator] ⚠️ 降级为模板生成');
   return generateByTemplate(summary);
 }

@@ -191,6 +191,8 @@ function computeErrorFrequencyByKp(
     }
   }
 
+  // 返回所有知识点（不再过滤只有错题的），按错误率排序
+  // 这样模块掌握度才能完整显示所有模块
   return Object.entries(kpMap)
     .map(([kp_code, data]) => ({
       kp_code,
@@ -199,8 +201,7 @@ function computeErrorFrequencyByKp(
       total_count: data.total_count,
       error_rate: data.total_count > 0 ? data.error_count / data.total_count : 0,
     }))
-    .filter(item => item.error_count > 0)
-    .sort((a, b) => b.error_rate - a.error_rate);
+    .sort((a, b) => b.error_rate - a.error_rate);  // 错误率高的排前面
 }
 
 function computeErrorFrequencyByLabel(

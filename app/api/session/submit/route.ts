@@ -555,15 +555,25 @@ async function generateReport(
 
   const plan4week = generated_report.four_week_plan;
 
-  // 行动清单：优先使用薄弱知识点，如果为空则使用错误频次最高的知识点
-  let actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => ({
-    kp_code: kp.kp_code,
-    name: kp.name,
-    severity: kp.severity,
-    action: `针对${kp.name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%），建议每天做5-8道变式练习题`,
-  }));
+  // 行动清单：优先使用LLM生成的action_checklist，其次使用薄弱知识点
+  let actionChecklist = [];
+  
+  // 1. 优先使用LLM生成的action_checklist
+  if (generated_report.action_checklist && generated_report.action_checklist.length > 0) {
+    console.log('[session/submit] 使用LLM生成的action_checklist:', generated_report.action_checklist.length, '条');
+    actionChecklist = generated_report.action_checklist;
+  }
+  // 2. 降级：使用薄弱知识点
+  else if (summary_table.weak_knowledge_points.length > 0) {
+    actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => ({
+      kp_code: kp.kp_code,
+      name: kp.name,
+      severity: kp.severity,
+      action: `针对${kp.name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%），建议每天做5-8道变式练习题`,
+    }));
+  }
 
-  // 降级：如果薄弱知识点为空，使用错误频次最高的前5个知识点
+  // 3. 再次降级：如果仍然为空，使用错误频次最高的前5个知识点
   if (actionChecklist.length === 0 && summary_table.error_frequency_by_kp.length > 0) {
     const topKps = [...summary_table.error_frequency_by_kp].sort((a, b) => b.error_rate - a.error_rate).slice(0, 5);
     actionChecklist = topKps.map((kp: any) => ({
