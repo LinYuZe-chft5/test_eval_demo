@@ -13,12 +13,13 @@
  *   - ?status=in.(v1,v2,v3)
  */
 
-import fs from 'fs';
-import path from 'path';
-
-// 手动加载 .env 文件（兼容 Next.js 和独立脚本环境）
-// 支持多种路径查找，确保在不同运行环境下都能正确加载
-function loadEnvFile(): void {
+// 环境变量加载函数（仅在本地开发时使用）
+// Vercel 等部署平台通过系统环境变量注入，无需从文件加载
+async function loadEnvFile(): Promise<void> {
+  // 动态导入 fs 和 path，避免在 Vercel 构建时出现问题
+  const fs = await import('fs');
+  const path = await import('path');
+  
   const cwd = process.cwd();
   
   // 扩展搜索路径列表，覆盖不同运行场景
@@ -90,16 +91,26 @@ function loadEnvFile(): void {
 
 // 使用 Symbol 标记环境变量是否已初始化
 let envInitialized = false;
+let envInitPromise: Promise<void> | null = null;
 
-function ensureEnvLoaded(): void {
+async function ensureEnvLoaded(): Promise<void> {
   if (!envInitialized) {
-    loadEnvFile();
+    // 检查环境变量是否已配置（Vercel 等部署平台通过系统环境变量注入）
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      envInitialized = true;
+      return;
+    }
+    
+    // 仅在环境变量未配置时尝试加载 .env 文件（本地开发场景）
+    if (!envInitPromise) {
+      envInitPromise = loadEnvFile().catch((err) => {
+        console.warn('[supabase] 加载.env文件失败，将使用系统环境变量:', err);
+      });
+    }
+    await envInitPromise;
     envInitialized = true;
   }
 }
-
-// 初始化时加载一次
-ensureEnvLoaded();
 
 function getSupabaseConfig() {
   const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
@@ -141,7 +152,7 @@ async function request<T = any>(
   extraHeaders: Record<string, string> = {}
 ): Promise<T> {
   // 确保环境变量已加载
-  ensureEnvLoaded();
+  await ensureEnvLoaded();
   
   // 检查配置
   const configCheck = validateConfig();
@@ -293,9 +304,7 @@ class PrismaTableClient {
     degradedTexts: 'degraded_texts',
     narrativeText: 'narrative_text',
     analystEdits: 'analyst_edits',
-    reviewedBy: 'reviewed_by',
     publishedAt: 'published_at',
-    accessCodeId: 'access_code_id',
     npsScore: 'nps_score',
     valuableParts: 'valuable_parts',
     willingnessPrice: 'willingness_price',
@@ -303,10 +312,6 @@ class PrismaTableClient {
     openComment: 'open_comment',
     intentAt: 'intent_at',
     activatedAt: 'activated_at',
-    timeLimitSec: 'time_limit_sec',
-    optionOrders: 'option_orders',
-    credibilityFlag: 'credibility_flag',
-    deviceInfo: 'device_info',
     behaviorTag: 'behavior_tag',
     ecCode: 'ec_recommended',
     ecFinal: 'ec_final',
@@ -314,8 +319,10 @@ class PrismaTableClient {
     answerEvents: 'answer_events',
     invalidInput: 'invalid_input',
     probeResult: 'probe_result',
-    answerText: 'answer_text',
-    stepScores: 'step_scores',
+    studentAnswer: 'student_answer',
+    stepSeq: 'step_seq',
+    radarDimensions: 'radar_dimensions',
+    kpName: 'kp_name',
     modifyCount: 'modify_count',
     deleteRewriteCount: 'delete_rewrite_count',
     timeSpentMs: 'time_spent_ms',
@@ -325,10 +332,6 @@ class PrismaTableClient {
     isProbe: 'is_probe',
     probeFor: 'probe_for',
     scoreObtained: 'score_obtained',
-    studentAnswer: 'student_answer',
-    stepSeq: 'step_seq',
-    radarDimensions: 'radar_dimensions',
-    kpName: 'kp_name',
   };
 
   constructor(table: string) {
@@ -344,7 +347,6 @@ class PrismaTableClient {
   }
 
   // PostgreSQL 数组字段列表（需特殊格式处理）
-  // 这些字段在 DDL 中定义为 VARCHAR(n)[] 或 TEXT[] 等数组类型
   private static readonly PG_ARRAY_FIELDS: Set<string> = new Set([
     'behavior_tag',
     'ec_recommended',
@@ -355,30 +357,26 @@ class PrismaTableClient {
   ]);
 
   // JSONB 字段列表（跳过递归键名转换）
-  // 这些字段在数据库中存储为 JSONB 类型，包含嵌套的 snake_case 键名
-  // 必须保持原始结构，不能递归转换为 camelCase/snake_case
   private static readonly JSONB_COLUMNS: Set<string> = new Set([
-    'module_mastery',      // 模块掌握度 - 包含 mastery_score, kp_name 等
-    'plan_4week',          // 4周计划 - 包含 focus_kps, weekly_content 等
-    'action_checklist',    // 行动清单 - 包含 kp_code, severity 等
-    'literacy_radar',      // 素养雷达 - 包含 score, level 等
-    'ec_profile',          // 错因画像 - 包含 primary, distribution 等
-    'degraded_texts',      // 降级文案
-    'degradedTexts',       // camelCase 别名
-    'narrative_text',      // 叙述文案
-    'confidence_flags',    // 置信度标记
-    'ec_distribution',     // 错因分布
-    'radar_dimensions',    // 雷达维度
-    'day_modules',         // 日模块
-    'kp_dependencies',     // 知识点依赖
-    'report_meta',         // 报告元数据
-    'behavior_data',       // 行为数据
+    'module_mastery',
+    'plan_4week',
+    'action_checklist',
+    'literacy_radar',
+    'ec_profile',
+    'degraded_texts',
+    'degradedTexts',
+    'narrative_text',
+    'confidence_flags',
+    'ec_distribution',
+    'radar_dimensions',
+    'day_modules',
+    'kp_dependencies',
+    'report_meta',
+    'behavior_data',
   ]);
 
   /**
    * 将数组转换为 PostgreSQL 数组字面量格式
-   * 例如: ["normal_correct"] → '{"normal_correct"}'
-   * PostgREST 需要此格式才能正确写入 PG 数组字段
    */
   private toPgArrayLiteral(arr: string[]): string | null {
     if (!arr || arr.length === 0) return null;
@@ -390,23 +388,17 @@ class PrismaTableClient {
     if (obj === null || obj === undefined) return obj;
     if (obj instanceof Date) return obj.toISOString();
     if (Array.isArray(obj)) {
-      // 注意：这里的数组可能是普通数组（如选项列表），也可能是 PG 数组字段
-      // 我们先递归处理每个元素，然后在 create/update 时再转换 PG 数组字段
       return obj.map(item => this.keysToSnakeCase(item));
     }
     if (typeof obj === 'object') {
       const result: Record<string, any> = {};
       for (const [key, value] of Object.entries(obj)) {
         const snakeKey = this.toSnakeCase(key);
-        // 检查是否为 JSONB 字段 - 跳过递归转换，保持原始结构
         if (PrismaTableClient.JSONB_COLUMNS.has(snakeKey)) {
-          // JSONB 字段保持原始结构，不递归转换内部键名
           result[snakeKey] = value;
           continue;
         }
-        // 检查是否为 PG 数组字段
         if (PrismaTableClient.PG_ARRAY_FIELDS.has(snakeKey) && Array.isArray(value)) {
-          // 转换为 PostgreSQL 数组字面量格式
           result[snakeKey] = this.toPgArrayLiteral(value as string[]);
         } else {
           result[snakeKey] = this.keysToSnakeCase(value);
@@ -417,7 +409,6 @@ class PrismaTableClient {
     return obj;
   }
 
-  // ---------- snake_case → camelCase（读取响应时用）----------
   private static readonly REVERSE_FIELD_MAP: Record<string, string> = (() => {
     const reverse: Record<string, string> = {};
     for (const [camel, snake] of Object.entries(PrismaTableClient.SPECIAL_FIELD_MAP || {})) {
@@ -430,23 +421,15 @@ class PrismaTableClient {
     if (PrismaTableClient.REVERSE_FIELD_MAP && PrismaTableClient.REVERSE_FIELD_MAP[str]) {
       return PrismaTableClient.REVERSE_FIELD_MAP[str];
     }
-    // sku_code → skuCode, path_4week → path4week
     return str.replace(/_([a-zA-Z0-9])/g, (_, c) => String(c).toUpperCase());
   }
 
-  /**
-   * 解析 PostgreSQL 数组字面量格式为 JSON 数组
-   * 例如: '{"normal_correct","fast_wrong"}' → ["normal_correct", "fast_wrong"]
-   */
   private parsePgArrayLiteral(value: string): string[] {
     if (!value || !value.startsWith('{')) return [value];
     try {
-      // 将 PG 数组格式转换为 JSON 数组
-      // {"a","b"} → ["a","b"]
       const jsonStr = value.replace(/\{/, '[').replace(/\}/, ']');
       return JSON.parse(jsonStr);
     } catch {
-      // 如果解析失败，尝试手动解析
       const inner = value.slice(1, -1);
       if (!inner.trim()) return [];
       return inner.split(',').map(s => s.replace(/^"|"$/g, '').replace(/\\"/g, '"'));
@@ -460,14 +443,10 @@ class PrismaTableClient {
       const result: Record<string, any> = {};
       for (const [key, value] of Object.entries(obj)) {
         const camelKey = this.toCamelCase(key);
-        // 检查是否为 JSONB 字段 - 跳过递归转换，保持原始结构
-        // 注意：仍然需要转换外层键名（snake_case → camelCase）
         if (PrismaTableClient.JSONB_COLUMNS.has(key)) {
-          // JSONB 字段：只转换键名，不递归转换值的内部结构
           result[camelKey] = value;
           continue;
         }
-        // 检查是否为 PG 数组字段（读取时转换回数组格式）
         if (typeof value === 'string' && PrismaTableClient.PG_ARRAY_FIELDS.has(key)) {
           result[camelKey] = this.parsePgArrayLiteral(value);
         } else {
@@ -479,30 +458,17 @@ class PrismaTableClient {
     return obj;
   }
 
-  /**
-   * 构建 PostgREST 查询字符串
-   * 关键：filter 格式为 ?column=operator.value
-   * 注意：不要编码 = 和 .，因为它们是 PostgREST filter 格式的关键字符
-   */
   private buildQuery(params: Record<string, string>): string {
     const parts: string[] = [];
     for (const [key, value] of Object.entries(params)) {
       if (value === undefined || value === null) continue;
-      // 只编码 key 和 value 中的特殊字符，保留 = 和 .
-      // key 是列名，通常不需要编码，但以防万一
       const encodedKey = key.replace(/[^a-zA-Z0-9_]/g, (c) => encodeURIComponent(c));
-      // value 是 filter 值，如 "eq.123456"，需要保留 = 和 .
-      // 但要编码空格和其他特殊字符
       const encodedValue = value.replace(/\s+/g, '%20');
       parts.push(`${encodedKey}=${encodedValue}`);
     }
     return parts.length ? `?${parts.join('&')}` : '';
   }
 
-  /**
-   * 构建 PostgREST filter 参数
-   * Prisma where → PostgREST ?column=operator.value
-   */
   private buildFilters(where: Record<string, any>): Record<string, string> {
     const params: Record<string, string> = {};
     const snakeWhere = this.keysToSnakeCase(where);
@@ -513,7 +479,6 @@ class PrismaTableClient {
       } else if (Array.isArray(value)) {
         params[key] = `in.(${value.join(',')})`;
       } else if (typeof value === 'object' && value !== null) {
-        // 处理特殊操作符：{ not: 'xxx' } → not.eq.xxx, { in: [...] } → in.(...)
         if ('not' in value) {
           const notVal = value.not;
           if (notVal === null || notVal === undefined) {
@@ -543,9 +508,6 @@ class PrismaTableClient {
     return params;
   }
 
-  /**
-   * Prisma 风格的 findMany
-   */
   async findMany(options: any = {}): Promise<any[]> {
     const params: Record<string, string> = {};
 
@@ -621,7 +583,6 @@ class PrismaTableClient {
     const data = options.data || options;
     const snakeCaseData = this.keysToSnakeCase(data);
     const result = await request<any>(`/${this.table}`, 'POST', snakeCaseData);
-    // PostgREST POST 可能返回数组（批量）或单个对象
     if (Array.isArray(result)) {
       const camel = this.keysToCamelCase(result);
       return camel[0] ?? null;
@@ -652,12 +613,10 @@ class PrismaTableClient {
   }
 
   async upsert(options: any): Promise<any> {
-    // 展平 where 条件，支持复合唯一键如 { skuCode_dayTag_seqNo: { skuCode, dayTag, seqNo } }
     const where: Record<string, any> = {};
     if (options.where) {
       for (const [key, value] of Object.entries(options.where)) {
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-          // 复合键：展开嵌套对象
           for (const [subKey, subValue] of Object.entries(value)) {
             where[subKey] = subValue;
           }
@@ -711,7 +670,6 @@ class PrismaClientCompat {
       blueprints: 'blueprints',
       kpDependencies: 'kp_dependencies',
       methodCards: 'method_cards',
-      reports: 'reports',
       students: 'students',
       adminLogs: 'admin_logs',
       retestIntents: 'retest_intents',
