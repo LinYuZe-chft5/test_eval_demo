@@ -354,6 +354,27 @@ class PrismaTableClient {
     'confidence_flags',
   ]);
 
+  // JSONB 字段列表（跳过递归键名转换）
+  // 这些字段在数据库中存储为 JSONB 类型，包含嵌套的 snake_case 键名
+  // 必须保持原始结构，不能递归转换为 camelCase/snake_case
+  private static readonly JSONB_COLUMNS: Set<string> = new Set([
+    'module_mastery',      // 模块掌握度 - 包含 mastery_score, kp_name 等
+    'plan_4week',          // 4周计划 - 包含 focus_kps, weekly_content 等
+    'action_checklist',    // 行动清单 - 包含 kp_code, severity 等
+    'literacy_radar',      // 素养雷达 - 包含 score, level 等
+    'ec_profile',          // 错因画像 - 包含 primary, distribution 等
+    'degraded_texts',      // 降级文案
+    'degradedTexts',       // camelCase 别名
+    'narrative_text',      // 叙述文案
+    'confidence_flags',    // 置信度标记
+    'ec_distribution',     // 错因分布
+    'radar_dimensions',    // 雷达维度
+    'day_modules',         // 日模块
+    'kp_dependencies',     // 知识点依赖
+    'report_meta',         // 报告元数据
+    'behavior_data',       // 行为数据
+  ]);
+
   /**
    * 将数组转换为 PostgreSQL 数组字面量格式
    * 例如: ["normal_correct"] → '{"normal_correct"}'
@@ -377,6 +398,12 @@ class PrismaTableClient {
       const result: Record<string, any> = {};
       for (const [key, value] of Object.entries(obj)) {
         const snakeKey = this.toSnakeCase(key);
+        // 检查是否为 JSONB 字段 - 跳过递归转换，保持原始结构
+        if (PrismaTableClient.JSONB_COLUMNS.has(snakeKey)) {
+          // JSONB 字段保持原始结构，不递归转换内部键名
+          result[snakeKey] = value;
+          continue;
+        }
         // 检查是否为 PG 数组字段
         if (PrismaTableClient.PG_ARRAY_FIELDS.has(snakeKey) && Array.isArray(value)) {
           // 转换为 PostgreSQL 数组字面量格式
@@ -433,6 +460,13 @@ class PrismaTableClient {
       const result: Record<string, any> = {};
       for (const [key, value] of Object.entries(obj)) {
         const camelKey = this.toCamelCase(key);
+        // 检查是否为 JSONB 字段 - 跳过递归转换，保持原始结构
+        // 注意：仍然需要转换外层键名（snake_case → camelCase）
+        if (PrismaTableClient.JSONB_COLUMNS.has(key)) {
+          // JSONB 字段：只转换键名，不递归转换值的内部结构
+          result[camelKey] = value;
+          continue;
+        }
         // 检查是否为 PG 数组字段（读取时转换回数组格式）
         if (typeof value === 'string' && PrismaTableClient.PG_ARRAY_FIELDS.has(key)) {
           result[camelKey] = this.parsePgArrayLiteral(value);

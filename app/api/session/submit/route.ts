@@ -60,6 +60,8 @@ export async function POST(req: Request) {
     const sessionId = body?.session_id;
     const answers: SubmitAnswer[] = Array.isArray(body?.answers) ? body.answers : [];
 
+    console.log('[submit] 收到请求:', { sessionId, answersCount: answers.length });
+
     if (!sessionId || typeof sessionId !== 'string') {
       return NextResponse.json(
         { ok: false, error: '缺少 session_id' },
@@ -483,6 +485,19 @@ async function generateReport(
   // ===== 映射流水线输出到数据库字段 =====
   const { summary_table, generated_report, is_invalid } = pipelineResult;
 
+  // 🔴 关键日志：Pipeline 结果概览
+  console.log('[submit] Pipeline结果:', {
+    is_invalid,
+    genuine_answers: summary_table.genuine_response_stats?.genuine_answers,
+    total_questions: summary_table.genuine_response_stats?.total_questions,
+    error_frequency_by_kp_count: summary_table.error_frequency_by_kp?.length,
+    has_generated_report: !!generated_report,
+    generation_method: generated_report?.generation_method,
+    four_week_plan_length: generated_report?.four_week_plan?.length,
+    has_action_checklist: !!generated_report?.action_checklist,
+    action_checklist_length: generated_report?.action_checklist?.length,
+  });
+
   // 报告页期望的 literacyRadar 格式: { [dimension]: { score, level, question_count, valid } }
   // 使用素养维度中文名称作为键（如 "运算能力" 而不是 "YS-02"）
   const literacyRadar: Record<string, { score: number; level: string; question_count: number; valid: boolean }> = {};
@@ -553,41 +568,265 @@ async function generateReport(
     low_confidence_notes: [] as string[],
   };
 
-  const plan4week = generated_report.four_week_plan;
+  // ===== 格式转换层：将LLM输出转换为前端期望的格式 =====
+  // 增加智能解析和容错机制，处理LLM可能返回的各种格式
 
-  // 行动清单：优先使用LLM生成的action_checklist，其次使用薄弱知识点
-  let actionChecklist = [];
-  
-  // 1. 优先使用LLM生成的action_checklist
-  if (generated_report.action_checklist && generated_report.action_checklist.length > 0) {
-    console.log('[session/submit] 使用LLM生成的action_checklist:', generated_report.action_checklist.length, '条');
-    actionChecklist = generated_report.action_checklist;
+  // 智能提取知识点名称列表
+  function extractKpList(obj: any): string[] {
+    const candidates = [
+      obj?.focus_kps,
+      obj?.focus_kp, 
+      obj?.focus_kps_list,
+      obj?.focus_points,
+      obj?.focus_knowledge_points,
+    ];
+    for (const candidate of candidates) {
+      if (Array.isArray(candidate) && candidate.length > 0) {
+        return candidate.filter((x: any) => typeof x === 'string' && x.trim());
+      }
+      if (typeof candidate === 'string' && candidate.trim()) {
+        return candidate.split(/[,，、;；]/).map(s => s.trim()).filter(Boolean);
+      }
+    }
+    return [];
   }
-  // 2. 降级：使用薄弱知识点
-  else if (summary_table.weak_knowledge_points.length > 0) {
-    actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => ({
-      kp_code: kp.kp_code,
-      name: kp.name,
-      severity: kp.severity,
-      action: `针对${kp.name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%），建议每天做5-8道变式练习题`,
-    }));
+
+  // 智能提取训练内容列表
+  function extractContentList(obj: any): string[] {
+    // 尝试多种可能的字段名
+    const exercises = obj?.exercises || obj?.daily_tasks || obj?.tasks || obj?.content_list;
+    if (Array.isArray(exercises) && exercises.length > 0) {
+      return exercises.map((e: any) => {
+        if (typeof e === 'string') return e.trim();
+        if (e?.content) {
+          let text = e.content.trim();
+          if (e?.reason && !e.reason.includes('理由')) {
+            text += `（理由：${e.reason}）`;
+          }
+          return text;
+        }
+        if (e?.title) return e.title.trim();
+        if (typeof e === 'object') {
+          // 尝试从对象中提取第一个字符串值
+          const values = Object.values(e).filter((v: any) => typeof v === 'string' && v.trim());
+          return values[0]?.trim() || '';
+        }
+        return '';
+      }).filter(Boolean);
+    }
+    
+    // 直接使用 weekly_content 或 content
+    const directContent = obj?.weekly_content || obj?.weekly_plan || obj?.content;
+    if (Array.isArray(directContent) && directContent.length > 0) {
+      return directContent.map((c: any) => typeof c === 'string' ? c.trim() : String(c).trim()).filter(Boolean);
+    }
+    if (typeof directContent === 'string' && directContent.trim()) {
+      return directContent.split(/[;；\n]/).map(s => s.trim()).filter(Boolean);
+    }
+    
+    return [];
+  }
+
+  // 智能提取练习量
+  function extractPracticeCount(obj: any): number {
+    const candidates = [obj?.practice_count, obj?.daily_count, obj?.exercise_count, obj?.questions_per_day];
+    for (const c of candidates) {
+      const num = Number(c);
+      if (!isNaN(num) && num > 0) return num;
+    }
+    return 5;
+  }
+
+  // 智能提取周数
+  function extractWeekNum(obj: any, idx: number): number {
+    const num = Number(obj?.week ?? obj?.week_num ?? obj?.week_number);
+    if (!isNaN(num) && num > 0) return num;
+    return idx + 1;
+  }
+
+  // 4周计划格式转换
+  // LLM格式可能: { week, focus_kp: string|string[], exercises: [{ content, reason }] }
+  // 前端格式: { week, focus_kps: string[], weekly_content: string[], practice_count }
+  let plan4week = generated_report.four_week_plan;
+  console.log('[session/submit] LLM原始4周计划:', {
+    length: plan4week?.length || 0,
+    firstItem: plan4week?.[0] ? Object.keys(plan4week[0]) : [],
+  });
+
+  if (plan4week && plan4week.length > 0) {
+    plan4week = plan4week.map((w: any, idx: number) => {
+      // 智能提取焦点知识点
+      const focusKps = extractKpList(w);
+      
+      // 智能提取训练内容
+      const weeklyContent = extractContentList(w);
+      
+      // 智能提取周数和练习量
+      const weekNum = extractWeekNum(w, idx);
+      const practiceCount = extractPracticeCount(w);
+
+      const result = {
+        week: weekNum,
+        focus_kps: focusKps,
+        weekly_content: weeklyContent,
+        practice_count: practiceCount,
+      };
+
+      console.log(`[session/submit] 第${weekNum}周转换结果:`, {
+        focus_kps: result.focus_kps.length,
+        weekly_content: result.weekly_content.length,
+        practice_count: result.practice_count,
+      });
+
+      return result;
+    });
+    console.log('[session/submit] 4周计划格式转换完成:', plan4week.length, '周');
+  } else {
+    console.warn('[session/submit] LLM未生成4周计划，将使用降级方案');
+  }
+
+  // 行动清单格式转换
+  // LLM格式可能: { kp_code, name, severity: '高'|'中'|'低', action }
+  // 前端格式: { kp_code, name, action, level: 'red'|'yellow'|'green' }
+  console.log('[session/submit] LLM原始action_checklist:', {
+    length: generated_report.action_checklist?.length || 0,
+    firstItem: generated_report.action_checklist?.[0] ? Object.keys(generated_report.action_checklist[0]) : [],
+  });
+
+  // 智能提取行动清单条目
+  function extractActionItem(item: any, fallbackKpCode?: string, fallbackName?: string): {
+    kp_code: string;
+    name: string;
+    level: 'red' | 'yellow' | 'green';
+    action: string;
+  } | null {
+    if (!item || typeof item !== 'object') return null;
+
+    // 智能提取知识点代码
+    const kpCode = item.kp_code || item.kpCode || item.code || item.kp || fallbackKpCode || '';
+    
+    // 智能提取知识点名称
+    const name = item.name || item.kp_name || item.kpName || item.knowledge_point || fallbackName || kpCode;
+    
+    // 智能提取严重程度并映射为level
+    let level: 'red' | 'yellow' | 'green' = 'yellow';
+    const severity = String(item.severity || item.level || item.severity_level || '').toLowerCase();
+    if (severity === '高' || severity === 'high' || severity === 'severe' || severity === 'red' || severity === '严重') {
+      level = 'red';
+    } else if (severity === '中' || severity === 'medium' || severity === 'moderate' || severity === 'yellow' || severity === '中等') {
+      level = 'yellow';
+    } else if (severity === '低' || severity === 'low' || severity === 'green' || severity === '轻微') {
+      level = 'green';
+    }
+
+    // 智能提取行动建议
+    let action = item.action || item.suggestion || item.tip || item.recommendation || '';
+    if (!action || typeof action !== 'string' || !action.trim()) {
+      // 根据level生成默认行动建议
+      if (level === 'red') {
+        action = `重点补强${name}，建议每天做8-10道基础变式题，从教材例题开始，确保概念准确无误`;
+      } else if (level === 'yellow') {
+        action = `巩固${name}，建议每天做5-8道练习题，重点关注错题重做和变式训练`;
+      } else {
+        action = `保持${name}的良好状态，建议每天做3-5道综合题，提升知识迁移能力`;
+      }
+    }
+
+    return {
+      kp_code: kpCode,
+      name: name,
+      level: level,
+      action: action.trim(),
+    };
+  }
+
+  let actionChecklist: Array<{ kp_code: string; name: string; level: 'red' | 'yellow' | 'green'; action: string }> = [];
+  
+  // 1. 优先使用LLM生成的action_checklist（带智能解析）
+  if (generated_report.action_checklist && Array.isArray(generated_report.action_checklist) && generated_report.action_checklist.length > 0) {
+    console.log('[session/submit] 使用LLM生成的action_checklist:', generated_report.action_checklist.length, '条');
+    actionChecklist = generated_report.action_checklist
+      .map((item: any) => extractActionItem(item))
+      .filter((item): item is NonNullable<typeof item> => item !== null);
+    
+    console.log('[session/submit] LLM action_checklist转换结果:', actionChecklist.length, '条');
+  }
+  
+  // 2. 降级：使用薄弱知识点（如果LLM没有生成或生成失败）
+  if (actionChecklist.length === 0 && summary_table.weak_knowledge_points.length > 0) {
+    console.log('[session/submit] 使用降级方案：薄弱知识点生成action_checklist');
+    actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => {
+      const errorRate = Math.round((kp.error_rate || 0) * 100);
+      const level = kp.error_rate >= 0.75 ? 'red' as const : kp.error_rate >= 0.5 ? 'yellow' as const : 'green' as const;
+      const dailyCount = level === 'red' ? 8 : level === 'yellow' ? 6 : 4;
+      
+      return {
+        kp_code: kp.kp_code || kp.kpCode || '',
+        name: kp.name || kp.kp_name || kp.kpCode || '',
+        level: level,
+        action: `针对${kp.name || '该知识点'}进行专项训练（错误率${errorRate}%），建议每天做${dailyCount}道变式练习题，重点关注错题重做和概念巩固`,
+      };
+    });
   }
 
   // 3. 再次降级：如果仍然为空，使用错误频次最高的前5个知识点
   if (actionChecklist.length === 0 && summary_table.error_frequency_by_kp.length > 0) {
+    console.log('[session/submit] 使用最终降级方案：错误频次最高的知识点');
     const topKps = [...summary_table.error_frequency_by_kp].sort((a, b) => b.error_rate - a.error_rate).slice(0, 5);
-    actionChecklist = topKps.map((kp: any) => ({
-      kp_code: kp.kp_code,
-      name: kp.kp_name,
-      severity: kp.error_rate >= 0.75 ? '高' as const : kp.error_rate >= 0.6 ? '中' as const : '低' as const,
-      action: `针对${kp.kp_name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%），建议每天做${Math.max(3, Math.round(kp.error_rate * 10))}道变式练习题`,
-    }));
+    actionChecklist = topKps.map((kp: any) => {
+      const errorRate = Math.round((kp.error_rate || 0) * 100);
+      const level = kp.error_rate >= 0.75 ? 'red' as const : kp.error_rate >= 0.6 ? 'yellow' as const : 'green' as const;
+      const dailyCount = Math.max(3, Math.round((kp.error_rate || 0) * 10));
+      
+      return {
+        kp_code: kp.kp_code || '',
+        name: kp.kp_name || kp.kp_code || '',
+        level: level,
+        action: `针对${kp.kp_name || '薄弱知识点'}进行专项训练（错误率${errorRate}%），建议每天做${dailyCount}道变式练习题，从基础概念入手逐步提升`,
+      };
+    });
   }
+
+  console.log('[session/submit] action_checklist最终结果:', {
+    length: actionChecklist.length,
+    levels: actionChecklist.reduce((acc: any, item) => {
+      acc[item.level] = (acc[item.level] || 0) + 1;
+      return acc;
+    }, {}),
+  });
 
   const degradedTextsValue = is_invalid ? [{
     type: 'invalid_response',
     text: generated_report.error_analysis,
   }] : null;
+
+  // 🔴 DEBUG: 验证写入数据库的数据结构
+  console.log('[session/submit] 准备写入数据库的数据结构:', {
+    moduleMastery: {
+      type: typeof moduleMastery,
+      keys: Object.keys(moduleMastery).slice(0, 3),
+      sample: Object.entries(moduleMastery).slice(0, 2).map(([k, v]) => ({
+        k,
+        vKeys: v ? Object.keys(v) : [],
+      })),
+    },
+    plan4week: {
+      length: plan4week.length,
+      sample: plan4week[0] ? {
+        keys: Object.keys(plan4week[0]),
+        focus_kps: plan4week[0].focus_kps,
+        weekly_content: plan4week[0].weekly_content,
+      } : null,
+    },
+    actionChecklist: {
+      length: actionChecklist.length,
+      sample: actionChecklist[0] ? {
+        keys: Object.keys(actionChecklist[0]),
+        kp_code: actionChecklist[0].kp_code,
+        level: actionChecklist[0].level,
+      } : null,
+    },
+  });
 
   const baseCreateData: any = {
     studentId: bigintId,

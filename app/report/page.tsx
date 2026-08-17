@@ -202,6 +202,37 @@ export default async function ReportPage({ searchParams }: PageProps) {
     orderBy: { createdAt: 'desc' },
   });
 
+  // 🔴 DEBUG: 验证数据库读取的数据结构
+  console.log('[report/page] 数据库读取结果:', {
+    hasModuleMastery: !!row?.moduleMastery,
+    moduleMasteryType: row?.moduleMastery ? typeof row.moduleMastery : 'undefined',
+    moduleMasteryKeys: row?.moduleMastery ? Object.keys(row.moduleMastery).slice(0, 3) : [],
+    moduleMasterySample: row?.moduleMastery ? Object.entries(row.moduleMastery).slice(0, 2).map(([k, v]) => ({
+      k,
+      vKeys: v ? Object.keys(v) : [],
+      sampleValue: v ? { ...v } : null,
+    })) : [],
+    hasPlan4week: !!row?.plan4week,
+    plan4weekLength: row?.plan4week?.length || 0,
+    plan4weekSample: row?.plan4week?.[0] ? {
+      keys: Object.keys(row.plan4week[0]),
+      focus_kps: row.plan4week[0].focus_kps,
+      weekly_content: row.plan4week[0].weekly_content,
+      focus_kps_type: typeof row.plan4week[0].focus_kps,
+      weekly_content_type: typeof row.plan4week[0].weekly_content,
+    } : null,
+    hasActionChecklist: !!row?.actionChecklist,
+    actionChecklistLength: row?.actionChecklist?.length || 0,
+    actionChecklistSample: row?.actionChecklist?.[0] ? {
+      keys: Object.keys(row.actionChecklist[0]),
+      kp_code: row.actionChecklist[0].kp_code,
+      kp_code_type: typeof row.actionChecklist[0].kp_code,
+      name: row.actionChecklist[0].name,
+      level: row.actionChecklist[0].level,
+      action: row.actionChecklist[0].action,
+    } : null,
+  });
+
   if (!row) {
     return (
       <EmptyReport message="报告尚未生成。请完成全部三天诊断后再查看。" />
@@ -245,15 +276,25 @@ export default async function ReportPage({ searchParams }: PageProps) {
   const masteryEntries = Object.entries(draft.module_mastery ?? {});
   for (let i = 0; i < masteryEntries.length; i++) {
     const [kp, entry] = masteryEntries[i];
-    const kpName = getKpName(kp);
+    // 智能提取知识点名称：优先使用 kp_name 字段，然后映射表，最后代码本身
+    const kpName = (entry as any)?.kp_name || getKpName(kp) || kp;
     const masteryValue = Number((entry as any).mastery_score);
-    const level = (entry as any).level as MasteryLevel;
-    if (!isNaN(masteryValue) && isFinite(masteryValue) && masteryValue > 0) {
+    let level = (entry as any).level as MasteryLevel;
+    
+    // 智能推断 level：如果没有显式 level，根据 score 计算
+    if (!level || !['green', 'yellow', 'red'].includes(level)) {
+      if (masteryValue >= 0.8) level = 'green';
+      else if (masteryValue >= 0.5) level = 'yellow';
+      else level = 'red';
+    }
+    
+    // 放宽条件：接受任何有效的 masteryValue（包括0，表示完全未掌握）
+    if (!isNaN(masteryValue) && isFinite(masteryValue)) {
       moduleList.push({ module: kpName, score: masteryValue, level: level, kpCode: kp });
     }
   }
-  // 按得分排序
-  moduleList.sort(function (a, b) { return b.score - a.score; });
+  // 按得分排序（掌握度低的排前面，方便用户先看薄弱环节）
+  moduleList.sort(function (a, b) { return a.score - b.score; });
 
   const radarRaw = Object.entries(draft.literacy_radar ?? {});
   const radarData: RadarDatum[] = [];
@@ -440,34 +481,83 @@ export default async function ReportPage({ searchParams }: PageProps) {
 
       <Section title="4周干预计划">
         {hasPlan ? (
-          <ol className="space-y-2">
+          <ol className="space-y-3">
             {draft.plan_4week!.map(function renderWeek(w: any, idx: number) {
-              const focusKpNames = (w.focus_kps && w.focus_kps.length)
-                ? w.focus_kps.map(function (kp: string) { return getKpName(kp); }).join('、')
-                : '综合复习（重点补强薄弱考点）';
-              const weeklyContent = (w.weekly_content && w.weekly_content.length)
-                ? w.weekly_content.join('；')
-                : '';
+              // 智能提取焦点知识点名称
+              let focusKpNames = '';
+              if (w.focus_kps && w.focus_kps.length) {
+                focusKpNames = w.focus_kps.map(function (kp: string) { 
+                  // 智能判断是代码还是名称
+                  if (KP_NAME_MAP[kp]) return KP_NAME_MAP[kp];
+                  // 如果看起来像代码（KP-开头），尝试转换
+                  if (kp.startsWith('KP-')) return getKpName(kp);
+                  // 否则直接显示（可能已经是中文名称）
+                  return kp;
+                }).join('、');
+              } else if (w.focus_kp) {
+                // 兼容单个 focus_kp 字段
+                const kp = w.focus_kp;
+                if (KP_NAME_MAP[kp]) focusKpNames = KP_NAME_MAP[kp];
+                else if (kp.startsWith('KP-')) focusKpNames = getKpName(kp);
+                else focusKpNames = kp;
+              }
+              
+              // 如果仍然为空，使用更具体的默认文案
+              if (!focusKpNames) {
+                const weekTheme = ['基础概念巩固', '变式训练提升', '综合应用强化', '查漏补缺冲刺'];
+                focusKpNames = weekTheme[idx] || '综合能力提升';
+              }
+              
+              // 智能提取训练内容
+              let weeklyContent = '';
+              if (w.weekly_content && w.weekly_content.length) {
+                weeklyContent = w.weekly_content.map((c: string) => {
+                  // 如果内容太短或太泛，添加额外说明
+                  if (c.length < 10 && !c.includes('练习')) return c + '，建议配合教材例题加深理解';
+                  return c;
+                }).join('；');
+              } else if (w.content && typeof w.content === 'string') {
+                weeklyContent = w.content;
+              }
+              
+              // 如果没有训练内容，生成具体建议
+              if (!weeklyContent) {
+                const weekSuggestions = [
+                  '从基础例题入手，每天完成5-8道基础练习题，确保概念准确无误',
+                  '进行变式训练，每天完成6-10道变式题，检验知识掌握的灵活性',
+                  '完成综合应用题，每天3-5道涉及多个知识点的综合题，训练知识迁移能力',
+                  '进行模拟测试，完成一套小测检验学习成果，针对薄弱环节重点突破',
+                ];
+                weeklyContent = weekSuggestions[idx] || weekSuggestions[0];
+              }
+              
               const weekNum = w.week || (idx + 1);
+              const practiceCount = w.practice_count || w.daily_count;
+              
               return (
                 <li
                   key={weekNum}
-                  className="rounded-lg bg-gray-50 border border-gray-100 px-3 py-2"
+                  className="rounded-lg bg-gray-50 border border-gray-200 px-3 py-3"
                 >
-                  <div className="text-sm font-medium text-gray-800">
-                    第 {weekNum} 周
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    焦点考点：{focusKpNames}
-                  </div>
-                  {weeklyContent && (
-                    <div className="text-xs text-gray-600 mt-1 leading-relaxed">
-                      训练内容：{weeklyContent}
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm font-semibold text-gray-800">
+                      第 {weekNum} 周
                     </div>
-                  )}
-                  {w.practice_count && (
-                    <div className="text-xs text-gray-400 mt-0.5">
-                      建议练习量：每周 {w.practice_count} 道
+                    <div className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                      {['基础巩固', '变式提升', '综合应用', '查漏补缺'][idx] || '持续训练'}
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-600 mt-1.5">
+                    <span className="text-gray-400">焦点：</span>
+                    <span className="font-medium">{focusKpNames}</span>
+                  </div>
+                  <div className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                    <span className="text-gray-400">训练：</span>
+                    {weeklyContent}
+                  </div>
+                  {practiceCount && (
+                    <div className="text-xs text-gray-400 mt-1">
+                      💡 建议每日练习量：{practiceCount} 道题
                     </div>
                   )}
                 </li>
@@ -475,7 +565,12 @@ export default async function ReportPage({ searchParams }: PageProps) {
             })}
           </ol>
         ) : (
-          <p className="text-xs text-gray-400">暂无干预计划</p>
+          <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-3">
+            <p className="text-xs text-gray-500 font-medium">📋 4周干预计划生成中...</p>
+            <p className="text-[11px] text-gray-400 mt-1">
+              系统正在为您分析薄弱环节并生成个性化学习计划，请稍后刷新查看。
+            </p>
+          </div>
         )}
       </Section>
 
@@ -483,16 +578,59 @@ export default async function ReportPage({ searchParams }: PageProps) {
         <Section title="行动清单">
           <ul className="space-y-2 text-sm">
             {draft.action_checklist!.map(function renderAction(a: any, i: number) {
-              const kpName = getKpName(a.kp_code);
-              const levelText = LEVEL_TEXT[a.level] || a.level;
-              const levelColor = LEVEL_COLOR[a.level] || 'text-gray-600';
+              // 智能提取知识点名称：优先使用 name 字段，然后映射表，最后代码本身
+              let kpName = a.name || a.kp_name || '';
+              if (!kpName && a.kp_code) {
+                kpName = getKpName(a.kp_code);
+              }
+              if (!kpName) {
+                kpName = '薄弱知识点';
+              }
+              
+              // 智能提取 level 并映射
+              let levelText = LEVEL_TEXT[a.level];
+              let levelColor = LEVEL_COLOR[a.level];
+              if (!levelText) {
+                // 从 severity 推断 level
+                const severity = String(a.severity || '').toLowerCase();
+                if (severity === '高' || severity === 'high' || severity === 'red') {
+                  levelText = LEVEL_TEXT.red;
+                  levelColor = LEVEL_COLOR.red;
+                } else if (severity === '中' || severity === 'medium' || severity === 'yellow') {
+                  levelText = LEVEL_TEXT.yellow;
+                  levelColor = LEVEL_COLOR.yellow;
+                } else {
+                  levelText = LEVEL_TEXT.green;
+                  levelColor = LEVEL_COLOR.green;
+                }
+              }
+              
+              // 智能提取行动建议
+              let actionText = a.action || a.suggestion || a.tip || '';
+              if (!actionText) {
+                // 生成默认行动建议
+                const level = a.level || 'yellow';
+                if (level === 'red') {
+                  actionText = `重点补强${kpName}，建议每天做8-10道基础变式题，从教材例题开始，确保概念准确无误`;
+                } else if (level === 'yellow') {
+                  actionText = `巩固${kpName}，建议每天做5-8道练习题，重点关注错题重做和变式训练`;
+                } else {
+                  actionText = `保持${kpName}的良好状态，建议每天做3-5道综合题，提升知识迁移能力`;
+                }
+              }
+              
               return (
-                <li key={i} className="rounded-lg bg-gray-50 px-3 py-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-medium text-gray-800">{kpName}</span>
-                    <span className={'text-xs ' + levelColor}>{levelText}</span>
+                <li key={i} className="rounded-lg bg-gray-50 px-3 py-2.5 border border-gray-100">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="font-semibold text-gray-800">{kpName}</span>
+                    <span className={'text-xs font-medium px-2 py-0.5 rounded ' + (levelColor + ' bg-white')}>
+                      {levelText}
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed">{a.action}</p>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    <span className="text-gray-400">💡 </span>
+                    {actionText}
+                  </p>
                 </li>
               );
             })}

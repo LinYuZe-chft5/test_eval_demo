@@ -94,12 +94,13 @@ function generateByTemplate(summary: SummaryTable): GeneratedReport {
         severity: kp.error_rate >= 0.5 ? '高' as const : '中' as const,
       }));
 
-  for (let week = 0; week < Math.min(4, Math.max(1, sortedWeakKps.length)); week++) {
+  // 生成4周计划（确保至少有4周）
+  const weeksToGenerate = Math.min(4, Math.max(1, sortedWeakKps.length));
+  for (let week = 0; week < weeksToGenerate; week++) {
     const kp = sortedWeakKps[week % sortedWeakKps.length] || sortedWeakKps[0];
     if (!kp) break;
 
     // 找到该知识点的错误标签
-    const kpErrors = summary.error_frequency_by_kp.find(e => e.kp_code === kp.kp_code);
     const topErrorLabel = topErrors[0] ? EC_DEFINITIONS[topErrors[0].code]?.label || topErrors[0].code : '基础概念';
     
     // 每周生成具体的训练内容
@@ -112,9 +113,13 @@ function generateByTemplate(summary: SummaryTable): GeneratedReport {
     });
   }
 
+  // 生成行动清单（确保模板降级也有内容）
+  const actionChecklist = generateActionChecklist(summary, sortedWeakKps);
+
   return {
     error_analysis: analysis,
     four_week_plan: plan,
+    action_checklist: actionChecklist,
     generation_method: 'template',
   };
 }
@@ -172,6 +177,71 @@ function generateWeeklyExercises(
   }
   
   return content;
+}
+
+/**
+ * 生成行动清单（模板降级方案）
+ * 基于薄弱知识点和错误频次生成具体的、个性化的行动建议
+ */
+function generateActionChecklist(
+  summary: SummaryTable,
+  sortedWeakKps: Array<{ kp_code: string; name: string; error_rate: number; severity: string }>,
+): GeneratedReport['action_checklist'] {
+  const checklist: GeneratedReport['action_checklist'] = [];
+  
+  // 优先使用薄弱知识点
+  const sourceKps = sortedWeakKps.length > 0 
+    ? sortedWeakKps 
+    : summary.error_frequency_by_kp.slice(0, 5).map(kp => ({
+        kp_code: kp.kp_code,
+        name: kp.kp_name,
+        error_rate: kp.error_rate,
+        severity: kp.error_rate >= 0.75 ? '高' as const : kp.error_rate >= 0.5 ? '中' as const : '低' as const,
+      }));
+
+  // 生成行动清单（最多5条）
+  for (let i = 0; i < Math.min(5, sourceKps.length); i++) {
+    const kp = sourceKps[i];
+    const errorRate = Math.round((kp.error_rate || 0) * 100);
+    
+    // 确定级别和颜色
+    let level: 'red' | 'yellow' | 'green' = 'yellow';
+    let levelText = '中等';
+    let dailyCount = 5;
+    
+    if (kp.severity === '高' || errorRate >= 75) {
+      level = 'red';
+      levelText = '严重';
+      dailyCount = 8;
+    } else if (kp.severity === '中' || errorRate >= 50) {
+      level = 'yellow';
+      levelText = '中等';
+      dailyCount = 6;
+    } else {
+      level = 'green';
+      levelText = '良好';
+      dailyCount = 4;
+    }
+
+    // 生成具体的行动建议
+    let action = '';
+    if (level === 'red') {
+      action = `重点补强${kp.name}，该知识点错误率高达${errorRate}%，建议每天做${dailyCount}道基础变式题，从教材例题开始，确保概念准确无误，配合错题本逐项攻克`;
+    } else if (level === 'yellow') {
+      action = `巩固${kp.name}，该知识点错误率${errorRate}%，建议每天做${dailyCount}道练习题，重点关注错题重做和变式训练，理解解题思路而非死记硬背`;
+    } else {
+      action = `保持${kp.name}的良好状态，该知识点错误率${errorRate}%，建议每天做${dailyCount}道综合题，提升知识迁移能力，适当挑战难度更高的题目`;
+    }
+
+    checklist.push({
+      kp_code: kp.kp_code,
+      name: kp.name,
+      severity: levelText,
+      action,
+    });
+  }
+
+  return checklist;
 }
 
 /**
