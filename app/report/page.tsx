@@ -92,8 +92,15 @@ const EC_DESC: Record<string, string> = {
   'EC-M4': '证明书写不规范',
 };
 
-function getEcDesc(ecCode: string): string {
-  return EC_DESC[ecCode] || ecCode;
+function getEcDesc(ecCode: any): string {
+  if (ecCode === null || ecCode === undefined) return '';
+  if (typeof ecCode === 'string') return EC_DESC[ecCode] || ecCode;
+  // 兼容旧数据格式（ecProfile.primary 为对象时取code属性）
+  if (typeof ecCode === 'object') {
+    const code = (ecCode as any).code;
+    return code ? (EC_DESC[code] || (ecCode as any).label || String(code)) : '';
+  }
+  return String(ecCode);
 }
 
 // 素养维度中文描述
@@ -167,7 +174,10 @@ function buildNarrative(draft: ReportDraft): string {
   let text = '本次诊断总分为 ' + totalScore + ' 分，综合评定为' + adaptiveText + '。';
   text += '掌握良好考点 ' + greenCount + ' 个，薄弱考点 ' + redCount + ' 个。';
   if (draft.ec_profile?.primary) {
-    text += '主要错因为 ' + draft.ec_profile.primary + '。';
+    const primaryStr = typeof draft.ec_profile.primary === 'object'
+      ? getEcDesc(draft.ec_profile.primary)
+      : getEcDesc(String(draft.ec_profile.primary));
+    if (primaryStr) text += '主要错因为 ' + primaryStr + '。';
   }
   if (draft.plan_4week && draft.plan_4week.length > 0) {
     text += '已为您生成 ' + draft.plan_4week.length + ' 周干预计划，建议按计划进行针对性训练。';

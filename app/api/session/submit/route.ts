@@ -32,6 +32,7 @@ import {
   selectProbeQuestion,
 } from '@/domain/engine/probe';
 import { runPipeline } from '@/domain/engine/pipeline';
+import type { MasteryLevel } from '@/domain/engine/mastery';
 
 interface SubmitAnswer {
   question_id: string;
@@ -489,17 +490,36 @@ async function generateReport(
     valid: data.valid,
   }));
 
-  const moduleMastery = summary_table.error_frequency_by_kp.map((kp: any) => ({
-    module: kp.kp_name,
-    kp_code: kp.kp_code,
-    error_count: kp.error_count,
-    total_count: kp.total_count,
-    error_rate: Math.round(kp.error_rate * 100),
-  }));
+  // 页面期望的 ModuleMastery 格式: { [kp_code]: { mastery_score, level } }
+  const moduleMastery: Record<string, { mastery_score: number; level: MasteryLevel; error_rate: number; error_count: number; total_count: number; kp_name: string }> = {};
+  for (const kp of summary_table.error_frequency_by_kp) {
+    const errorRate = Number(kp.error_rate ?? 0);
+    const masteryScore = Math.max(0, 1 - errorRate);
+    let level: MasteryLevel = 'yellow';
+    if (masteryScore >= 0.8) level = 'green';
+    else if (masteryScore >= 0.5) level = 'yellow';
+    else level = 'red';
+    moduleMastery[kp.kp_code] = {
+      mastery_score: Number.isFinite(masteryScore) ? masteryScore : 0,
+      level,
+      error_rate: Math.round(errorRate * 100),
+      error_count: kp.error_count,
+      total_count: kp.total_count,
+      kp_name: kp.kp_name,
+    };
+  }
 
+  const topLabel = summary_table.error_frequency_by_label[0] || null;
+  const ecSecondary = summary_table.error_frequency_by_label[1] || null;
+  const ecDistribution: Record<string, { count: number; percentage: number }> = {};
+  for (const entry of summary_table.error_frequency_by_label) {
+    ecDistribution[entry.code] = { count: entry.count, percentage: entry.percentage };
+  }
   const ecProfile = {
-    primary: summary_table.error_frequency_by_label[0] || null,
-    distribution: summary_table.error_frequency_by_label,
+    primary: topLabel?.code ?? null,
+    secondary: ecSecondary?.code ?? null,
+    distribution: ecDistribution,
+    low_confidence_notes: [] as string[],
   };
 
   const plan4week = generated_report.four_week_plan;
