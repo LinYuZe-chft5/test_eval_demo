@@ -113,8 +113,8 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
       ec_mapping: q.ecMapping ?? q.ec_mapping ?? [],
       literacy_codes: q.literacyCodes ?? q.literacy_codes ?? [],
       error_label_pool: q.errorLabelPool ?? q.error_label_pool ?? [],
-      scoring_rubric: q.scoringRubric ?? q.scoring_rubric || { full_score: q.score, rubric_items: [] },
-      grading_mode: q.gradingMode ?? q.grading_mode || ((q.qType ?? q.q_type) === 'step' ? 'llm' : 'auto'),
+      scoring_rubric: (q.scoringRubric ?? q.scoring_rubric) ?? { full_score: q.score, rubric_items: [] },
+      grading_mode: (q.gradingMode ?? q.grading_mode) ?? ((q.qType ?? q.q_type) === 'step' ? 'llm' : 'auto'),
       student_answer: studentAnswers[questionId] ?? studentAnswers[q.id] ?? null,
     };
   });
