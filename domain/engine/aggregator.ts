@@ -234,18 +234,34 @@ function computeErrorFrequencyByLabel(
 function identifyWeakKps(
   errorFreqByKp: SummaryTable['error_frequency_by_kp'],
 ): SummaryTable['weak_knowledge_points'] {
-  return errorFreqByKp
-    .filter(item => item.error_rate >= 0.5)
+  // 过滤条件：错误率 >= 30% 即为薄弱知识点（降低阈值，确保有足够的数据）
+  const weakKps = errorFreqByKp
+    .filter(item => item.error_rate >= 0.3)
     .map(item => ({
       kp_code: item.kp_code,
       name: item.kp_name,
       error_rate: item.error_rate,
-      severity: item.error_rate >= 0.75 ? '高' as const : item.error_rate >= 0.6 ? '中' as const : '低' as const,
+      severity: item.error_rate >= 0.75 ? '高' as const : item.error_rate >= 0.5 ? '中' as const : '低' as const,
     }))
     .sort((a, b) => {
       const severityOrder = { '高': 3, '中': 2, '低': 1 };
       return severityOrder[b.severity] - severityOrder[a.severity];
     });
+  
+  // 如果没有找到薄弱知识点，返回错误率最高的前3个
+  if (weakKps.length === 0 && errorFreqByKp.length > 0) {
+    return errorFreqByKp
+      .sort((a, b) => b.error_rate - a.error_rate)
+      .slice(0, 3)
+      .map(item => ({
+        kp_code: item.kp_code,
+        name: item.kp_name,
+        error_rate: item.error_rate,
+        severity: item.error_rate >= 0.75 ? '高' as const : item.error_rate >= 0.5 ? '中' as const : '低' as const,
+      }));
+  }
+  
+  return weakKps;
 }
 
 // ===== 主入口 =====

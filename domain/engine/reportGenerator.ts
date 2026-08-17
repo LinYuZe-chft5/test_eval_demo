@@ -34,6 +34,7 @@ export interface GeneratedReport {
 
 /**
  * 模板生成（降级方案，LLM不可用时使用）
+ * 高质量模板：基于具体错题知识点生成个性化内容
  */
 function generateByTemplate(summary: SummaryTable): GeneratedReport {
   // 无效答卷
@@ -49,26 +50,43 @@ function generateByTemplate(summary: SummaryTable): GeneratedReport {
   const topErrors = summary.error_frequency_by_label.slice(0, 3);
   const weakKps = summary.weak_knowledge_points;
 
-  let analysis = `总分${summary.total_score}/${summary.full_score}分，等级：${summary.grade_level}。`;
-
+  // 生成具体的诊断综述（避免泛化）
+  let analysis = `本次测评总分${summary.total_score}/${summary.full_score}分，综合评定为${summary.grade_level}。`;
+  
   if (topErrors.length > 0) {
-    analysis += `主要错因集中在：${topErrors.map(e => `${e.label}(${Math.round(e.percentage * 100)}%)`).join('、')}。`;
+    const errorDesc = topErrors.map(e => `${EC_DEFINITIONS[e.code]?.label || e.code}（占比${Math.round(e.percentage * 100)}%）`).join('、');
+    analysis += `主要错因集中在：${errorDesc}。`;
+    
+    // 添加具体的错因分析
+    const topError = topErrors[0];
+    const topErrorLabel = EC_DEFINITIONS[topError.code]?.label || topError.code;
+    analysis += `表现为学生在解题过程中容易出现${topErrorLabel}的问题，`;
   }
 
   if (weakKps.length > 0) {
-    analysis += `薄弱知识点：${weakKps.map(k => `${k.name}(错误率${Math.round(k.error_rate * 100)}%)`).join('、')}。`;
+    const kpDesc = weakKps.slice(0, 3).map(k => `${k.name}（错误率${Math.round(k.error_rate * 100)}%）`).join('、');
+    analysis += `薄弱知识点主要包括：${kpDesc}。`;
+    
+    // 添加针对性建议
+    analysis += `建议优先从错误率最高的知识点入手，进行针对性训练。`;
+  } else if (summary.error_frequency_by_kp.length > 0) {
+    const topKp = summary.error_frequency_by_kp[0];
+    analysis += `虽然没有特别薄弱的知识点，但仍需关注${topKp.kp_name}等模块的巩固。`;
   }
 
-  if (topErrors.length > 0 && weakKps.length > 0) {
-    analysis += `核心问题为${weakKps[0].name}模块中${topErrors[0].label}，建议优先针对性训练。`;
-  }
-
-  // 四周计划
+  // 四周计划 - 基于薄弱知识点生成具体的学习安排
   const plan: GeneratedReport['four_week_plan'] = [];
-  const sortedWeakKps = [...weakKps].sort((a, b) => {
-    const order = { '高': 3, '中': 2, '低': 1 };
-    return order[b.severity] - order[a.severity];
-  });
+  const sortedWeakKps = weakKps.length > 0 
+    ? [...weakKps].sort((a, b) => {
+        const order = { '高': 3, '中': 2, '低': 1 };
+        return order[b.severity] - order[a.severity];
+      })
+    : summary.error_frequency_by_kp.slice(0, 4).map(kp => ({
+        kp_code: kp.kp_code,
+        name: kp.kp_name,
+        error_rate: kp.error_rate,
+        severity: kp.error_rate >= 0.5 ? '高' as const : '中' as const,
+      }));
 
   for (let week = 0; week < Math.min(4, Math.max(1, sortedWeakKps.length)); week++) {
     const kp = sortedWeakKps[week % sortedWeakKps.length] || sortedWeakKps[0];
@@ -76,23 +94,15 @@ function generateByTemplate(summary: SummaryTable): GeneratedReport {
 
     // 找到该知识点的错误标签
     const kpErrors = summary.error_frequency_by_kp.find(e => e.kp_code === kp.kp_code);
-    const errorLabel = kpErrors && summary.error_frequency_by_label.length > 0
-      ? summary.error_frequency_by_label[0]
-      : null;
+    const topErrorLabel = topErrors[0] ? EC_DEFINITIONS[topErrors[0].code]?.label || topErrors[0].code : '基础概念';
+    
+    // 每周生成具体的训练内容
+    const exercises = generateWeeklyExercises(kp, topErrorLabel, week);
 
     plan.push({
       week: week + 1,
-      focus_kp: `${kp.kp_code} ${kp.name}`,
-      exercises: [
-        {
-          content: `${kp.name}专项练习：针对${errorLabel?.label || '常见错误'}类型设计3-5道变式训练题`,
-          reason: `该生在${kp.name}错误率${Math.round(kp.error_rate * 100)}%，${errorLabel ? `主要表现为${errorLabel.label}` : '需加强基础训练'}`,
-        },
-        {
-          content: `${kp.name}错题重做与变式迁移：将原错题改编参数后重做，检验是否真正掌握`,
-          reason: `通过平行题检验掌握度，避免"做对一次就以为会了"的假性掌握`,
-        },
-      ],
+      focus_kp: `${kp.name}`,
+      exercises,
     });
   }
 
@@ -101,6 +111,61 @@ function generateByTemplate(summary: SummaryTable): GeneratedReport {
     four_week_plan: plan,
     generation_method: 'template',
   };
+}
+
+/**
+ * 生成每周训练内容（避免模板化）
+ */
+function generateWeeklyExercises(
+  kp: { kp_code: string; name: string; error_rate: number; severity: string },
+  topErrorLabel: string,
+  week: number,
+): Array<{ content: string; reason: string }> {
+  const content = [];
+  
+  if (week === 0) {
+    // 第1周：基础概念巩固
+    content.push({
+      content: `${kp.name}基础概念复习：每天做5道基础练习题，重点回顾${topErrorLabel}相关的基本方法和公式`,
+      reason: `该生在${kp.name}模块错误率${Math.round(kp.error_rate * 100)}%，需要从基础抓起，先确保概念清晰`,
+    });
+    content.push({
+      content: `${kp.name}典型例题分析：每天精读2-3道典型例题，理解解题思路和关键步骤`,
+      reason: `通过分析标准解法，建立正确的思维定势，避免${topErrorLabel}的重复错误`,
+    });
+  } else if (week === 1) {
+    // 第2周：变式训练
+    content.push({
+      content: `${kp.name}变式题训练：每天做6-8道变式练习题，改变题目条件或问法，但核心知识点不变`,
+      reason: `通过变式训练检验是否真正掌握，避免"做对一道就以为会了"的假性掌握`,
+    });
+    content.push({
+      content: `${kp.name}错题重做：将之前做错的题目重新做一遍，检验${topErrorLabel}是否已纠正`,
+      reason: `错题重做是检验学习效果的最佳方式，确保同一类型的错误不再重复`,
+    });
+  } else if (week === 2) {
+    // 第3周：综合应用
+    content.push({
+      content: `${kp.name}综合应用题：每天做3-5道涉及多个知识点的综合题，训练知识迁移能力`,
+      reason: `${kp.name}通常与其他知识点联合考查，需要学会在复杂情境中识别和应用`,
+    });
+    content.push({
+      content: `${kp.name}限时训练：在20-30分钟内完成一组练习题，提高解题速度和准确率`,
+      reason: `限时训练模拟考试环境，帮助学生在压力下保持冷静，减少${topErrorLabel}`,
+    });
+  } else {
+    // 第4周：查漏补缺
+    content.push({
+      content: `${kp.name}模拟测试：完成一套包含${kp.name}相关题目的小测，检验三周学习成果`,
+      reason: `通过模拟测试全面检验学习效果，找出仍需加强的薄弱环节`,
+    });
+    content.push({
+      content: `${kp.name}针对性补漏：根据测试结果，对仍有问题的知识点进行重点突破`,
+      reason: `学习不是一蹴而就的，需要根据实际效果灵活调整学习重点`,
+    });
+  }
+  
+  return content;
 }
 
 /**

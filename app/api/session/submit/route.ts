@@ -482,15 +482,19 @@ async function generateReport(
   // ===== 映射流水线输出到数据库字段 =====
   const { summary_table, generated_report, is_invalid } = pipelineResult;
 
-  const literacyRadar = Object.entries(summary_table.radar_chart).map(([dim, data]: [string, any]) => ({
-    literacy: dim,
-    score: data.score,
-    level: data.level,
-    question_count: data.question_count,
-    valid: data.valid,
-  }));
+  // 报告页期望的 literacyRadar 格式: { [dimension]: { score, level, question_count, valid } }
+  const literacyRadar: Record<string, { score: number; level: string; question_count: number; valid: boolean }> = {};
+  for (const [dim, data] of Object.entries(summary_table.radar_chart)) {
+    literacyRadar[dim] = {
+      score: (data as any).score,
+      level: (data as any).level,
+      question_count: (data as any).question_count,
+      valid: (data as any).valid,
+    };
+  }
 
-  // 页面期望的 ModuleMastery 格式: { [kp_code]: { mastery_score, level } }
+  // 页面期望的 ModuleMastery 格式: { [kp_code]: { mastery_score, level, error_rate, error_count, total_count, kp_name } }
+  // 从 error_frequency_by_kp 生成（这是最全面的知识点数据）
   const moduleMastery: Record<string, { mastery_score: number; level: MasteryLevel; error_rate: number; error_count: number; total_count: number; kp_name: string }> = {};
   for (const kp of summary_table.error_frequency_by_kp) {
     const errorRate = Number(kp.error_rate ?? 0);
@@ -509,6 +513,29 @@ async function generateReport(
     };
   }
 
+  // 如果模块掌握度为空（可能因为所有知识点掌握度都>=50%），添加一个"待加强"状态的记录
+  // 确保报告页有内容可显示
+  if (Object.keys(moduleMastery).length === 0 && summary_table.error_frequency_by_kp.length > 0) {
+    // 取错误率最高的前3个知识点，强制显示
+    const topKps = [...summary_table.error_frequency_by_kp].sort((a, b) => b.error_rate - a.error_rate).slice(0, 3);
+    for (const kp of topKps) {
+      const errorRate = Number(kp.error_rate ?? 0);
+      const masteryScore = Math.max(0, 1 - errorRate);
+      let level: MasteryLevel = 'yellow';
+      if (masteryScore >= 0.8) level = 'green';
+      else if (masteryScore >= 0.5) level = 'yellow';
+      else level = 'red';
+      moduleMastery[kp.kp_code] = {
+        mastery_score: Number.isFinite(masteryScore) ? masteryScore : 0,
+        level,
+        error_rate: Math.round(errorRate * 100),
+        error_count: kp.error_count,
+        total_count: kp.total_count,
+        kp_name: kp.kp_name,
+      };
+    }
+  }
+
   const topLabel = summary_table.error_frequency_by_label[0] || null;
   const ecSecondary = summary_table.error_frequency_by_label[1] || null;
   const ecDistribution: Record<string, { count: number; percentage: number }> = {};
@@ -524,12 +551,24 @@ async function generateReport(
 
   const plan4week = generated_report.four_week_plan;
 
-  const actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => ({
+  // 行动清单：优先使用薄弱知识点，如果为空则使用错误频次最高的知识点
+  let actionChecklist = summary_table.weak_knowledge_points.map((kp: any) => ({
     kp_code: kp.kp_code,
     name: kp.name,
     severity: kp.severity,
-    action: `针对${kp.name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%）`,
+    action: `针对${kp.name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%），建议每天做5-8道变式练习题`,
   }));
+
+  // 降级：如果薄弱知识点为空，使用错误频次最高的前5个知识点
+  if (actionChecklist.length === 0 && summary_table.error_frequency_by_kp.length > 0) {
+    const topKps = [...summary_table.error_frequency_by_kp].sort((a, b) => b.error_rate - a.error_rate).slice(0, 5);
+    actionChecklist = topKps.map((kp: any) => ({
+      kp_code: kp.kp_code,
+      name: kp.kp_name,
+      severity: kp.error_rate >= 0.75 ? '高' as const : kp.error_rate >= 0.6 ? '中' as const : '低' as const,
+      action: `针对${kp.kp_name}进行专项训练（错误率${Math.round(kp.error_rate * 100)}%），建议每天做${Math.max(3, Math.round(kp.error_rate * 10))}道变式练习题`,
+    }));
+  }
 
   const degradedTextsValue = is_invalid ? [{
     type: 'invalid_response',
