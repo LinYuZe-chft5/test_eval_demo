@@ -357,8 +357,8 @@ class PrismaTableClient {
    * 例如: ["normal_correct"] → '{"normal_correct"}'
    * PostgREST 需要此格式才能正确写入 PG 数组字段
    */
-  private toPgArrayLiteral(arr: string[]): string {
-    if (!arr || arr.length === 0) return '';
+  private toPgArrayLiteral(arr: string[]): string | null {
+    if (!arr || arr.length === 0) return null;
     const escaped = arr.map(s => `"${String(s).replace(/"/g, '\\"')}"`).join(',');
     return `{${escaped}}`;
   }
