@@ -1,13 +1,14 @@
 # Cloudflare Workers 部署配置（OpenNext 输出适配）
 name = "test-eval-demo"
 compatibility_date = "2025-01-01"
-compatibility_flags = [ "nodejs_compat", "streams_enable_constructors" ]
+# ⚠️ streams_enable_constructors 自2022-11-30已是默认，手动指定会触发API错误code=10021，禁止再添加
+compatibility_flags = [ "nodejs_compat" ]
 
 # Worker 主入口（OpenNext 产出路径）
 main = ".open-next/worker.js"
 
-# 静态资源目录：OpenNext 构建后所有 _next/static/*、图片、字体都在这里
-# Workers deploy 时会自动上传这个目录，Worker 通过 ASSETS 绑定读取
+# 静态资源目录（OpenNext构建的CSS/JS/图片输出到此处，wrangler deploy时自动上传）
+# 用于解决Workers部署页面无Tailwind样式的问题
 [assets]
 directory = ".open-next/assets"
 
