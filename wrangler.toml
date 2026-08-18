@@ -1,16 +1,20 @@
-# Cloudflare Workers 部署配置（OpenNext 输出适配）
+# ==========================================================
+# ⚠️ 警告：本文件内禁止再写 [vars] 块！
+# 因为 wrangler deploy 时 [vars] 会完全覆盖 Cloudflare Dashboard 里
+# 配置的 NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY / LLM_API_KEY 等密钥，
+# 导致运行时所有 env 变量读不到，触发 SupabaseConfigError → 前端显示“系统维护中”。
+# 所有环境变量请统一在 Cloudflare Dashboard → Settings → Environment variables 中配置。
+# ==========================================================
+
 name = "test-eval-demo"
 compatibility_date = "2025-01-01"
-# ⚠️ streams_enable_constructors 自2022-11-30已是默认，手动指定会触发API错误code=10021，禁止再添加
+# ⚠️ streams_enable_constructors 自 2022-11-30 已是默认启用，手动指定会被 Cloudflare API 拒绝（code=10021），禁止添加！
 compatibility_flags = [ "nodejs_compat" ]
 
-# Worker 主入口（OpenNext 产出路径）
+# Worker 主入口（OpenNext 构建产出路径）
 main = ".open-next/worker.js"
 
-# 静态资源目录（OpenNext构建的CSS/JS/图片输出到此处，wrangler deploy时自动上传）
-# 用于解决Workers部署页面无Tailwind样式的问题
+# 静态资源（Tailwind 的 CSS、Next.js JS bundle、图片、字体）
+# wrangler deploy 时会自动把这个目录上传到 ASSETS 绑定，解决 Workers 部署页面无样式问题
 [assets]
 directory = ".open-next/assets"
-
-[vars]
-NODE_ENV = "production"
