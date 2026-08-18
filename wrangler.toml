@@ -2,7 +2,7 @@
 name = "test-eval-demo"
 compatibility_date = "2025-01-01"
 compatibility_flags = [ "nodejs_compat" ]
-main = ".open-next/worker/index.mjs"
+main = ".open-next/worker.js"
 
 [vars]
 NODE_ENV = "production"
