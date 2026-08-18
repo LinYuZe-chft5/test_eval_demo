@@ -49,7 +49,14 @@ git push origin main
 
 进入 **Settings** → **Environment variables**，添加以下变量：
 
-#### Production 环境变量
+> ⚠️ **必填！解决 Next.js 14.2.35 版本检查失败**  
+> 由于当前项目使用 Next.js 14.2.35（超过 Next.js 官方 2 年支持期），需要添加环境变量跳过版本检查。
+
+| 变量名 | 值 | 说明 | 必需 |
+|--------|-----|------|------|
+| `NEXT_PRIVATE_OPENNEXTJS_CLOUDFLARE_USE_UNSUPPORTED_NEXT_VERSION` | `1` | **跳过 Next.js 版本检查** | ✅ 必填 |
+
+#### Production 环境变量（业务配置）
 
 | 变量名 | 值 | 说明 |
 |--------|-----|------|
@@ -63,6 +70,7 @@ git push origin main
 #### Preview 环境变量（可选）
 
 配置同上，用于预览部署。
+**请务必**同时添加 `NEXT_PRIVATE_OPENNEXTJS_CLOUDFLARE_USE_UNSUPPORTED_NEXT_VERSION=1`。
 
 ### Step 5: 部署
 

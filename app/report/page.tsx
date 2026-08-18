@@ -19,6 +19,11 @@ interface PageProps {
   searchParams: { student_id?: string };
 }
 
+// Next.js App Router 动态路由标记
+// 报告页依赖 searchParams (student_id) 从数据库读取实时数据
+// 必须禁用静态生成（否则构建时 request.url 会报错）
+export const dynamic = 'force-dynamic';
+
 const LEVEL_TEXT: Record<MasteryLevel, string> = {
   green: '掌握良好',
   yellow: '基本掌握',

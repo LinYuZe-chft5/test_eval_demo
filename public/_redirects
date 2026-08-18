@@ -1,12 +1,5 @@
-# Cloudflare Pages 路由配置
-# Next.js App Router 需要重写所有路由到 index.html
-# 文档: https://developers.cloudflare.com/pages/platform/redirects/
+# Cloudflare Pages 专用：禁用 SPA 路由重写
+# Next.js App Router + Cloudflare Pages SSR 模式下，_redirects 会干扰内部路由
+# 注意：Next.js App Router 自带路由，不需要 _redirects 文件
 
-# API 路由保护
-/api/*    /api/*    200
-
-# Next.js 静态资源
-/_next/*    /_next/*    200
-
-# 默认路由（SPA 风格的回退）
-/*    /index.html    200
+# 移除旧的SPA风格重写（会破坏API路由）
