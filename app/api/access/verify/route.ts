@@ -12,14 +12,15 @@
 import { NextResponse } from 'next/server';
 import { verifyAccessCode, getCompletedSessions } from '@/lib/auth';
 import {
-
-// Next.js App Router 动态路由标记
-export const dynamic = 'force-dynamic';
   getSkuByIdentity,
   isValidIdentity,
   validateAccessCodeFormat,
   type Identity,
 } from '@/lib/identity';
+
+// Next.js App Router 动态路由标记
+// 此API路由使用 request.json() 读取实时请求体，必须禁用静态生成
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {

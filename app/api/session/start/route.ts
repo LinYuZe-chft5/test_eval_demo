@@ -11,9 +11,6 @@
 import { NextResponse } from 'next/server';
 import { verifyAccessCode, createSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-
-// Next.js App Router 动态路由标记
-export const dynamic = 'force-dynamic';
 import { getDayTimeLimitMin } from '@/domain/config/rules';
 import {
   getSkuByIdentity,
@@ -21,6 +18,9 @@ import {
   validateAccessCodeFormat,
   type Identity,
 } from '@/lib/identity';
+
+// Next.js App Router 动态路由标记
+export const dynamic = 'force-dynamic';
 
 interface ClientOption {
   key: string;

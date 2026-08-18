@@ -13,9 +13,6 @@
  */
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-
-// Next.js App Router 动态路由标记
-export const dynamic = 'force-dynamic';
 import {
   getSession,
   getCompletedSessions,
@@ -37,6 +34,9 @@ import {
 import { runPipeline } from '@/domain/engine/pipeline';
 import { LITERACY_DEFINITIONS } from '@/domain/engine/ecDefinitions';
 import type { MasteryLevel } from '@/domain/engine/mastery';
+
+// Next.js App Router 动态路由标记
+export const dynamic = 'force-dynamic';
 
 interface SubmitAnswer {
   question_id: string;

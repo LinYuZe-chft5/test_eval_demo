@@ -11,15 +11,15 @@
  */
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-
-// Next.js App Router 动态路由标记
-export const dynamic = 'force-dynamic';
 import {
   getSkuByIdentity,
   isValidIdentity,
   validateAccessCodeFormat,
   type Identity,
 } from '@/lib/identity';
+
+// Next.js App Router 动态路由标记
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
