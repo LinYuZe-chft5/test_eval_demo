@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     const completed = await getCompletedSessions(trimmedCode);
     const completedDays: number[] = (completed ?? [])
       .map((s: any) => Number(s.dayTag))
-      .filter((n) => [1, 2, 3].includes(n));
+      .filter((n: number) => [1, 2, 3].includes(n));
 
     return NextResponse.json({
       ok: true,
