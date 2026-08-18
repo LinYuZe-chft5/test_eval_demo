@@ -367,14 +367,19 @@ function QuestionCardBase({
       )}
 
       {question.q_type === 'fill' && (
-        <input
-          type="text"
+        <textarea
           inputMode="text"
           disabled={readOnly}
           value={value.fill ?? ''}
           onChange={(e) => handleFill(e.target.value)}
+          onInput={(e) => {
+            const textarea = e.target as HTMLTextAreaElement;
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+          }}
           placeholder="请输入答案"
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none disabled:bg-gray-50"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none disabled:bg-gray-50 min-h-[44px] resize-none overflow-hidden"
+          rows={1}
         />
       )}
 
@@ -386,13 +391,18 @@ function QuestionCardBase({
                 <span className="font-semibold mr-1">({s.seq})</span>
                 <MathText text={s.prompt} />
               </div>
-              <input
-                type="text"
+              <textarea
                 disabled={readOnly}
                 value={value.step?.[s.seq] ?? ''}
                 onChange={(e) => handleStep(s.seq, e.target.value)}
+                onInput={(e) => {
+                  const textarea = e.target as HTMLTextAreaElement;
+                  textarea.style.height = 'auto';
+                  textarea.style.height = `${textarea.scrollHeight}px`;
+                }}
                 placeholder="请输入该步答案"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none disabled:bg-gray-50"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none disabled:bg-gray-50 min-h-[44px] resize-none overflow-hidden"
+                rows={1}
               />
             </li>
           ))}
