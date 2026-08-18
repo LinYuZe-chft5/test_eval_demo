@@ -1,8 +1,15 @@
-# Cloudflare Workers 部署配置
+# Cloudflare Workers 部署配置（OpenNext 输出适配）
 name = "test-eval-demo"
 compatibility_date = "2025-01-01"
-compatibility_flags = [ "nodejs_compat" ]
+compatibility_flags = [ "nodejs_compat", "streams_enable_constructors" ]
+
+# Worker 主入口（OpenNext 产出路径）
 main = ".open-next/worker.js"
+
+# 静态资源目录：OpenNext 构建后所有 _next/static/*、图片、字体都在这里
+# Workers deploy 时会自动上传这个目录，Worker 通过 ASSETS 绑定读取
+[assets]
+directory = ".open-next/assets"
 
 [vars]
 NODE_ENV = "production"
