@@ -1,0 +1,13 @@
+# Cloudflare Workers 部署配置
+# OpenNext for Cloudflare 构建产物入口由 @opennextjs/cloudflare 自动生成
+
+name = "test-eval-demo"
+compatibility_date = "2025-01-01"
+compatibility_flags = [ "nodejs_compat" ]
+
+# 指向 OpenNext 构建输出目录（bunx opennextjs-cloudflare build 会生成这个）
+main = ".open-next/worker/index.mjs"
+
+# 启用 Node.js 兼容（我们使用 prisma + pg + 很多 Node.js 原生模块）
+[vars]
+NODE_ENV = "production"
