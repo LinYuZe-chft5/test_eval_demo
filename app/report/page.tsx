@@ -8,6 +8,13 @@ import RadarChart, { type RadarDatum } from '@/components/RadarChart';
 import type { ReportDraft } from '@/domain/engine/reportBuilder';
 import type { MasteryLevel } from '@/domain/engine/mastery';
 
+// 渲染含数学公式的文本（服务端渲染）
+function MathText({ text }: { text: string }) {
+  if (!text) return null;
+  const html = renderInlineMath(text);
+  return <span dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
 interface PageProps {
   searchParams: { student_id?: string };
 }
@@ -493,6 +500,82 @@ export default async function ReportPage({ searchParams }: PageProps) {
     );
   }
 
+  // ===== 获取错题数据（直接从数据库读取，不走LLM） =====
+  // 1. 查询该学生所有答错的记录
+  const wrongRecords: any[] = await (prisma as any).records.findMany({
+    where: { studentId: Number(studentId), isCorrect: false },
+  });
+
+  // 2. 获取所有相关题目（含题干、标准答案、解析）
+  const wrongQuestionIds = [...new Set(wrongRecords.map((r: any) => Number(r.questionId)))];
+  const wrongQuestions: any[] = wrongQuestionIds.length > 0
+    ? await (prisma as any).questions.findMany({ where: { id: { in: wrongQuestionIds } } })
+    : [];
+
+  // 3. 构建错题列表（按Day分组）
+  const wrongQuestionMap = new Map<number, any>();
+  for (const q of wrongQuestions) {
+    wrongQuestionMap.set(Number(q.id), q);
+  }
+
+  interface WrongQuestionItem {
+    day: number;
+    questionId: string;
+    stem: string;
+    qType: string;
+    correctAnswer: string;
+    solution: string;
+    studentAnswer: string;
+    errorAnalysis: string;
+    kpName: string;
+  }
+
+  const wrongQuestionsByDay: Record<number, WrongQuestionItem[]> = { 1: [], 2: [], 3: [] };
+
+  for (const record of wrongRecords) {
+    const qId = Number(record.questionId);
+    const q = wrongQuestionMap.get(qId);
+    if (!q) continue;
+
+    const day = Number(q.dayTag ?? q.day_tag ?? 1);
+    if (!wrongQuestionsByDay[day]) wrongQuestionsByDay[day] = [];
+
+    // 获取学生答案
+    let studentAnswerStr = '';
+    const rawAns = record.studentAnswer ?? record.student_answer;
+    if (typeof rawAns === 'string') {
+      studentAnswerStr = rawAns;
+    } else if (rawAns !== null && rawAns !== undefined) {
+      studentAnswerStr = JSON.stringify(rawAns);
+    }
+
+    // 获取错因分析
+    const ecCodes = Array.isArray(record.ecCode) ? record.ecCode : (record.ecCode ? [record.ecCode] : []);
+    const ecFinalCodes = Array.isArray(record.ecFinal) ? record.ecFinal : (record.ecFinal ? [record.ecFinal] : []);
+    const allEcCodes = [...new Set([...ecCodes, ...ecFinalCodes])];
+    const errorAnalysis = allEcCodes.length > 0
+      ? allEcCodes.map((code: string) => EC_DESC[code] || code).join('、')
+      : '答案错误';
+
+    // 获取知识点名称
+    const kpCode = q.kpCode ?? q.kp_code ?? '';
+    const kpName = getKpName(kpCode);
+
+    wrongQuestionsByDay[day].push({
+      day,
+      questionId: `${q.skuCode ?? q.sku_code}-D${day}-Q${String(q.seqNo ?? q.seq_no ?? 0).padStart(2, '0')}`,
+      stem: q.stem ?? '',
+      qType: q.qType ?? q.q_type ?? '',
+      correctAnswer: q.correctAnswer ?? q.correct_answer ?? '',
+      solution: q.solution ?? q.improvementTip ?? q.improvement_tip ?? '',
+      studentAnswer: studentAnswerStr || '未作答',
+      errorAnalysis,
+      kpName,
+    });
+  }
+
+  const totalWrongCount = Object.values(wrongQuestionsByDay).reduce((sum, arr) => sum + arr.length, 0);
+
   const hasNewStructuredData = (
     row.literacyRadar !== undefined &&
     row.moduleMastery !== undefined &&
@@ -550,9 +633,14 @@ export default async function ReportPage({ searchParams }: PageProps) {
     const [dim, val] = radarRaw[i];
     if (!val || seenDims.has(dim)) continue;
     seenDims.add(dim);
+    // RadarChart组件期望 dimension 字段（不是label）
+    const dimLabel = getLiteracyDesc(dim);
+    const scoreVal = typeof val === 'object' ? Number((val as any).score ?? 0) : Number(val) || 0;
+    // 归一化到0-1范围（如果score是0-100则转换为0-1）
+    const normalizedVal = scoreVal > 1 ? scoreVal / 100 : scoreVal;
     radarData.push({
-      label: getLiteracyDesc(dim),
-      value: Number(val) || 0,
+      dimension: dimLabel,
+      value: normalizedVal,
     });
   }
 
@@ -613,6 +701,76 @@ export default async function ReportPage({ searchParams }: PageProps) {
                 );
               })}
             </ul>
+          )}
+        </Section>
+
+        {/* 错题分析 */}
+        <Section title={`错题分析（共${totalWrongCount}道错题）`}>
+          {totalWrongCount === 0 ? (
+            <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-4 text-center">
+              <p className="text-xs text-gray-500 font-medium">无错题记录</p>
+              <p className="text-[11px] text-gray-400 mt-1">本次诊断全部答对，表现优秀！</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {[1, 2, 3].map(day => {
+                const dayQuestions = wrongQuestionsByDay[day] || [];
+                if (dayQuestions.length === 0) return null;
+                return (
+                  <div key={day} className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
+                        Day {day}
+                      </span>
+                      <span className="text-[11px] text-gray-400">共{dayQuestions.length}道错题</span>
+                    </div>
+                    <div className="space-y-3">
+                      {dayQuestions.map((wq, idx) => (
+                        <div key={day + '-' + idx} className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 space-y-1.5">
+                          {/* 题目序号 + 知识点 */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-semibold text-gray-700">
+                              第{idx + 1}题 ({wq.questionId})
+                            </span>
+                            <span className="text-[10px] text-gray-500 bg-white px-1.5 py-0.5 rounded border border-gray-200">
+                              {wq.kpName}
+                            </span>
+                          </div>
+                          {/* 题干 */}
+                          <div className="text-xs text-gray-800 leading-relaxed">
+                            <span className="text-gray-400 text-[10px]">题干：</span>
+                            <MathText text={wq.stem} />
+                          </div>
+                          {/* 学生答案 vs 标准答案 */}
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="bg-red-50 border border-red-100 rounded px-2 py-1">
+                              <span className="text-red-400 text-[10px] block mb-0.5">学生答案</span>
+                              <span className="text-red-700">{wq.studentAnswer}</span>
+                            </div>
+                            <div className="bg-green-50 border border-green-100 rounded px-2 py-1">
+                              <span className="text-green-500 text-[10px] block mb-0.5">标准答案</span>
+                              <span className="text-green-700"><MathText text={wq.correctAnswer} /></span>
+                            </div>
+                          </div>
+                          {/* 完整解析 */}
+                          {wq.solution && (
+                            <div className="text-xs text-gray-600 leading-relaxed bg-white rounded px-2 py-1.5 border border-gray-100">
+                              <span className="text-blue-500 text-[10px] font-medium block mb-0.5">解析</span>
+                              <MathText text={wq.solution} />
+                            </div>
+                          )}
+                          {/* 错因分析 */}
+                          <div className="text-xs text-orange-700 leading-relaxed bg-orange-50 rounded px-2 py-1 border border-orange-100">
+                            <span className="text-orange-400 text-[10px] font-medium">错因：</span>
+                            {wq.errorAnalysis}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </Section>
 
