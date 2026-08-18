@@ -178,22 +178,147 @@ function gradeStepByProgram(input: QuestionGradingInput): QuestionGradingResult 
   };
 }
 
-async function gradeStepByLLM(input: QuestionGradingInput): Promise<QuestionGradingResult> {
-  // 构建Prompt
-  const prompt = buildGradingPrompt({
-    question_id: input.question_id,
-    stem: input.stem,
-    q_type: input.q_type,
-    scoring_rubric: input.scoring_rubric,
-    error_label_pool: input.error_label_pool,
-    student_answer: input.student_answer,
+// 批量LLM判分：一次调用处理多道题，大幅减少Token消耗
+async function gradeStepsByLLMBatch(inputs: QuestionGradingInput[]): Promise<QuestionGradingResult[]> {
+  if (inputs.length === 0) return [];
+  
+  // 如果只有一道题，仍然使用单题模式
+  if (inputs.length === 1) {
+    return [await gradeStepByLLM(inputs[0])];
+  }
+  
+  // 批量处理：将多道题合并为一次调用
+  const questionsData = inputs.map(input => {
+    const rubricStr = JSON.stringify(input.scoring_rubric, null, 2);
+    const poolStr = input.error_label_pool.map(e => `${e.code}: ${e.label}`).join('、');
+    const answerStr = typeof input.student_answer === 'string' 
+      ? input.student_answer 
+      : JSON.stringify(input.student_answer);
+    
+    return {
+      id: input.question_id,
+      stem: input.stem.slice(0, 100), // 截断过长的题干
+      rubric: input.scoring_rubric,
+      score: input.score,
+      answer: answerStr.slice(0, 200), // 截断过长的答案
+    };
   });
+  
+  // 精简的批量Prompt模板
+  const prompt = `你是一名严谨的初中数学阅卷教师。请对以下${inputs.length}道学生答题进行结构化阅卷。
+
+## 阅卷规则
+1. 严格按照每道题的踩分点打分
+2. 错因只能从给定标签池中选取
+3. 只输出JSON，禁止附带任何解释文字
+
+## 待阅题目（共${inputs.length}道）
+${JSON.stringify(questionsData, null, 2)}
+
+## 每题可用的错因标签池
+${inputs.map((input, i) => `题${i + 1}(${input.question_id}): ${input.error_label_pool.map(e => `${e.code}`).join(',')}`).join('\n')}
+
+## 输出格式（数组，每道题一个元素）
+{
+  "results": [
+    {
+      "question_id": "题目ID",
+      "student_score": 0,
+      "is_correct": false,
+      "matched_error_labels": ["错误标签代码"],
+      "brief_error_analysis": "一句话错因分析"
+    }
+  ]
+}`;
   
   // 调用LLM
   const llmResponse = await callLLM(prompt);
   
   if (!llmResponse.success) {
-    // LLM失败 → 降级为程序判分
+    console.warn(`[llmGrader] 批量LLM调用失败(${llmResponse.error})，降级为单题判分`);
+    // 降级：逐题调用（但限制数量）
+    if (inputs.length <= 5) {
+      return Promise.all(inputs.map(input => gradeStepByLLM(input)));
+    }
+    // 题目太多时直接降级为程序判分
+    return inputs.map(input => gradeStepByProgram(input));
+  }
+  
+  // 解析批量返回
+  const parsed = extractJSON(llmResponse.content);
+  
+  if (!parsed || !Array.isArray(parsed.results)) {
+    console.warn(`[llmGrader] 批量LLM返回格式无法解析，降级为单题判分`);
+    if (inputs.length <= 5) {
+      return Promise.all(inputs.map(input => gradeStepByLLM(input)));
+    }
+    return inputs.map(input => gradeStepByProgram(input));
+  }
+  
+  // 匹配结果
+  const results: QuestionGradingResult[] = [];
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    const parsedResult = parsed.results.find((r: any) => r.question_id === input.question_id);
+    
+    if (!parsedResult) {
+      console.warn(`[llmGrader] 批量LLM缺少题目的判分结果，降级为程序判分: ${input.question_id}`);
+      results.push(gradeStepByProgram(input));
+      continue;
+    }
+    
+    // 校验matched_error_labels
+    const validPoolCodes = new Set(input.error_label_pool.map(e => e.code));
+    const matchedLabels = Array.isArray(parsedResult.matched_error_labels) 
+      ? parsedResult.matched_error_labels.filter((label: string) => validPoolCodes.has(label))
+      : [];
+    
+    results.push({
+      question_id: input.question_id,
+      full_score: input.score,
+      student_score: Math.min(parsedResult.student_score ?? 0, input.score),
+      is_correct: parsedResult.is_correct ?? false,
+      matched_error_labels: matchedLabels,
+      brief_error_analysis: parsedResult.brief_error_analysis || '',
+      related_kp: input.kp_code || '',
+      grading_method: 'llm',
+    });
+  }
+  
+  return results;
+}
+
+async function gradeStepByLLM(input: QuestionGradingInput): Promise<QuestionGradingResult> {
+  // 构建精简的Prompt
+  const rubricStr = JSON.stringify(input.scoring_rubric);
+  const poolCodes = input.error_label_pool.map(e => `${e.code}:${e.label}`).join('|');
+  const answerStr = typeof input.student_answer === 'string' 
+    ? input.student_answer 
+    : JSON.stringify(input.student_answer);
+  
+  const prompt = `你是一名严谨的初中数学阅卷教师。请对以下学生答题进行结构化阅卷。
+
+## 题目
+ID: ${input.question_id}
+题干: ${input.stem.slice(0, 150)}
+满分: ${input.score}
+踩分点: ${rubricStr}
+错因标签池: ${poolCodes}
+学生作答: ${answerStr.slice(0, 200)}
+
+## 输出JSON（禁止附带其他内容）
+{
+  "question_id": "${input.question_id}",
+  "student_score": 0,
+  "is_correct": false,
+  "matched_error_labels": [],
+  "brief_error_analysis": ""
+}`;
+  
+  // 调用LLM
+  const llmResponse = await callLLM(prompt);
+  
+  if (!llmResponse.success) {
     console.warn(`[llmGrader] LLM调用失败(${llmResponse.error})，降级为程序判分: ${input.question_id}`);
     return gradeStepByProgram(input);
   }
@@ -211,14 +336,6 @@ async function gradeStepByLLM(input: QuestionGradingInput): Promise<QuestionGrad
   const matchedLabels = Array.isArray(parsed.matched_error_labels) 
     ? parsed.matched_error_labels.filter((label: string) => validPoolCodes.has(label))
     : [];
-  
-  // 如果LLM返回了标签池外的码，记录但不展示
-  const invalidLabels = Array.isArray(parsed.matched_error_labels)
-    ? parsed.matched_error_labels.filter((label: string) => !validPoolCodes.has(label))
-    : [];
-  if (invalidLabels.length > 0) {
-    console.warn(`[llmGrader] LLM返回了标签池外的错因(已过滤): ${invalidLabels.join(', ')}`);
-  }
   
   return {
     question_id: input.question_id,
@@ -268,35 +385,63 @@ export async function gradeQuestion(input: QuestionGradingInput): Promise<Questi
 }
 
 /**
- * 批量判分（LLM题并行处理，客观题串行）
- * 由于llmClient有并发控制（最多3个），可以安全并行
+ * 批量判分（优化版：LLM批量处理 + Token节省）
+ * 策略：将多道step题合并为一次LLM调用，减少Token消耗
  */
 export async function gradeAllQuestions(inputs: QuestionGradingInput[]): Promise<QuestionGradingResult[]> {
+  console.log(`[llmGrader] 开始批量判分，共${inputs.length}道题`);
+  
   // 分离需要LLM判分的题和客观题
-  const llmInputs: Array<{ input: QuestionGradingInput; index: number }> = [];
+  const llmInputs: QuestionGradingInput[] = [];
+  const llmInputIndices: number[] = [];
   const objectiveResults: Array<{ result: QuestionGradingResult; index: number }> = [];
   
   for (let i = 0; i < inputs.length; i++) {
     const input = inputs[i];
     if (input.q_type === 'step' && input.grading_mode === 'llm') {
-      llmInputs.push({ input, index: i });
+      llmInputs.push(input);
+      llmInputIndices.push(i);
     } else {
       // 客观题直接判分（同步）
       objectiveResults.push({ result: await gradeQuestion(input), index: i });
     }
   }
   
-  // LLM题并行判分（llmClient内部有并发控制）
-  const llmResults = await Promise.all(
-    llmInputs.map(async ({ input, index }) => {
-      const result = await gradeQuestion(input);
-      return { result, index };
-    })
-  );
+  console.log(`[llmGrader] 客观题: ${objectiveResults.length}道（直接判分）, LLM题: ${llmInputs.length}道（批量处理）`);
+  
+  // LLM题批量判分
+  const BATCH_SIZE = 5; // 每批最多5道题
+  const llmResults: Array<{ result: QuestionGradingResult; index: number }> = [];
+  
+  for (let batchStart = 0; batchStart < llmInputs.length; batchStart += BATCH_SIZE) {
+    const batchEnd = Math.min(batchStart + BATCH_SIZE, llmInputs.length);
+    const batchInputs = llmInputs.slice(batchStart, batchEnd);
+    const batchIndices = llmInputIndices.slice(batchStart, batchEnd);
+    
+    console.log(`[llmGrader] 处理第${batchStart/BATCH_SIZE + 1}批，共${batchInputs.length}道LLM题`);
+    
+    try {
+      const batchResults = await gradeStepsByLLMBatch(batchInputs);
+      for (let j = 0; j < batchResults.length; j++) {
+        llmResults.push({ result: batchResults[j], index: batchIndices[j] });
+      }
+    } catch (err) {
+      console.error(`[llmGrader] 批量处理异常，降级为单题判分: ${err}`);
+      // 降级：逐题处理
+      for (let j = 0; j < batchInputs.length; j++) {
+        const result = await gradeStepByLLM(batchInputs[j]);
+        llmResults.push({ result, index: batchIndices[j] });
+      }
+    }
+  }
   
   // 合并结果并按原始顺序排序
   const allResults = [...objectiveResults, ...llmResults];
   allResults.sort((a, b) => a.index - b.index);
+  
+  const llmCount = allResults.filter(r => r.result.grading_method === 'llm').length;
+  const fallbackCount = allResults.filter(r => r.result.grading_method === 'fallback').length;
+  console.log(`[llmGrader] 判分完成: LLM=${llmCount}道, 程序=${objectiveResults.length}道, 降级=${fallbackCount}道`);
   
   return allResults.map(r => r.result);
 }

@@ -13,6 +13,7 @@ import { aggregate, isInvalidResponse, type QuestionMeta, type SummaryTable } fr
 import { assembleReport, extractLLMInput, type ReportMaterial } from './reportAssembler';
 import { generateReport, type GeneratedReport } from './reportGenerator';
 import { EC_DEFINITIONS } from './ecDefinitions';
+import { getTokenStats, resetTokenStats } from './llmClient';
 
 export interface PipelineInput {
   questions: any[];
@@ -77,6 +78,9 @@ function isGenuineResponse(
 export async function runPipeline(input: PipelineInput): Promise<PipelineOutput> {
   const { questions, studentAnswers, behaviorData, reportMeta } = input;
 
+  // 重置Token统计（本次提交）
+  resetTokenStats();
+  
   console.log('[Pipeline] Layer 1: 题库元数据已加载', questions.length, '道题');
 
   // ===== DIAGNOSTIC: 检查数据输入质量 =====
@@ -357,6 +361,15 @@ export async function runPipeline(input: PipelineInput): Promise<PipelineOutput>
   const generatedReport = await generateReport(summaryTable, reportMeta.grade);
   console.log('[Pipeline] Layer 5: 生成完成, 方法:', generatedReport.generation_method,
     ', 计划周数:', generatedReport.four_week_plan.length);
+
+  // ===== Token成本统计 =====
+  const tokenStats = getTokenStats();
+  console.log(`[Pipeline] 本次提交LLM调用统计:`);
+  console.log(`  调用次数: ${tokenStats.callCount}`);
+  console.log(`  输入Token: ${tokenStats.inputTokens.toLocaleString()}`);
+  console.log(`  输出Token: ${tokenStats.outputTokens.toLocaleString()}`);
+  console.log(`  总Token: ${tokenStats.totalTokens.toLocaleString()}`);
+  console.log(`  预估费用: $${tokenStats.estimatedCost.toFixed(4)} (约¥${(tokenStats.estimatedCost * 7.2).toFixed(3)})`);
 
   return {
     summary_table: summaryTable,

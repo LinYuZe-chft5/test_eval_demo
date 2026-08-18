@@ -23,11 +23,46 @@ export interface LLMResponse {
   error?: string;
 }
 
-const DEFAULT_TIMEOUT_MS = 60000; // 60秒超时（增加超时时间）
+const DEFAULT_TIMEOUT_MS = 60000; // 60秒超时
 const MAX_RETRIES = 1;
 const MAX_CONCURRENT = 3; // 最大并发请求数
 let activeRequests = 0;
 const requestQueue: Array<{ resolve: () => void; reject: (err: any) => void }> = [];
+
+// Token统计（用于成本监控）
+export interface TokenStats {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  callCount: number;
+  estimatedCost: number; // 预估费用（gpt-5.6-terra约$2.9/1M tokens）
+}
+
+let currentSessionStats: TokenStats = {
+  inputTokens: 0,
+  outputTokens: 0,
+  totalTokens: 0,
+  callCount: 0,
+  estimatedCost: 0,
+};
+
+// gpt-5.6-terra 预估价格：输入$2.9/1M, 输出$5.9/1M（呆呆兽中转站可能有溢价）
+const INPUT_PRICE_PER_M = 2.9;
+const OUTPUT_PRICE_PER_M = 5.9;
+
+export function getTokenStats(): TokenStats {
+  return { ...currentSessionStats };
+}
+
+export function resetTokenStats(): void {
+  currentSessionStats = {
+    inputTokens: 0,
+    outputTokens: 0,
+    totalTokens: 0,
+    callCount: 0,
+    estimatedCost: 0,
+  };
+}
 
 async function acquireToken(): Promise<void> {
   if (activeRequests < MAX_CONCURRENT) {
@@ -48,7 +83,7 @@ function releaseToken(): void {
   }
 }
 
-function getLLMConfig() {
+export function getLLMConfig() {
   let apiUrl = process.env.LLM_API_URL || '';
   const apiKey = process.env.LLM_API_KEY || '';
   const model = process.env.LLM_MODEL || 'gpt-4o-mini';
@@ -190,13 +225,26 @@ export async function callLLM(
 
         const data = await response.json();
         const content = data.choices?.[0]?.message?.content || '';
+        
+        // Token统计
+        const usage = data.usage || {};
+        const inputTokens = usage.prompt_tokens || Math.ceil(prompt.length / 2);
+        const outputTokens = usage.completion_tokens || Math.ceil(content.length / 2);
+        
+        currentSessionStats.inputTokens += inputTokens;
+        currentSessionStats.outputTokens += outputTokens;
+        currentSessionStats.totalTokens += inputTokens + outputTokens;
+        currentSessionStats.callCount++;
+        currentSessionStats.estimatedCost = 
+          (currentSessionStats.inputTokens / 1_000_000) * INPUT_PRICE_PER_M +
+          (currentSessionStats.outputTokens / 1_000_000) * OUTPUT_PRICE_PER_M;
 
         if (!content) {
           console.warn('[LLM] 返回空内容');
           return { content: '', success: false, error: 'LLM返回空内容' };
         }
 
-        console.log(`[LLM] 调用成功，内容长度: ${content.length}`);
+        console.log(`[LLM] 调用成功，输入${inputTokens}t, 输出${outputTokens}t, 累计${currentSessionStats.totalTokens}t, 预估$${currentSessionStats.estimatedCost.toFixed(4)}`);
         return { content, success: true };
       } catch (err: any) {
         lastError = err.message || String(err);

@@ -13,7 +13,7 @@
  * LLM未配置时降级为模板生成（保证Demo可用）
  */
 
-import { callLLM, extractJSON } from './llmClient';
+import { callLLM, extractJSON, getLLMConfig } from './llmClient';
 import { buildReportPrompt } from './promptTemplates';
 import { EC_DEFINITIONS, LITERACY_DEFINITIONS } from './ecDefinitions';
 import { isInvalidResponse } from './aggregator';
@@ -245,14 +245,28 @@ function generateActionChecklist(
 }
 
 /**
- * LLM生成（正常方案）
+ * LLM生成（正常方案 + Token预算控制）
  */
 async function generateByLLM(summary: SummaryTable, grade: string): Promise<GeneratedReport | null> {
-  // 构建Prompt
-  const prompt = buildReportPrompt({
-    grade,
-    ...summary,
-  });
+  // Token预算控制：计算预估Token消耗
+  const estimatedInputTokens = estimatePromptTokens(summary, grade);
+  const TOKEN_BUDGET = 8000; // 单次调用Token预算上限
+  
+  if (estimatedInputTokens > TOKEN_BUDGET) {
+    console.warn(`[reportGenerator] 预估Token(${estimatedInputTokens})超过预算(${TOKEN_BUDGET})，使用精简模式`);
+    // 精简模式：只传Top 3知识点
+    const compactSummary = {
+      ...summary,
+      weak_knowledge_points: summary.weak_knowledge_points?.slice(0, 3) || [],
+      error_frequency_by_kp: summary.error_frequency_by_kp?.slice(0, 5) || [],
+    };
+    var prompt = buildReportPrompt(compactSummary, grade);
+  } else {
+    // 构建精简Prompt
+    var prompt = buildReportPrompt(summary, grade);
+  }
+  
+  console.log(`[reportGenerator] 报告生成Prompt长度: ${prompt.length}字符, 预估Token: ${estimatedInputTokens}`);
 
   // 调用LLM
   const llmResponse = await callLLM(prompt);
@@ -261,7 +275,6 @@ async function generateByLLM(summary: SummaryTable, grade: string): Promise<Gene
   console.log('[reportGenerator] LLM调用结果:', {
     success: llmResponse.success,
     error: llmResponse.error?.substring(0, 100),
-    contentPrefix: llmResponse.content?.substring(0, 200) || '(空)',
     contentLength: llmResponse.content?.length || 0,
   });
 
@@ -272,15 +285,6 @@ async function generateByLLM(summary: SummaryTable, grade: string): Promise<Gene
 
   // 解析返回JSON
   const parsed = extractJSON(llmResponse.content);
-
-  // 诊断日志：JSON解析结果
-  console.log('[reportGenerator] JSON解析结果:', {
-    parsedSuccess: !!parsed,
-    parsedKeys: parsed ? Object.keys(parsed) : [],
-    error_analysis: parsed?.error_analysis?.substring(0, 100) || '(无)',
-    four_week_plan_length: parsed?.four_week_plan?.length || 0,
-    has_action_checklist: !!parsed?.action_checklist,
-  });
 
   if (!parsed) {
     console.warn('[reportGenerator] JSON解析失败，降级为模板生成');
@@ -296,8 +300,28 @@ async function generateByLLM(summary: SummaryTable, grade: string): Promise<Gene
 }
 
 /**
+ * 预估Prompt的Token数量（粗略估算：1个中文≈1-2 token）
+ */
+function estimatePromptTokens(summary: SummaryTable, grade: string): number {
+  // 基础Prompt约500 token
+  let estimated = 500;
+  
+  // topErrors: 约50 token/条
+  estimated += (summary.error_frequency_by_label?.length || 0) * 50;
+  
+  // weakKps: 约80 token/条
+  estimated += (summary.weak_knowledge_points?.length || 0) * 80;
+  
+  // kpStats: 约60 token/条
+  estimated += Math.min(summary.error_frequency_by_kp?.length || 0, 8) * 60;
+  
+  return estimated;
+}
+
+/**
  * 主入口：生成报告文案
  * 优先LLM生成，失败时降级为模板生成
+ * 添加Token预算控制和日志记录
  */
 export async function generateReport(
   summary: SummaryTable,
@@ -306,20 +330,22 @@ export async function generateReport(
   // 无效答卷直接用模板
   if (isInvalidResponse(summary)) {
     console.log('[reportGenerator] 无效答卷，使用模板生成');
-    const result = generateByTemplate(summary);
-    return result;
+    return generateByTemplate(summary);
+  }
+
+  // 检查LLM配置
+  const { apiUrl, apiKey } = getLLMConfig();
+  if (!apiUrl || !apiKey) {
+    console.warn('[reportGenerator] LLM未配置，使用模板生成');
+    return generateByTemplate(summary);
   }
 
   // 尝试LLM生成
+  console.log(`[reportGenerator] 开始LLM报告生成，Token预算8000`);
   try {
     const llmResult = await generateByLLM(summary, grade);
     if (llmResult) {
-      console.log('[reportGenerator] ✅ LLM生成成功:', {
-        generation_method: llmResult.generation_method,
-        four_week_plan_length: llmResult.four_week_plan.length,
-        action_checklist_length: llmResult.action_checklist?.length || 0,
-        error_analysis: llmResult.error_analysis?.substring(0, 100),
-      });
+      console.log(`[reportGenerator] ✅ LLM报告生成成功，计划周数: ${llmResult.four_week_plan.length}, 行动项: ${llmResult.action_checklist?.length || 0}`);
       return llmResult;
     }
   } catch (err) {
@@ -330,3 +356,5 @@ export async function generateReport(
   console.log('[reportGenerator] ⚠️ 降级为模板生成');
   return generateByTemplate(summary);
 }
+
+

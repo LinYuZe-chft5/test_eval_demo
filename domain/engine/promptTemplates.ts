@@ -65,76 +65,37 @@ ${answerStr}
 }`;
 }
 
-// ===== Layer 5: 报告生成Prompt =====
+// ===== Layer 5: 报告生成Prompt（精简版，节省Token） =====
 
-export function buildReportPrompt(summaryTable: any): string {
-  const summaryStr = JSON.stringify(summaryTable, null, 2);
-
-  // 提取关键信息用于Prompt
+export function buildReportPrompt(summaryTable: any, grade: string = ''): string {
+  // 只提取关键统计数据，避免传递完整summaryTable
+  const { total_score, full_score, grade_level, genuine_response_stats } = summaryTable;
   const topErrors = summaryTable.error_frequency_by_label?.slice(0, 3) || [];
   const weakKps = summaryTable.weak_knowledge_points?.slice(0, 5) || [];
+  const kpStats = summaryTable.error_frequency_by_kp?.slice(0, 8) || [];
   
-  return `你是一名资深数学教育诊断分析师。请基于以下学情统计结果，为一位初中生生成个性化诊断报告文案。
+  // 构建精简的统计摘要
+  const statsSummary = {
+    score: `${total_score}/${full_score}`,
+    level: grade_level,
+    genuine_ratio: genuine_response_stats?.genuine_ratio ?? 0,
+    top_errors: topErrors.map((e: any) => ({ code: e.code, label: e.label, pct: Math.round(e.percentage * 100) })),
+    weak_points: weakKps.map((k: any) => ({ kp_code: k.kp_code, name: k.name, error_rate: Math.round(k.error_rate * 100), severity: k.severity })),
+    kp_stats: kpStats.map((k: any) => ({ kp_code: k.kp_code, name: k.kp_name, error_rate: Math.round(k.error_rate * 100), error_count: k.error_count, total: k.total_count })),
+  };
 
-## 学生学情汇总数据
-${summaryStr}
+  return `你是一名资深数学教育诊断分析师。请基于以下学情统计结果，为初中生生成个性化诊断报告。
 
-## 关键信息摘要
-- 总得分: ${summaryTable.total_score}/${summaryTable.full_score}
-- 等级评定: ${summaryTable.grade_level}
-- 主要错因标签: ${topErrors.map((e: any) => e.label).join('、') || '无'}
-- 薄弱知识点: ${weakKps.map((k: any) => `${k.name}(错误率${Math.round(k.error_rate * 100)}%)`).join('、') || '无'}
+## 学情统计（精简版）
+${JSON.stringify(statsSummary)}
 
-## 报告生成要求
+## 报告要求（严格遵循）
+1. error_analysis：200字以内，必须具体指出核心问题模式
+2. four_week_plan：4周提升计划，每周1个知识点，训练内容必须包含具体题量和类型
+3. action_checklist：行动清单，每条包含知识点名称、严重程度、具体行动建议
+4. 杜绝"多加练习、夯实基础"等泛化话术
+5. 必须使用中文，知识点用中文名
 
-### 1. 综合错因归纳（error_analysis）200字以内
-- 必须结合具体的错误标签和薄弱知识点进行分析
-- 指出学生的核心问题模式，而非泛泛而谈
-- 示例："学生在解方程时频繁出现移项变号错误，同时对含参方程的讨论不完整，表现为基础概念不牢和逻辑思维跳跃两个核心问题"
-
-### 2. 四周提升计划（four_week_plan）
-- 每周聚焦1-2个薄弱知识点（按错误率从高到低排序）
-- 每周训练要有明确的阶段目标：
-  * 第1周：基础概念巩固（每天5-8道基础题）
-  * 第2周：变式训练（每天6-10道变式题）
-  * 第3周：综合应用（每天3-5道综合题）
-  * 第4周：查漏补缺（模拟测试+针对性补漏）
-- 每条训练内容必须写明：训练知识点 + 训练理由（对应学生的具体错误表现）
-- 杜绝"多加练习、夯实基础"等泛化话术
-- 必须使用中文，避免使用代码或英文缩写
-
-### 3. 行动清单（action_checklist）
-- 针对每个薄弱知识点，给出具体的每日训练建议
-- 每条包含：知识点代码(kp_code)、中文名称(name)、严重程度(severity: 高/中/低)、具体行动建议(action)
-- 行动建议必须包含具体的每日练习题数量和类型
-
-### 4. 格式要求
-- 如果genuine_ratio < 0.25，直接返回空计划和"无效答卷"提示
-- 只输出JSON，禁止附带多余解释
-- JSON格式必须符合以下结构
-
-## 输出格式（严格按此JSON结构）
-{
-  "error_analysis": "200字以内的个性化错因归纳，必须具体，不能泛化",
-  "four_week_plan": [
-    {
-      "week": 1,
-      "focus_kp": "知识点中文名称",
-      "exercises": [
-        {
-          "content": "具体训练内容（含每日题量）",
-          "reason": "训练理由（对应学生某类错误的具体表现）"
-        }
-      ]
-    }
-  ],
-  "action_checklist": [
-    {
-      "kp_code": "知识点代码如KP-07.02",
-      "name": "知识点中文名称",
-      "severity": "高/中/低",
-      "action": "针对该知识点的具体训练建议，包含每日题量"
-    }
-  ]
-}`;
+## 输出格式（只输出JSON）
+{"error_analysis":"200字以内个性化分析","four_week_plan":[{"week":1,"focus_kp":"知识点中文名","exercises":[{"content":"具体训练内容含每日题量","reason":"训练理由"}]}],"action_checklist":[{"kp_code":"KP代码","name":"中文名","severity":"高/中/低","action":"具体建议含题量"}]}`;
 }
