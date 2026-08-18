@@ -8,6 +8,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// Next.js App Router 动态路由标记
+// 此API路由依赖 request.url / searchParams 读取实时请求参数
+// 必须禁用静态生成（否则构建时报错 request.url）
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);

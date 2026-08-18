@@ -12,6 +12,9 @@
 import { NextResponse } from 'next/server';
 import { verifyAccessCode, getCompletedSessions } from '@/lib/auth';
 import {
+
+// Next.js App Router 动态路由标记
+export const dynamic = 'force-dynamic';
   getSkuByIdentity,
   isValidIdentity,
   validateAccessCodeFormat,
