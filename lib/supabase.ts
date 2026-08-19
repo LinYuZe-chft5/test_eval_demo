@@ -13,125 +13,213 @@
  *   - ?status=in.(v1,v2,v3)
  */
 
-// 环境变量加载函数（仅在本地开发时使用）
-// Vercel 等部署平台通过系统环境变量注入，无需从文件加载
+// ==========================================================
+// 🔧 Cloudflare Workers 兼容补丁（M19 新增）
+// 目标：解决三种环境下环境变量读不到的问题
+//   1. Service Worker Syntax / Vercel / Node.js：变量在 process.env（Text类型100%可用）
+//   2. Workers Module Syntax + Text 类型：变量在 globalThis.process?.env
+//   3. Workers Module Syntax + Secret 类型：变量在 fetch(req, env, ctx) 的 env 上，
+//      部分版本会挂到 globalThis.env / globalThis.__ENV / globalThis[Symbol]
+//   4. 兜底：从 .env 文件加载（本地开发 / Codespaces 场景）
+// ==========================================================
+
+type EnvRecord = Record<string, string | undefined>;
+
+/**
+ * 全方位读取环境变量（兼容 Vercel / Node.js / Cloudflare Workers Module/Service Syntax + Secret/Text）
+ */
+function readEnvFromEverywhere(): EnvRecord {
+  const result: EnvRecord = {};
+
+  // 1. 最常见：Node.js / Vercel / Service Worker Syntax（process.env 全局注入）
+  if (typeof process !== 'undefined' && process.env && typeof process.env === 'object') {
+    Object.assign(result, process.env as EnvRecord);
+  }
+
+  // 2. Workers Module Syntax：从 globalThis 特殊属性读取（Secret/Text 有时挂在这）
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const gt = globalThis as any;
+
+    if (gt.process && gt.process.env && typeof gt.process.env === 'object') {
+      for (const [k, v] of Object.entries(gt.process.env)) {
+        if (typeof v === 'string' && !(k in result)) result[k] = v;
+      }
+    }
+
+    const cfCandidateKeys: string[] = ['env', '__ENV', 'CF_ENV', '__CF$env$vars'];
+    for (const key of cfCandidateKeys) {
+      const v = gt[key];
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        for (const [k, val] of Object.entries(v)) {
+          if (typeof val === 'string' && !(k in result)) result[k] = val;
+        }
+      }
+    }
+
+    // 3. Symbol.for('cloudflare-env') 特殊注入
+    try {
+      const sym = Symbol.for('cloudflare-env');
+      const symEnv = (gt as any)[sym];
+      if (symEnv && typeof symEnv === 'object') {
+        for (const [k, val] of Object.entries(symEnv)) {
+          if (typeof val === 'string' && !(k in result)) result[k] = val;
+        }
+      }
+    } catch { /* ignore */ }
+  } catch { /* ignore */ }
+
+  return result;
+}
+
+/**
+ * 调试用：在 Cloudflare Observability 日志中打印当前能读取到的所有 key 名（只打前3位+末2位，安全）
+ * 去 Observability → Live Tail 看输出就能精准知道变量是否真的注入了
+ */
+function DEBUG_dumpEnvKeys(label: string, env: EnvRecord): void {
+  const allKeys = Object.keys(env).sort();
+  const masked = allKeys.map(k => {
+    const v = env[k];
+    if (!v) return `${k}=UNDEFINED`;
+    if (v.length > 8) return `${k}=${v.slice(0, 3)}***${v.slice(-2)}`;
+    return `${k}=len=${v.length}`;
+  }).join(', ');
+  console.error(`[supabase:DEBUG:${label}] keys=${allKeys.length} → ${masked || '(empty)'}`);
+}
+
+/**
+ * 把 env 快照回填到 process.env，确保后续依赖 process.env.XXX 直接读的代码也能取到
+ */
+function backfillToProcessEnv(env: EnvRecord): void {
+  if (typeof process === 'undefined' || !process.env || typeof process.env !== 'object') return;
+  for (const [k, v] of Object.entries(env)) {
+    if (v != null && !(k in (process.env as EnvRecord))) {
+      (process.env as EnvRecord)[k] = v;
+    }
+  }
+}
+
+// 环境变量加载函数（仅在本地开发/Codespaces 环境使用）
+// Cloudflare Workers 环境下，环境变量通过 readEnvFromEverywhere() 从全局注入，无需从文件读
 async function loadEnvFile(): Promise<void> {
-  // 动态导入 fs 和 path，避免在 Vercel 构建时出现问题
-  const fs = await import('fs');
-  const path = await import('path');
-  
-  const cwd = process.cwd();
-  
-  // 扩展搜索路径列表，覆盖不同运行场景
-  const envPaths = [
-    path.resolve(cwd, '.env'),
-    path.resolve(cwd, '.env.local'),
-    path.resolve(cwd, '.env.development'),
-    // Next.js 可能使用的其他路径
-    path.resolve(cwd, '.env.production'),
-  ];
-  
-  // 还要检查当前已有的环境变量是否已经包含必要的配置
-  const hasEnvVars = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (hasEnvVars) {
-    console.log('[supabase] 环境变量已存在于系统中，跳过 .env 文件加载');
+  const envAll = readEnvFromEverywhere();
+  DEBUG_dumpEnvKeys('loadEnvFile:start', envAll);
+
+  // 已经读到了 Supabase 所需变量 → 直接跳过
+  if (envAll.NEXT_PUBLIC_SUPABASE_URL && envAll.SUPABASE_SERVICE_ROLE_KEY) {
+    console.log('[supabase] ✅ 环境变量从全局注入读取成功，跳过 .env 文件加载');
+    backfillToProcessEnv(envAll);
     return;
   }
-  
+
+  // --- 尝试本地 .env 文件加载（Node.js/Codespaces 场景）---
+  let fsModule: any = null, pathModule: any = null;
+  try {
+    fsModule = await import('fs');
+    pathModule = await import('path');
+  } catch (_) {
+    // Workers 环境 fs import 会失败 → 正常，我们已通过 readEnvFromEverywhere 读了全局
+    console.warn('[supabase] ⚠️ NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 在全局中未找到！');
+    DEBUG_dumpEnvKeys('loadEnvFile:GLOBAL-MISSING', envAll);
+    console.warn('[supabase] 请在 Cloudflare Dashboard → Settings → Environment variables 中添加上述变量（推荐 Text 类型）');
+    return;
+  }
+
+  let cwd = '/';
+  try { cwd = process.cwd(); } catch (_) {}
+  const envPaths = [
+    pathModule.resolve(cwd, '.env'),
+    pathModule.resolve(cwd, '.env.local'),
+    pathModule.resolve(cwd, '.env.development'),
+    pathModule.resolve(cwd, '.env.production'),
+  ];
+
   console.log(`[supabase] 当前工作目录: ${cwd}`);
-  console.log(`[supabase] 搜索 .env 文件路径:`, envPaths);
-  
+  console.log('[supabase] 搜索 .env 文件路径:', envPaths);
+
   for (const envPath of envPaths) {
     try {
-      if (fs.existsSync(envPath)) {
+      if (fsModule.existsSync(envPath)) {
         console.log(`[supabase] 找到 .env 文件: ${envPath}`);
-        const content = fs.readFileSync(envPath, 'utf8');
+        const content = fsModule.readFileSync(envPath, 'utf8') as string;
         const lines = content.split('\n');
         let loadedCount = 0;
-        
         for (const line of lines) {
-          const trimmedLine = line.trim();
-          // 跳过注释和空行
-          if (!trimmedLine || trimmedLine.startsWith('#')) continue;
-          
-          const equalIndex = trimmedLine.indexOf('=');
-          if (equalIndex === -1) continue;
-          
-          const key = trimmedLine.substring(0, equalIndex).trim();
-          let value = trimmedLine.substring(equalIndex + 1).trim();
-          
-          // 移除引号
-          if ((value.startsWith('"') && value.endsWith('"')) || 
-              (value.startsWith("'") && value.endsWith("'"))) {
-            value = value.substring(1, value.length - 1);
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) continue;
+          const eq = trimmed.indexOf('=');
+          if (eq === -1) continue;
+          let key = trimmed.slice(0, eq).trim();
+          let val = trimmed.slice(eq + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
           }
-          
-          // 只在未设置时添加（避免覆盖系统环境变量）
-          if (!process.env[key]) {
-            process.env[key] = value;
+          if (key && !process.env[key]) {
+            process.env[key] = val;
             loadedCount++;
           }
         }
         console.log(`[supabase] 已从 ${envPath} 加载 ${loadedCount} 个环境变量`);
         return;
       }
-    } catch (err) {
-      console.warn(`[supabase] 无法读取 ${envPath}:`, err);
+    } catch (_e) {
+      // ignore
     }
   }
-  
-  // 如果没有找到 .env 文件，但系统环境变量已存在，则继续
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL) {
-    console.log('[supabase] 未找到 .env 文件，但系统环境变量已配置，继续使用系统环境变量');
-  } else {
-    console.warn('[supabase] ⚠️ 未找到 .env 文件，且系统环境变量也未配置！');
-    console.warn('[supabase] 请确保 .env 文件存在于项目根目录，或在 Vercel/部署平台配置环境变量');
-  }
+
+  console.warn('[supabase] ⚠️ 未找到 .env 文件，且全局环境中也未找到 Supabase 配置！');
+  DEBUG_dumpEnvKeys('loadEnvFile:ALL-MISSING', readEnvFromEverywhere());
+  console.warn('[supabase] 请在 Cloudflare Dashboard → Settings → Environment variables 添加 NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY（Text类型）');
 }
 
-// 使用 Symbol 标记环境变量是否已初始化
 let envInitialized = false;
 let envInitPromise: Promise<void> | null = null;
 
 async function ensureEnvLoaded(): Promise<void> {
-  if (!envInitialized) {
-    // 检查环境变量是否已配置（Vercel 等部署平台通过系统环境变量注入）
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      envInitialized = true;
-      return;
-    }
-    
-    // 仅在环境变量未配置时尝试加载 .env 文件（本地开发场景）
-    if (!envInitPromise) {
-      envInitPromise = loadEnvFile().catch((err) => {
-        console.warn('[supabase] 加载.env文件失败，将使用系统环境变量:', err);
-      });
-    }
-    await envInitPromise;
+  if (envInitialized) return;
+
+  // 快速路径：全局已注入
+  const envSnapshot = readEnvFromEverywhere();
+  DEBUG_dumpEnvKeys('ensureEnvLoaded', envSnapshot);
+  if (envSnapshot.NEXT_PUBLIC_SUPABASE_URL && envSnapshot.SUPABASE_SERVICE_ROLE_KEY) {
+    backfillToProcessEnv(envSnapshot);
     envInitialized = true;
+    return;
   }
+
+  if (!envInitPromise) {
+    envInitPromise = loadEnvFile();
+  }
+  await envInitPromise;
+  envInitialized = true;
 }
 
-function getSupabaseConfig() {
-  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
-  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+function getSupabaseConfig(): { SUPABASE_URL: string; SUPABASE_SERVICE_ROLE_KEY: string } {
+  const envAll = readEnvFromEverywhere();
+  const SUPABASE_URL =
+    envAll.NEXT_PUBLIC_SUPABASE_URL || envAll.SUPABASE_URL
+    || process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
+  const SUPABASE_SERVICE_ROLE_KEY =
+    envAll.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
   return { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY };
 }
 
 // 延迟检查：只有在实际请求时才验证配置
 function validateConfig(): { valid: boolean; error?: string } {
   const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = getSupabaseConfig();
-  
+
   if (!SUPABASE_URL) {
-    return { 
-      valid: false, 
-      error: '数据库连接配置缺失（SUPABASE_URL未设置）。请在 .env 文件中配置 NEXT_PUBLIC_SUPABASE_URL' 
+    DEBUG_dumpEnvKeys('validateConfig:URL-MISSING', readEnvFromEverywhere());
+    return {
+      valid: false,
+      error: '数据库连接配置缺失（SUPABASE_URL未设置）。请在 Cloudflare Dashboard → Environment variables 添加 NEXT_PUBLIC_SUPABASE_URL（Text类型）',
     };
   }
   if (!SUPABASE_SERVICE_ROLE_KEY) {
-    return { 
-      valid: false, 
-      error: '数据库连接配置缺失（SUPABASE_SERVICE_ROLE_KEY未设置）。请在 .env 文件中配置 SUPABASE_SERVICE_ROLE_KEY' 
+    DEBUG_dumpEnvKeys('validateConfig:KEY-MISSING', readEnvFromEverywhere());
+    return {
+      valid: false,
+      error: '数据库连接配置缺失（SUPABASE_SERVICE_ROLE_KEY未设置）。请在 Cloudflare Dashboard → Environment variables 添加 SUPABASE_SERVICE_ROLE_KEY（Text类型）',
     };
   }
   return { valid: true };
